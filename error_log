@@ -1,0 +1,4 @@
+[16-Oct-2025 20:07:33 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function now() in Command line code:1
+Stack trace:
+#0 {main}
+  thrown in Command line code on line 1
