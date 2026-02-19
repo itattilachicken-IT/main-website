@@ -116,7 +116,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ url('/investorlogin') }}">
+    <form method="POST" action="{{ url('/index') }}">
         @csrf
 
         {{-- Hidden role field --}}

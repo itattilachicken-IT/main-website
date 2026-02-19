@@ -33,6 +33,9 @@ use App\Models\Order;
 use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\FoundationController;
 use App\Http\Controllers\InvestorController;
+use App\Http\Controllers\InvestorLandingController;
+
+
 
 use App\Http\Controllers\WithdrawalController;
 
@@ -52,12 +55,16 @@ Route::get('/franchise/butchery', [FranchiseController::class, 'butchery'])
     ->name('franchise.butchery');
 
 
+
 Route::middleware(['web'])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::get('/shops', [ShopController::class, 'index'])->name('shop.index');
+
     Route::get('/investors', [InvestorController::class, 'index'])->name('investors.index');
+  
+
     Route::get('/shop/{product:slug}', [ShopController::class, 'show'])->name('shop.show');
     Route::get('/search', [ShopController::class, 'search'])->name('shop.search');
 
