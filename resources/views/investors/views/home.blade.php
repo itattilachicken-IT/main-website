@@ -5,21 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Investor Relations — Attila Chicken</title>
 
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
+    @vite('resources/css/app2.css')
+    @vite('resources/js/app2.js')
 </head>
 
 <body>
 
 <div class="dashboard-layout" id="dashboardLayout">
 
-    {{-- Sidebar --}}
+    {{-- Sidebar / Navigation --}}
     @include('partials.header')
 
     {{-- Main Content --}}
     <main class="main-content">
     @include('partials.topbar')
-   
 
     <section class="section">
         <div class="container">

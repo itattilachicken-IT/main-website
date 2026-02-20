@@ -80,7 +80,7 @@
         @endif
 
         <li>
-                <a href="{{ route('investors.index') }}" class="text-decoration-none fw-bold" style="color: #00d0ff;">
+                <a href="{{ route('investors.login') }}" class="text-decoration-none fw-bold" style="color: #00d0ff;">
                     Investors Dashboard
                 </a>
             </li>

@@ -116,7 +116,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ url('/index') }}">
+    <form method="POST" action="{{ url('investors.login') }}">
         @csrf
 
         {{-- Hidden role field --}}
@@ -130,7 +130,7 @@
 
         <div class="actions">
             <div class="note">Select Investor or Admin to login <a href="{{ url('/') }}">Back to Home</a></div>
-            <button type="submit" class="submit-btn">Sign in</button>
+            <a type="submit" class="submit-btn" href="{{ url('investors/views/home') }}">Sign in</a>
         </div>
     </form>
 

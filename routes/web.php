@@ -33,8 +33,7 @@ use App\Models\Order;
 use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\FoundationController;
 use App\Http\Controllers\InvestorController;
-use App\Http\Controllers\InvestorLandingController;
-
+use App\Http\Controllers\InvestorsViewsController;
 
 
 use App\Http\Controllers\WithdrawalController;
@@ -62,8 +61,39 @@ Route::middleware(['web'])->group(function () {
 
     Route::get('/shops', [ShopController::class, 'index'])->name('shop.index');
 
-    Route::get('/investors', [InvestorController::class, 'index'])->name('investors.index');
-  
+    Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
+    Route::prefix('investors/views')->group(function () {
+
+        Route::get('/home', [InvestorsViewsController::class, 'home'])
+            ->name('investors.home');
+        Route::get('/my-investments', [InvestorsViewsController::class, 'myInvestments'])
+            ->name('investors.my-investments');
+        Route::get('/handbook', [InvestorsViewsController::class, 'handbook'])
+            ->name('investors.handbook');
+        Route::get('/directors', [InvestorsViewsController::class, 'directors'])
+            ->name('investors.directors');
+
+        Route::get('/press-releases', [InvestorsViewsController::class, 'pressReleases'])
+            ->name('investors.press-releases');
+        Route::get('/press-releases/{slug}', [InvestorsViewsController::class, 'pressReleaseDetail'])
+            ->name('investors.press-release-detail');
+
+        Route::get('/events-and-presentations', [InvestorsViewsController::class, 'eventsAndPresentations'])
+            ->name('investors.events-and-presentations');
+        Route::get('/sec-filings', [InvestorsViewsController::class, 'secFilings'])
+            ->name('investors.sec-filings');
+        Route::get('/annual-reports', [InvestorsViewsController::class, 'annualReports'])
+            ->name('investors.annual-reports');
+        Route::get('/settings', [InvestorsViewsController::class, 'settings'])
+            ->name('investors.settings');
+        Route::get('/logout', [InvestorsViewsController::class, 'logout'])
+            ->name('investors.logout');
+
+
+      
+
+    });
+    
 
     Route::get('/shop/{product:slug}', [ShopController::class, 'show'])->name('shop.show');
     Route::get('/search', [ShopController::class, 'search'])->name('shop.search');
