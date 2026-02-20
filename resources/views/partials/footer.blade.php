@@ -79,13 +79,15 @@
             </li>
         @endif
 
-        <li>
-                <a href="{{ route('investors.login') }}" class="text-decoration-none fw-bold" style="color: #00d0ff;">
-                    Investors Dashboard
-                </a>
-            </li>
+        
+                
+           
     </ul>
+    <a href="{{ route('investors.login') }}" class="text-decoration-none fw-bold" style="color: white; background-color: #fe0000; padding: 5px 10px; border-radius: 5px;">
+                    Investors
+                </a>
 </div>
+
 
 
         </div>
@@ -101,9 +103,10 @@
         <div class="d-flex align-items-center gap-2 mb-1">
             <h5 class="fw-bold text-white mb-0">Attila Chicken Location</h5>
         </div>
-        <div class="d-flex align-items-center text-warning text-nowrap gap-3">
+        <div class="d-flex align-items-center text-warning gap-3">
     <i class="bi bi-geo-alt-fill me-2"></i>
     <span>T-PLAZA, 4th Floor, Thika, Kenya</span>
+   
 
     <!-- Google Map iframe -->
     <iframe 
@@ -115,6 +118,7 @@
         loading="lazy" 
         referrerpolicy="no-referrer-when-downgrade">
     </iframe>
+
 </div>
 
 

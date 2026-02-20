@@ -20,9 +20,10 @@
                 </div>
             </div>
 
-            <div class="search-box">
-                <a type="text" href="{{ url('/investors/views/logout') }}" class="btn-secondary">Logout</a>
-            </div>
+            <form action="{{ route('investor.logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn-secondary">Logout</button>
+            </form>
 
 
         </div>

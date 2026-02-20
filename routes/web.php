@@ -86,8 +86,8 @@ Route::middleware(['web'])->group(function () {
             ->name('investors.annual-reports');
         Route::get('/settings', [InvestorsViewsController::class, 'settings'])
             ->name('investors.settings');
-        Route::get('/logout', [InvestorsViewsController::class, 'logout'])
-            ->name('investors.logout');
+        Route::post('/logout', [InvestorsViewsController::class, 'logout'])
+            ->name('investor.logout');
 
 
       

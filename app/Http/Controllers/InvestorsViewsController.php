@@ -43,4 +43,8 @@ class InvestorsViewsController extends Controller
     {
           return view('investors.views.settings');
     }
+     public function logout()
+    {
+          return redirect()->route('home');
+    }
 }
