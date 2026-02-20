@@ -519,7 +519,7 @@ select {
 .btn-secondary {
     background: #fe0000;
     border: none;
-    padding: 8px 14px;
+    padding: 5px 11px;
     border-radius: 10px;
     cursor: pointer;
     font-weight: 500;
@@ -841,37 +841,7 @@ select {
     color:#92400e;
 }
 
-.dashboard-overview {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-}
 
-.overview-card {
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    text-align: center;
-    flex: 1;
-    margin: 0 0.5rem;
-}
-
-.overview-card h3 {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 0.5rem;
-}
-
-.overview-card .amount {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-}
-
-.overview-card .highlight {
-    color: #e67e22;
-}
 
 .risk-score {
     text-align: right;
@@ -1201,4 +1171,539 @@ select {
 .page-subtitle {
     color: #6b7280;
     margin-bottom: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   DASHBOARD OVERVIEW CARDS – CLEAN PROFESSIONAL STYLE
+===================================================== */
+
+/* Layout */
+.dashboard-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+    margin-bottom: 30px;
+}
+
+/* Card */
+.overview-card {
+    background: linear-gradient(145deg, #ffffff, #f9fafc);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle hover effect */
+.overview-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.overview-card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+/* Main Amount */
+.overview-card .amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: 0.5px;
+}
+
+/* Highlighted metrics (ROI / Progress) */
+.overview-card .highlight {
+    color: #fe0000;
+}
+
+/* Optional subtle accent bar */
+.overview-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(to right, #fe0000, #f59e0b);
+}
+/* ================================
+   CHART CONTAINERS FIX
+================================ */
+
+.chart-container {
+    position: relative;
+    height: 420px; /* slightly taller */
+    padding: 25px 25px 35px 25px; /* extra bottom padding */
+    overflow: hidden; /* prevents spill */
+}
+
+/* Prevent canvas from stretching outside */
+.chart-container canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+.chart-container h3 {
+    margin-bottom: 15px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+/* Doughnut specific sizing */
+#yieldBreakdownChart {
+    width: 90% !important;
+    height: 90% !important;
+    margin: auto;
+}
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .overview-card .amount {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    
+
+    .overview-card {
+        padding: 18px;
+    }
+
+    .overview-card .amount {
+        font-size: 18px;
+    }
+
+    .overview-card h3 {
+        font-size: 12px;
+    }
+}
+
+
+
+/* ADMIN HEADER */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.admin-header h2 {
+    font-weight: 600;
+}
+
+/* CARD */
+.admin-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+/* TABLE */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-table th {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+
+.admin-table tr:hover {
+    background: #f9fafb;
+}
+
+/* BUTTONS */
+.btn-primary {
+    background: #fe0000;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+.btn-sm {
+    padding: 3px 5px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background: #000000;
+}
+
+.btn-sm.danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-sm.warning {
+    background: #f59e0b;
+    color: white;
+}
+
+/* BADGES */
+.badge {
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.badge.paid {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.badge.upcoming {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.badge.progress {
+    background: #fef9c3;
+    color: #ca8a04;
+}
+
+.badge.notpaid {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    width: 800px;
+    max-width: 95%;
+    border-radius: 14px;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 16px 20px;
+    text-align: right;
+    border-top: 1px solid #eee;
+}
+
+.close {
+    cursor: pointer;
+    font-size: 22px;
+}
+
+/* FORM GRID */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.form-grid label {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.form-grid input,
+.form-grid select {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px){
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+        /* ===== ONBOARDING WIZARD ===== */
+
+/* ==============================
+   COMPACT PROFESSIONAL WIZARD
+============================== */
+
+.onboarding-card {
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* ===== STEP INDICATOR ===== */
+
+.step-indicator {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    border-radius: 5px;
+    background: #f1f1f1;
+    color: #666;
+    transition: 0.25s ease;
+    border: 1px solid transparent;
+}
+
+.step.active {
+    background: #FE0000;
+    color: #ffffff;
+    border-color: #FE0000;
+}
+
+/* ===== FORM STEP ===== */
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+/* ===== FORM GRID ===== */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.form-grid label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-grid input,
+.form-grid select {
+    width: 100%;
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    transition: all 0.2s ease;
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+    border-color: #FE0000;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(254, 0, 0, 0.08);
+}
+/* ===== STEP HEADER ===== */
+#paymentRows input{
+    outline:1px solid #ddd;
+}
+.form-step h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    position: relative;
+    letter-spacing: 0.4px;
+}
+
+/* subtle underline accent */
+.form-step h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 35px;
+    height: 3px;
+    background: #FE0000;
+    border-radius: 2px;
+}
+/* ===== PAYMENT SCHEDULE ===== */
+
+.payment-schedule {
+    margin-top: 18px;
+    overflow-x: auto;
+}
+
+.payment-schedule h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.admin-table th {
+    background: #f8f8f8;
+    padding: 8px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-table td {
+    padding: 6px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.admin-table input,
+.admin-table select {
+    font-size: 12px;
+    padding: 5px 6px;
+}
+
+/* ===== UPLOAD BOX ===== */
+
+.upload-box {
+    border: 1.5px dashed #ddd;
+    padding: 25px;
+    border-radius: 8px;
+    background: #fafafa;
+    text-align: center;
+    font-size: 13px;
+    color: #555;
+    transition: 0.2s ease;
+}
+
+.upload-box:hover {
+    border-color: #FE0000;
+    background: #fff;
+}
+
+/* ===== NAVIGATION ===== */
+
+.wizard-navigation {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.wizard-navigation button {
+    padding: 8px 18px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+/* ===== MOBILE OPTIMIZATION ===== */
+
+@media (max-width: 992px) {
+    .form-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+
+    .onboarding-card {
+        padding: 16px;
+    }
+
+    .step-indicator {
+        flex-direction: column;
+    }
+
+    .step {
+        font-size: 12px;
+        padding: 7px;
+    }
+
+    .wizard-navigation {
+        flex-direction: column;
+    }
+
+    .wizard-navigation button {
+        width: 100%;
+    }
+
+    .admin-table {
+        font-size: 11px;
+    }
+
 }

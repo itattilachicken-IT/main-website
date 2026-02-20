@@ -66,6 +66,20 @@ Route::middleware(['web'])->group(function () {
 
         Route::get('/home', [InvestorsViewsController::class, 'home'])
             ->name('investors.home');
+
+        Route::get('/admin-dashboard', [InvestorsViewsController::class, 'admin'])
+            ->name('investors.admin.admin-dashboard');
+        Route::get('/investors', [InvestorsViewsController::class, 'investors'])
+            ->name('investors.admin.investors');
+        Route::get('/events', [InvestorsViewsController::class, 'events'])
+            ->name('investors.admin.events');
+        Route::get('/files', [InvestorsViewsController::class, 'files'])
+            ->name('investors.admin.files');
+        Route::get('/reports', [InvestorsViewsController::class, 'reports'])
+            ->name('investors.admin.reports');
+        Route::get('/accountsettings', [InvestorsViewsController::class, 'accountsettings'])
+            ->name('investors.admin.accountsettings');
+
         Route::get('/my-investments', [InvestorsViewsController::class, 'myInvestments'])
             ->name('investors.my-investments');
         Route::get('/handbook', [InvestorsViewsController::class, 'handbook'])

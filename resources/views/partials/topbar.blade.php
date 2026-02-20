@@ -2,7 +2,7 @@
     <div class="dashboard-topbar">
 
         <div class="topbar-left">
-            <h2 class="page-title">Investor's Dashboard</h2>
+            <h2 class="page-title">Dashboard</h2>
         </div>
 
         <div class="topbar-right">
@@ -16,7 +16,7 @@
 
                 <div class="user-meta">
                     <div class="user-name">John Investor</div>
-                    <div class="user-score">Score: 22</div>
+            
                 </div>
             </div>
 

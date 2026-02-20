@@ -11,6 +11,30 @@ class InvestorsViewsController extends Controller
     {
           return view('investors.views.home');
     }
+      public function admin()
+    {
+          return view('investors.views.admin.admin-dashboard');
+    }
+    public function investors()
+    {
+          return view('investors.views.admin.investors');
+    }
+     public function events()
+    {
+          return view('investors.views.admin.events');
+    }
+    public function files()
+    {
+          return view('investors.views.admin.files');
+    }
+    public function reports()
+    {
+          return view('investors.views.admin.reports');
+    }
+     public function accountsettings()
+    {
+          return view('investors.views.admin.accountsettings');
+    }
     public function myInvestments()
     {
           return view('investors.views.my-investments');

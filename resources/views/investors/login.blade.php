@@ -131,6 +131,7 @@
         <div class="actions">
             <div class="note">Select Investor or Admin to login <a href="{{ url('/') }}">Back to Home</a></div>
             <a type="submit" class="submit-btn" href="{{ url('investors/views/home') }}">Sign in</a>
+            <a type="submit" class="submit-btn" href="{{ url('investors/views/admin-dashboard') }}">Admin</a>
         </div>
     </form>
 

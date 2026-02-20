@@ -26,9 +26,9 @@
         <section class="section">
             <div class="container">
 
-                <h1 class="page-title">Board of Directors</h1>
+               
                 <p class="page-subtitle">
-                    Meet the leadership and governance team guiding Attila Chicken.
+                    Meet the leadership and governance team guiding Attila.
                 </p>
 
                 <div class="cards board-grid">
@@ -36,22 +36,25 @@
                     {{-- Director Card --}}
                     <div class="card director-card">
 
-                        <h3 class="director-name">Kemper Isely</h3>
+                        <h3 class="director-name">Ann Kanyori</h3>
 
                         <p class="director-title">
-                            Chairman of the Board and Co-President
+                            Director of Board and CEO
                         </p>
 
                         <p class="director-committee">
-                            Committee: Compensation Committee
+                            Committee: Attila Poultry Farm
                         </p>
 
                         <p class="director-bio">
-                            Kemper Isely has been a director and our Co-President since 1998. 
-                            He joined the Company as an employee in 1977 and during his tenure 
-                            has functioned as Store Manager, Warehouse Manager, Director of 
-                            Marketing, Director of Purchasing, Director of Operations and 
-                            Director of Finance.
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                            when an unknown printer took a galley of type and scrambled it to make a type 
+                            specimen book. It has survived not only five centuries, but also the leap into 
+                            electronic typesetting, remaining essentially unchanged. It was popularised in 
+                            the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+                            and more recently with desktop publishing software like Aldus PageMaker including 
+                            versions of Lorem Ipsum.
                         </p>
 
                     </div>
@@ -59,22 +62,25 @@
                     {{-- Add more directors easily --}}
                     <div class="card director-card">
 
-                        <h3 class="director-name">Kemper Isely</h3>
+                        <h3 class="director-name">Example 2</h3>
 
                         <p class="director-title">
                             Chairman of the Board and Co-President
                         </p>
 
                         <p class="director-committee">
-                            Committee: Compensation Committee
+                            Committee: Attila Poultry Farm
                         </p>
 
                         <p class="director-bio">
-                            Kemper Isely has been a director and our Co-President since 1998. 
-                            He joined the Company as an employee in 1977 and during his tenure 
-                            has functioned as Store Manager, Warehouse Manager, Director of 
-                            Marketing, Director of Purchasing, Director of Operations and 
-                            Director of Finance.
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                            when an unknown printer took a galley of type and scrambled it to make a type 
+                            specimen book. It has survived not only five centuries, but also the leap into 
+                            electronic typesetting, remaining essentially unchanged. It was popularised in 
+                            the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+                            and more recently with desktop publishing software like Aldus PageMaker including 
+                            versions of Lorem Ipsum.
                         </p>
 
                     </div>

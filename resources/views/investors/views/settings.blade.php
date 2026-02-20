@@ -25,7 +25,7 @@
 
         <div class="settings-wrapper">
 
-            <h1>Account Settings</h1>
+
 
             {{-- Profile Information --}}
             <div class="settings-card">
