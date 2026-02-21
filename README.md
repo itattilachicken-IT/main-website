@@ -31,10 +31,13 @@ Install Node
 
 Run Composer install
 Run Composer update
-Run php artisan key:generate
-Run php artisan migrate --seed
-Run npm install && npm run dev
-Run php artisan serve
+
+cp .env.example .env 
+php artisan key:generate 
+php artisan migrate --seed 
+npm install && npm run dev 
+php artisan serve 
+
 
 ```
 
