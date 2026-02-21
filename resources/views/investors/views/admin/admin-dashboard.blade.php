@@ -94,6 +94,10 @@
 
                             <div class="form-grid">
                                 <div>
+                                    <label>Investor Code</label>
+                                    <input type="text" placeholder="e.g. ATP-001">
+                                </div>
+                                <div>
                                     <label>Full Name</label>
                                     <input type="text">
                                 </div>
