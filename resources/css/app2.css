@@ -122,6 +122,7 @@ body {
     transform: translateY(-50%);
     z-index: 1100;
     padding: 6px 8px;
+    display: block;
 }
 
 /* Navigation */
@@ -150,7 +151,7 @@ body {
 }
 .activated{
     background: #fe0000;
-    color: #1f2937;
+    
 }
 /* Highlight active navigation link */
 .sidebar nav ul li a.active {
@@ -167,18 +168,95 @@ body {
     justify-content: center;
 }
 
+.nav-dropdown{
+    position:relative;
+}
 
+.dropdown-toggle{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    background:none;
+    border:none;
+}
 
+.arrow{
+    font-size:12px;
+}
 
+.dropdown-menu{
+    position:absolute;
+    right:0;
+    top:120%;
+    background:#000000;
+    border-radius:10px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    padding:8px 0;
+    min-width:180px;
+    opacity:0;
+    transform:translateY(10px);
+    pointer-events:none;
+    transition:.25s;
+    z-index:999;
+}
 
+.dropdown-menu.show{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+}
 
+.dropdown-item{
+    display:block;
+    width:100%;
+    padding:10px 16px;
+    font-size:14px;
+    text-decoration:none;
+    color:#ffffff;
+    background:none;
+    border:none;
+    text-align:left;
+    cursor:pointer;
+}
 
+.dropdown-item:hover{
+    background:#fe0000;
+}
+
+.logout-btn{
+    color:#ffffff;
+    font-weight:600;
+}
 
 .dashboard-topbar{
     display:flex;
+    width: 95%;
     justify-content:space-between;
     align-items:center;
     margin-bottom:25px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #374151;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.mobile-menu-toggle:hover {
+    background-color: #f3f4f6;
 }
 
 .topbar-right{
@@ -223,6 +301,17 @@ body {
 .user-score{
     font-size:12px;
     color:#6b7280;
+}
+.id-badge{
+    display:inline-block;
+    margin-top:6px;
+    padding:4px 12px;
+    font-size:12px;
+    font-weight:600;
+    border-radius:999px;
+    background:#009dff;
+    color:white;
+    letter-spacing:1px;
 }
 
 /* =========================
@@ -366,24 +455,135 @@ h2 {
 ========================= */
 
 @media (max-width: 768px) {
+    .mobile-menu-toggle{
+        display: block;
+    }
 
     .sidebar {
-        transform: translateX(-100%);
-        width: 260px;
-        transition: transform 0.3s ease;
+        width: 50vw; /* Half screen width */
+        left: -50vw; /* Start hidden */
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     }
 
     .sidebar.active {
-        transform: translateX(0);
+        left: 0; /* Slide in from left */
     }
 
     .main-content {
         margin-left: 0;
         width: 100%;
-        padding: 24px;
+        padding: 16px;
+        transition: none; /* No transition for main content on mobile */
     }
+
+    /* Topbar mobile responsiveness - keep inline */
+    .dashboard-topbar {
+        flex-wrap: nowrap;
+        gap: 8px;
+        padding: 12px 16px;
+    }
+
+    .topbar-left .page-title {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .topbar-right {
+        flex: 1;
+        justify-content: flex-end;
+        gap: 8px;
+        min-width: 0; /* Allow shrinking */
+    }
+
+    .search-box input {
+        width: 120px;
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    .user-profile {
+        gap: 6px;
+    }
+
+    .user-name {
+        font-size: 12px;
+        display: none; /* Hide on very small screens */
+    }
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    .btn-secondary {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    
 }
 
+/* Sidebar overlay for mobile */
+.sidebar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Tablet Responsiveness (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+        transition: width 0.3s ease;
+    }
+    
+
+    .sidebar.collapsed {
+        width: 60px;
+    }
+
+    .sidebar.collapsed .brand-text {
+        display: none;
+    }
+
+    .sidebar.collapsed .link-text {
+        display: none;
+    }
+
+    .sidebar.collapsed .collapse-btn {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 200px;
+        transition: margin-left 0.3s ease;
+    }
+
+    .dashboard-layout.collapsed .main-content {
+        margin-left: 60px;
+    }
+
+    .collapse-btn {
+        display: block;
+    }
+
+    /* Topbar tablet adjustments */
+    .dashboard-topbar {
+        padding: 16px 20px;
+    }
+
+    .search-box input {
+        width: 200px;
+    }
+
+    
+    
+}
 
 /* filters */
 .filters {
@@ -2001,5 +2201,202 @@ select {
 @media(max-width: 992px){
     .admin-layout {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Admin Dashboard Mobile Responsiveness */
+@media (max-width: 768px) {
+    /* Admin sidebar */
+    #sidebarMenu {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        z-index: 1050;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+
+    #sidebarMenu.show {
+        left: 0;
+    }
+
+    /* Admin main content */
+    .admin-main {
+        margin-left: 0 !important;
+        padding: 16px;
+    }
+
+    /* Admin cards */
+    .admin-card {
+        margin-bottom: 16px;
+        padding: 16px;
+    }
+
+    /* Admin table */
+    .admin-table {
+        font-size: 14px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 8px 4px;
+    }
+
+    /* Admin header */
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .admin-header h2 {
+        font-size: 24px;
+        margin-bottom: 0;
+    }
+
+    /* Container padding */
+    .container {
+        padding: 16px;
+    }
+
+    /* Page title adjustments */
+    .page-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    /* Dashboard overview cards */
+    .dashboard-overview {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .overview-card {
+        padding: 18px 16px;
+    }
+
+    .overview-card .amount {
+        font-size: 20px;
+    }
+
+    /* Tables */
+    .table-wrapper {
+        margin: 0 -16px;
+    }
+
+    .data-table,
+    .investment-table {
+        font-size: 14px;
+    }
+
+    .data-table th,
+    .data-table td,
+    .investment-table th,
+    .investment-table td {
+        padding: 12px 8px;
+    }
+
+    /* Forms */
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    /* Buttons */
+    .btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+
+    /* Cards */
+    .card {
+        margin-bottom: 16px;
+    }
+
+    /* Filters */
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .filter-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    /* Reports grid */
+    .reports-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* Event items */
+    .event-item,
+    .presentation-item {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    /* Navigation improvements */
+    .sidebar-nav .nav-link {
+        padding: 12px 16px;
+    }
+
+   
+
+    .sidebar-brand .brand-text h2 {
+        font-size: 18px;
+    }
+
+    .sidebar-brand .brand-text span {
+        font-size: 12px;
+    }
+
+    .collapse-btn {
+        display: block !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra small screens */
+    .main-content {
+        padding: 12px;
+    }
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    .overview-card {
+        padding: 16px 12px;
+    }
+
+    .overview-card .amount {
+        font-size: 18px;
+    }
+
+    .data-table {
+        font-size: 12px;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        font-size: 14px;
     }
 }

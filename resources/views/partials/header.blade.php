@@ -51,10 +51,30 @@
             <span class="link-text">Annual Reports</span>
         </a>
 
-        <a href="{{ url('investors/views/settings') }}" class="nav-link" data-title="Account Settings">
+      <div class="nav-dropdown">
+
+        <button class="nav-link dropdown-toggle" onclick="toggleDropdown()" type="button">
             <span>⚙️</span>
             <span class="link-text">Settings</span>
-        </a>
+            <span class="arrow">▾</span>
+        </button>
+
+        <div class="dropdown-menu" id="settingsDropdown">
+
+            <a href="{{ url('investors/views/settings') }}" class="dropdown-item">
+                Account Settings
+            </a>
+
+            <form action="{{ route('investor.logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item logout-btn">
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </div>
 
     </nav>
 </aside>
@@ -91,4 +111,18 @@
             localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
         } catch (e) {}
     }
+
+
+function toggleDropdown(){
+    document.getElementById("settingsDropdown")
+        .classList.toggle("show");
+}
+
+window.addEventListener("click", function(e){
+    if(!e.target.closest(".nav-dropdown")){
+        document.getElementById("settingsDropdown")
+            .classList.remove("show");
+    }
+});
+
 </script>

@@ -38,9 +38,31 @@
             <a href="{{ url('investors/views/reports') }}" class="nav-link" > 
                 <span>📊</span> <span class="link-text">Annual Reports</span> 
             </a> 
-            <a href="{{ url('investors/views/accountsettings') }}" class="nav-link"> 
-                <span>⚙️</span> <span class="link-text">Settings</span> 
-            </a> 
+               <div class="nav-dropdown">
+
+        <button class="nav-link dropdown-toggle" onclick="toggleDropdown()" type="button">
+            <span>⚙️</span>
+            <span class="link-text">Settings</span>
+            <span class="arrow">▾</span>
+        </button>
+
+        <div class="dropdown-menu" id="settingsDropdown">
+
+            <a href="{{ url('investors/views/accountsettings') }}" class="dropdown-item">
+                Account Settings
+            </a>
+
+            <form action="{{ route('investor.logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item logout-btn">
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
         </nav> 
     </aside>
 
@@ -48,19 +70,19 @@
     <main class="main-content">
     {{-- Topbar --}} <div class="dashboard-topbar"> 
         <div class="topbar-left"> 
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">
+                <span class="hamburger-icon">☰</span>
+            </button>
             <h2 class="page-title">Change Password</h2> 
         </div> <div class="topbar-right"> 
-            <div class="search-box"> 
-                <input type="text" placeholder="Search..." /> 
-            </div> <div class="user-profile"> 
+            
+            <div class="user-profile"> 
                 <img src="https://i.pravatar.cc/40" alt="User" class="avatar"> 
                 <div class="user-meta"> 
                     <div class="user-name">Admin</div> 
                 </div> 
             </div> 
-            <form action="{{ route('investor.logout') }}" method="POST"> @csrf 
-                <button type="submit" class="btn-secondary">Logout</button>
-             </form> 
+           
             </div> 
         </div>
 
@@ -142,4 +164,17 @@
             localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
         } catch (e) {}
     }
+
+    function toggleDropdown(){
+    document.getElementById("settingsDropdown")
+        .classList.toggle("show");
+}
+
+window.addEventListener("click", function(e){
+    if(!e.target.closest(".nav-dropdown")){
+        document.getElementById("settingsDropdown")
+            .classList.remove("show");
+    }
+});
+
 </script>

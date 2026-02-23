@@ -3,10 +3,27 @@ import Chart from 'chart.js/auto';
 
 window.toggleSidebar = function () {
     const sidebar = document.getElementById("sidebar");
-    sidebar.classList.toggle("collapsed");
+    const mainContent = document.querySelector('.main-content');
+    const isMobile = window.innerWidth <= 768;
 
-    document.getElementById("dashboardLayout")
-        .classList.toggle("collapsed");
+    if (isMobile) {
+        // Mobile: toggle active class for slide in/out
+        sidebar.classList.toggle("active");
+
+        // Add/remove overlay on main content
+        if (sidebar.classList.contains("active")) {
+            mainContent.style.position = 'relative';
+            mainContent.insertAdjacentHTML('afterbegin', '<div class="sidebar-overlay" onclick="toggleSidebar()"></div>');
+        } else {
+            const overlay = document.querySelector('.sidebar-overlay');
+            if (overlay) overlay.remove();
+            mainContent.style.position = '';
+        }
+    } else {
+        // Desktop/Tablet: toggle collapsed class for width change
+        sidebar.classList.toggle("collapsed");
+        document.getElementById("dashboardLayout").classList.toggle("collapsed");
+    }
 };
 
 
@@ -43,3 +60,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Chart initialization removed for investor landing (reverted)
+

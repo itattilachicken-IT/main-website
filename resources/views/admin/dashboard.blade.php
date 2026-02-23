@@ -17,7 +17,7 @@
 }
 
 #sidebarMenu .nav-link {
-    color: var(--brand-white);
+    color: var(--brand-white) !important;
     transition: all 0.2s;
 }
 
@@ -207,6 +207,14 @@ a:hover {
         <!-- Main Content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
+            <!-- Mobile Header -->
+            <div class="d-md-none bg-white border-bottom p-3 mb-3">
+                <button class="btn btn-outline-secondary" type="button" onclick="toggleAdminSidebar()">
+                    <i class="bi bi-list"></i> Menu
+                </button>
+                <h5 class="d-inline ms-2 mb-0">Admin Dashboard</h5>
+            </div>
+
             <div class="row">
                 <!-- Orders -->
                     <div class="col-md-3">
@@ -252,4 +260,43 @@ a:hover {
 
     </div>
 </div>
+
+@section('scripts')
+<script>
+    function toggleAdminSidebar() {
+        const sidebar = document.getElementById('sidebarMenu');
+        const mainContent = document.querySelector('.admin-main') || document.querySelector('main');
+
+        sidebar.classList.toggle('show');
+
+        // Add/remove overlay on main content for mobile
+        if (window.innerWidth <= 768) {
+            if (sidebar.classList.contains('show')) {
+                if (mainContent) {
+                    mainContent.style.position = 'relative';
+                    mainContent.insertAdjacentHTML('afterbegin', '<div class="sidebar-overlay" onclick="toggleAdminSidebar()"></div>');
+                }
+            } else {
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (overlay) overlay.remove();
+                if (mainContent) mainContent.style.position = '';
+            }
+        }
+    }
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebarMenu');
+        const toggleBtn = event.target.closest('button[onclick="toggleAdminSidebar()"]');
+
+        if (!sidebar.contains(event.target) && !toggleBtn && window.innerWidth <= 768) {
+            sidebar.classList.remove('show');
+            // Remove overlay
+            const overlay = document.querySelector('.sidebar-overlay');
+            if (overlay) overlay.remove();
+            const mainContent = document.querySelector('.admin-main') || document.querySelector('main');
+            if (mainContent) mainContent.style.position = '';
+        }
+    });
+</script>
 @endsection
