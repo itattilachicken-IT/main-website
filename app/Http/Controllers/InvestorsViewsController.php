@@ -76,6 +76,7 @@ class InvestorsViewsController extends Controller
                 'title' => 'Investor Conference 2026',
                 'date' => '2026-03-15',
                 'time' => '9:00 AM - 5:00 PM',
+                'description' => 'Join us for our annual investor conference featuring presentations from our leadership team and Q&A sessions.',
                 'link' => '#',
                 'link_text' => 'Register Now'
             ],
@@ -83,6 +84,7 @@ class InvestorsViewsController extends Controller
                 'title' => 'Q1 Earnings Call',
                 'date' => '2026-02-28',
                 'time' => '2:00 PM GMT',
+                'description' => 'Listen to our Q1 earnings presentation and participate in the Q&A session with our CFO.',
                 'link' => '#',
                 'link_text' => 'Join Call'
             ],
@@ -90,6 +92,7 @@ class InvestorsViewsController extends Controller
                 'title' => 'Annual Shareholder Meeting',
                 'date' => '2026-04-10',
                 'time' => '10:00 AM - 12:00 PM',
+                'description' => 'Annual shareholder meeting to review company performance and vote on key matters.',
                 'link' => '#',
                 'link_text' => 'View Details'
             ],
