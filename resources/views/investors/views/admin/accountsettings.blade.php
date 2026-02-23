@@ -26,11 +26,9 @@
         </div> 
         <nav class="sidebar-nav"> 
             <a href="{{ url('investors/views/admin-dashboard') }}" class="nav-link" > 
-                <span>👤</span> <span class="link-text">Investor Onboarding</span> 
+                <span>💼</span> <span class="link-text">Investor Onboarding</span> 
             </a> 
-            <a href="{{ url('investors/views/investors') }}" class="nav-link" > 
-                <span>💼</span> <span class="link-text">Investors</span> 
-            </a> 
+          
             <a href="{{ url('investors/views/events') }}" class="nav-link" > 
                 <span>📅</span> <span class="link-text">Events</span> 
             </a> 
@@ -112,3 +110,36 @@
 
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const links = document.querySelectorAll('.nav-link');
+        const pageTitle = document.querySelector('.page-title');
+
+        links.forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('activated');
+
+                // Set page title from data attribute
+                const customTitle = link.getAttribute('data-title');
+                if (customTitle && pageTitle) {
+                    pageTitle.innerHTML = customTitle;
+                }
+            }
+        });
+
+        // Restore sidebar collapsed state
+        const sidebar = document.getElementById('sidebar');
+        try {
+            const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (collapsed) sidebar.classList.add('collapsed');
+        } catch (e) {}
+    });
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('collapsed');
+        try {
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        } catch (e) {}
+    }
+</script>

@@ -15,10 +15,7 @@ class InvestorsViewsController extends Controller
     {
           return view('investors.views.admin.admin-dashboard');
     }
-    public function investors()
-    {
-          return view('investors.views.admin.investors');
-    }
+  
      public function events()
     {
           return view('investors.views.admin.events');

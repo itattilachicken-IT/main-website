@@ -32,10 +32,7 @@
         </div> 
         <nav class="sidebar-nav"> 
             <a href="{{ url('investors/views/admin-dashboard') }}" class="nav-link"> 
-                <span>👤</span> <span class="link-text">Investor Onboarding</span> 
-            </a> 
-            <a href="{{ url('investors/views/investors') }}" class="nav-link"> 
-                <span>💼</span> <span class="link-text">Investors</span> 
+                <span>💼</span> <span class="link-text">Investor Onboarding</span> 
             </a> 
             <a href="{{ url('investors/views/events') }}" class="nav-link"> 
                 <span>📅</span> <span class="link-text">Events</span> 
@@ -55,7 +52,8 @@
     <!-- MAIN CONTENT -->
     <main class="main-content">
 
-      {{-- Topbar --}} <div class="dashboard-topbar"> 
+           {{-- Topbar --}} 
+      <div class="dashboard-topbar"> 
         <div class="topbar-left"> 
             <h2 class="page-title">Create Investor Account</h2> 
         </div> <div class="topbar-right"> 
@@ -76,7 +74,17 @@
         <section class="section">
             <div class="container">
 
-                <div class="onboarding-card">
+            {{-- CREATE INVESTOR TOGGLE --}}
+                <div class="card" style="margin-bottom:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h3 style="margin:0;">Create New Investor</h3>
+                        <button class="btn-primary" type="button" onclick="toggleOnboarding()">
+                            + New Investor
+                        </button>
+                    </div>
+                </div>
+            
+                <div class="onboarding-card" id="onboardingSection" style="display:none;">
 
                     <!-- STEP INDICATOR -->
                     <div class="step-indicator">
@@ -181,13 +189,13 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <button type="button" onclick="removeRow(this)">X</button>
+                                                <button type="button" onclick="removeRow(this)" class="btn-primary">X</button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
 
-                                <button type="button" class="btn-secondary" onclick="addPaymentRow()">+ Add Payment Schedule</button>
+                                <button type="button" class="btn-edit" onclick="addPaymentRow()">+ Add Payment Schedule</button>
                             </div>
                         </div>
 
@@ -242,12 +250,94 @@
                     </form>
 
                 </div>
+                {{-- CURRENT INVESTORS --}}
+                <div class="card" style="margin-top:30px;">
+                    <h3 style="margin-bottom:15px;">Current Onboarded Investors</h3>
+
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Investor Code</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Total Investment</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ATP-001</td>
+                                    <td>John Mwangi</td>
+                                    <td>john@email.com</td>
+                                    <td>0712345678</td>
+                                    <td>KES 1,200,000</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a href="#" class="btn-edit">Edit</a>
+                                            <a href="#" class="btn-delete">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ATP-002</td>
+                                    <td>Mary Wanjiru</td>
+                                    <td>mary@email.com</td>
+                                    <td>0723456789</td>
+                                    <td>KES 850,000</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a href="#" class="btn-edit">Edit</a>
+                                            <a href="#" class="btn-delete">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </section>
     </main>
 </div>
-
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const links = document.querySelectorAll('.nav-link');
+        const pageTitle = document.querySelector('.page-title');
+
+        links.forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('activated');
+
+                // Set page title from data attribute
+                const customTitle = link.getAttribute('data-title');
+                if (customTitle && pageTitle) {
+                    pageTitle.innerHTML = customTitle;
+                }
+            }
+        });
+
+        // Restore sidebar collapsed state
+        const sidebar = document.getElementById('sidebar');
+        try {
+            const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (collapsed) sidebar.classList.add('collapsed');
+        } catch (e) {}
+    });
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('collapsed');
+        try {
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        } catch (e) {}
+    }
+
 
 let currentStep = 1;
 showStep(currentStep);
@@ -293,7 +383,7 @@ function addPaymentRow(){
                 <option>Not Paid</option>
             </select>
         </td>
-        <td><button type="button" onclick="removeRow(this)">X</button></td>
+        <td><button type="button" onclick="removeRow(this)" class="btn-primary">X</button></td>
     `;
 }
 
@@ -304,6 +394,11 @@ function removeRow(btn){
 function toggleSidebar(){
     document.getElementById('sidebar').classList.toggle('collapsed');
 }
+function toggleOnboarding(){
+    const section = document.getElementById("onboardingSection");
+    section.style.display = section.style.display==="none"?"block":"none";
+}
+
 
 </script>
 

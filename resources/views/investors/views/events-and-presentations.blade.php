@@ -38,6 +38,7 @@
                                 <div class="event-title">{{ $event['title'] }}</div>
                                 <div class="event-date">{{ $event['date'] }}</div>
                                 <div class="event-time">{{ $event['time'] }}</div>
+                                <div class="event-description">{{ $event['description'] }}</div>
                                 <a class="event-link" href="{{ $event['link'] }}">
                                     {{ $event['link_text'] }}
                                 </a>

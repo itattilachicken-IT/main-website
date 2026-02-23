@@ -1,114 +1,200 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Page In Progress</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — Annual Reports Management</title>
 
-    @vite('resources/css/app2.css')
+@vite('resources/css/app2.css')
+@vite('resources/js/app2.js')
 
-    <style>
-        body {
-            margin: 0;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-            background: #f6f7f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
 
-        .construction-wrapper {
-            text-align: center;
-            background: #ffffff;
-            padding: 50px 40px;
-            border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .construction-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-
-        .construction-wrapper h1 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #222;
-            letter-spacing: 0.5px;
-        }
-
-        .construction-wrapper p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        .progress-bar {
-            height: 6px;
-            background: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 60%;
-            background: #FE0000;
-            animation: loading 2s infinite ease-in-out alternate;
-        }
-
-        @keyframes loading {
-            from { width: 40%; }
-            to { width: 80%; }
-        }
-
-        .back-btn {
-            margin-top: 25px;
-            display: inline-block;
-            padding: 8px 18px;
-            font-size: 13px;
-            background: #FE0000;
-            color: #fff;
-            border-radius: 6px;
-            text-decoration: none;
-            transition: 0.2s ease;
-        }
-
-        .back-btn:hover {
-            opacity: 0.85;
-        }
-
-        @media(max-width:600px){
-            .construction-wrapper {
-                padding: 35px 20px;
-            }
-
-            .construction-wrapper h1 {
-                font-size: 18px;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-    <div class="construction-wrapper">
-        <div class="construction-icon">🚧</div>
-        <h1>Building Page In Progress</h1>
-        <p>This section is currently under development. Please check back soon.</p>
+<div class="dashboard-layout">
 
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
+    {{-- Sidebar --}} 
+    <aside class="sidebar" id="sidebar"> 
+        {{-- Logo Section --}} 
+        <div class="sidebar-brand"> 
+            <div class="brand-icon">A</div> 
+            <div class="brand-text"> 
+                <h2 class="logo-text">ATTILA</h2> 
+                <span>Admin Portal</span> 
+            </div> 
+            <button class="collapse-btn" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button> 
+        </div> 
+        <nav class="sidebar-nav"> 
+            <a href="{{ url('investors/views/admin-dashboard') }}" class="nav-link"> 
+                <span>💼</span> <span class="link-text">Investor Onboarding</span> 
+            </a> 
+           
+            <a href="{{ url('investors/views/events') }}" class="nav-link"> 
+                <span>📅</span> <span class="link-text">Events</span> 
+            </a> 
+            <a href="{{ url('investors/views/files') }}" class="nav-link"> 
+                <span>📂</span> <span class="link-text">SEC Filings</span> 
+            </a> 
+            <a href="{{ url('investors/views/reports') }}" class="nav-link"> 
+                <span>📊</span> <span class="link-text">Annual Reports</span> 
+            </a> 
+            <a href="{{ url('investors/views/accountsettings') }}" class="nav-link"> 
+                <span>⚙️</span> <span class="link-text">Settings</span> 
+            </a> 
+        </nav> 
+    </aside>
+
+    {{-- Main Content --}}
+    <main class="main-content">
+            {{-- Topbar --}} 
+      <div class="dashboard-topbar"> 
+        <div class="topbar-left"> 
+            <h2 class="page-title">Annual Reports</h2> 
+        </div> <div class="topbar-right"> 
+            <div class="search-box"> 
+                <input type="text" placeholder="Search..." /> 
+            </div> <div class="user-profile"> 
+                <img src="https://i.pravatar.cc/40" alt="User" class="avatar"> 
+                <div class="user-meta"> 
+                    <div class="user-name">Admin</div> 
+                </div> 
+            </div> 
+            <form action="{{ route('investor.logout') }}" method="POST"> @csrf 
+                <button type="submit" class="btn-secondary">Logout</button>
+             </form> 
+            </div> 
         </div>
 
-        <a href="{{ url()->previous() }}" class="back-btn">
-            ← Go Back
-        </a>
-    </div>
+
+        <section class="section">
+            <div class="container">
+
+                <div class="admin-header">
+                    <h1>Annual Reports Management</h1>
+                    <p>Upload and manage official company annual reports.</p>
+                </div>
+
+                <div class="admin-layout">
+
+                    {{-- LEFT SIDE: ADD REPORT --}}
+                    <div class="card admin-form-card">
+                        <h3 style="margin-bottom:15px;">Add New Report</h3>
+
+                        <form class="admin-form" action="#" method="POST" enctype="multipart/form-data">
+                            @csrf
+
+                            <label>Report Title</label>
+                            <input type="text" name="title" placeholder="e.g. Annual Report 2025">
+
+                            <label>Report Date</label>
+                            <input type="date" name="date">
+
+                            <label>Cover Image</label>
+                            <input type="file" name="image" accept="image/*">
+
+                            <label>Upload PDF Report</label>
+                            <input type="file" name="file" accept="application/pdf">
+
+                            <button type="submit" class="admin-btn">
+                                + Save Report
+                            </button>
+                        </form>
+                    </div>
+
+                    {{-- RIGHT SIDE: EXISTING REPORTS --}}
+                    <div class="card">
+                        <h3 style="margin-bottom:15px;">Existing Reports</h3>
+
+                        <div class="table-wrapper">
+                            <table class="data-table report-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:80px;">Cover</th>
+                                        <th>Title</th>
+                                        <th style="width:120px;">Date</th>
+                                        <th style="width:140px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {{-- Example Static Rows --}}
+                                    <tr>
+                                        <td>
+                                            <img src="/images/sample-report.jpg" alt="Report Cover">
+                                        </td>
+                                        <td>Annual Report 2025</td>
+                                        <td>Dec 31, 2025</td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <a href="#" class="btn-edit">Edit</a>
+                                                <a href="#" class="btn-delete">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <img src="/images/sample-report.jpg" alt="Report Cover">
+                                        </td>
+                                        <td>Annual Report 2024</td>
+                                        <td>Dec 31, 2024</td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <a href="#" class="btn-edit">Edit</a>
+                                                <a href="#" class="btn-delete">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+</div>
 
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const links = document.querySelectorAll('.nav-link');
+        const pageTitle = document.querySelector('.page-title');
+
+        links.forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('activated');
+
+                // Set page title from data attribute
+                const customTitle = link.getAttribute('data-title');
+                if (customTitle && pageTitle) {
+                    pageTitle.innerHTML = customTitle;
+                }
+            }
+        });
+
+        // Restore sidebar collapsed state
+        const sidebar = document.getElementById('sidebar');
+        try {
+            const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (collapsed) sidebar.classList.add('collapsed');
+        } catch (e) {}
+    });
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('collapsed');
+        try {
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        } catch (e) {}
+    }
+</script>
