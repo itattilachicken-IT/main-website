@@ -1,149 +1,157 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Attila Investor Dashboard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attila Investor Login</title>
 
-    <style>
-        body{
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-            margin:0;
-            background:#f7f7f8;
-        }
+<style>
+body{
+    margin:0;
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    
+}
 
-        .wrap{
-            max-width:420px;
-            margin:80px auto;
-            padding:28px;
-            background:#fff;
-            border-radius:10px;
-            border:1px solid #e9e9ea;
-            box-shadow:0 8px 20px rgba(0,0,0,0.05);
-        }
+.login-card{
+    width:100%;
+    max-width:420px;
+    padding:34px;
+    border-radius:16px;
+    background:rgba(255,255,255,0.97);
+    box-shadow:0 25px 60px rgba(0,0,0,0.25);
+}
 
-        h1{
-            margin:0 0 18px;
-            font-size:22px;
-            text-align:center;
-        }
+.logo{
+    text-align:center;
+    font-weight:700;
+    font-size:20px;
+    margin-bottom:10px;
+}
 
-        /* Role Switch */
-        .role-switch{
-            display:flex;
-            margin-bottom:20px;
-            border-radius:8px;
-            overflow:hidden;
-            border:1px solid #ddd;
-        }
+.title{
+    text-align:center;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:22px;
+}
 
-        .role-btn{
-            flex:1;
-            padding:10px;
-            border:0;
-            background:#f3f3f3;
-            cursor:pointer;
-            font-weight:600;
-        }
+label{
+    font-size:13px;
+    font-weight:600;
+}
 
-        .role-btn.active{
-            background:#1b1b18;
-            color:white;
-        }
+.input{
+    width:100%;
+    padding:11px;
+    margin-top:6px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    font-size:14px;
+    transition:.2s;
+}
 
-        label{
-            display:block;
-            margin-top:12px;
-            font-size:13px;
-        }
+.input:focus{
+    outline:none;
+    border-color:#111;
+    box-shadow:0 0 0 3px rgba(0,0,0,0.08);
+}
 
-        input[type="email"], 
-        input[type="password"]{
-            width:100%;
-            padding:10px;
-            margin-top:6px;
-            border:1px solid #ddd;
-            border-radius:6px;
-        }
+.field{
+    margin-bottom:18px;
+}
 
-        .actions{
-            margin-top:18px;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-        }
+.submit-btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+    background:#111;
+    color:#fff;
+    transition:.2s;
+}
 
-        button.submit-btn{
-            background:#1b1b18;
-            color:#fff;
-            border:0;
-            padding:10px 14px;
-            border-radius:6px;
-            cursor:pointer;
-        }
+.submit-btn:hover{
+    background:#000;
+}
 
-        .note{
-            color:#6b6b6b;
-            font-size:13px;
-        }
+.footer{
+    margin-top:18px;
+    text-align:center;
+    font-size:13px;
+    color:#666;
+}
 
-        .error-box{
-            color:#b91c1c;
-            margin-bottom:10px;
-        }
-    </style>
+.footer a{
+    color:#000;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.error-box{
+    background:#fee2e2;
+    border:1px solid #fecaca;
+    color:#b91c1c;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    font-size:13px;
+}
+
+@media(max-width:480px){
+    .login-card{
+        margin:20px;
+        padding:26px;
+    }
+}
+</style>
 </head>
-
 <body>
 
-<div class="wrap">
+<div class="login-card">
 
-    <h1>Sign in</h1>
-
-   
+    <div class="logo">ATTILA</div>
+    <div class="title">Sign in to Dashboard</div>
 
     @if ($errors->any())
-        <div class="error-box">
-            <ul style="margin:0;padding-left:18px">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div class="error-box">
+        <ul style="margin:0;padding-left:18px">
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+        </ul>
+    </div>
     @endif
 
     <form method="POST" action="{{ url('investors.login') }}">
-        @csrf
+    @csrf
 
-        {{-- Hidden role field --}}
-        <input type="hidden" name="role" id="role" value="investor">
-
+    <div class="field">
         <label>Email</label>
-        <input name="email" type="email" required autofocus>
+        <input class="input" name="email" type="email" required autofocus>
+    </div>
 
+    <div class="field">
         <label>Password</label>
-        <input name="password" type="password" required>
+        <input class="input" name="password" type="password" required>
+    </div>
 
-        <div class="actions">
-            <div class="note">Select Investor or Admin to login <a href="{{ url('/') }}">Back to Home</a></div>
-            <a type="submit" class="submit-btn" href="{{ url('investors/views/home') }}">Sign in</a>
-            <a type="submit" class="submit-btn" href="{{ url('investors/views/admin-dashboard') }}">Admin</a>
-        </div>
+    <button type="submit" class="submit-btn">
+        Sign In
+    </button>
+
     </form>
 
+    <div class="footer">
+        Back to <a href="{{ url('/') }}">Home</a>
+    </div>
+
 </div>
-
-<script>
-function setRole(role, el) {
-    document.getElementById("role").value = role;
-
-    document.querySelectorAll(".role-btn").forEach(btn => {
-        btn.classList.remove("active");
-    });
-
-    el.classList.add("active");
-}
-</script>
 
 </body>
 </html>
