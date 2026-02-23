@@ -56,7 +56,6 @@ body {
     display: flex;
     align-items: center;
     gap: 14px;
-   
     position: relative;
     padding: 14px 12px;
 }
@@ -137,7 +136,7 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 14px;
+    padding: 8px 14px;
     color: white;
     text-decoration: none;
     border-radius: 8px;
