@@ -100,11 +100,7 @@
 
     <h1>Sign in</h1>
 
-    {{-- Role Switch --}}
-    <div class="role-switch">
-        <button type="button" class="role-btn active" onclick="setRole('investor', this)">Investor</button>
-        <button type="button" class="role-btn" onclick="setRole('admin', this)">Admin</button>
-    </div>
+   
 
     @if ($errors->any())
         <div class="error-box">
