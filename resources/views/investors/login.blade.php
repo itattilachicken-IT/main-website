@@ -145,6 +145,9 @@ label{
         Sign In
     </button>
 
+    <a type="submit" class="submit-btn" href="{{ url('investors/views/home') }}">Sign in</a> <a type="submit" class="submit-btn" href="{{ url('investors/views/admin-dashboard') }}">Admin</a>
+    
+
     </form>
 
     <div class="footer">

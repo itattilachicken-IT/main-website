@@ -61,8 +61,27 @@ Route::middleware(['web'])->group(function () {
 
     Route::get('/shops', [ShopController::class, 'index'])->name('shop.index');
 
+   
     Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
     Route::prefix('investors/views')->group(function () {
+
+         Route::post('/login', function (Request $request) {
+            $email = $request->input('email');
+            $password = $request->input('password');
+
+            // Admin static check
+            if ($email === 'admin@attilachicken.com' && $password === 'admin') {
+                return redirect(url('investors/views/admin-dashboard'));
+            }
+
+            // Investor static password (all other emails with this password go to investor home)
+            if ($password === 'investor') {
+                return redirect(url('investors/views/home'));
+            }
+
+            return back()->withErrors(['credentials' => 'Invalid credentials'])->withInput();
+        });
+
 
         Route::get('/home', [InvestorsViewsController::class, 'home'])
             ->name('investors.home');
