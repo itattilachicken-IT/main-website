@@ -35,6 +35,8 @@ use App\Http\Controllers\FoundationController;
 use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\InvestorsViewsController;
 
+use App\Http\Controllers\OnboardingInvestorController;
+
 
 use App\Http\Controllers\WithdrawalController;
 
@@ -60,6 +62,9 @@ Route::middleware(['web'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::get('/shops', [ShopController::class, 'index'])->name('shop.index');
+    
+    Route::post('/admin/investors/store', [OnboardingInvestorController::class, 'store']
+        )->name('investors.store');
 
    
     Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
@@ -81,6 +86,8 @@ Route::middleware(['web'])->group(function () {
 
             return back()->withErrors(['credentials' => 'Invalid credentials'])->withInput();
         });
+
+        
 
 
         Route::get('/home', [InvestorsViewsController::class, 'home'])

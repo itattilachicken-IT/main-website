@@ -117,7 +117,8 @@
                         <div class="step">4. Upload</div>
                     </div>
 
-                    <form id="onboardingForm">
+                    <form id="onboardingForm" method="POST" action="{{ route('investors.store') }}" enctype="multipart/form-data">
+                    @csrf
 
                         <!-- STEP 1 -->
                         <div class="form-step active" id="step-1">
@@ -126,23 +127,23 @@
                             <div class="form-grid">
                                 <div>
                                     <label>Investor Code</label>
-                                    <input type="text" placeholder="e.g. ATP-001">
+                                    <input type="text" name="investor_code" placeholder="e.g. ATP-001">
                                 </div>
                                 <div>
                                     <label>Full Name</label>
-                                    <input type="text">
+                                    <input type="text" name="full_name" placeholder="e.g. John Doe">
                                 </div>
                                 <div>
                                     <label>Email</label>
-                                    <input type="email">
+                                    <input type="email" name="email" placeholder="e.g. john@example.com">
                                 </div>
                                 <div>
                                     <label>Phone</label>
-                                    <input type="text">
+                                    <input type="text" name="phone" placeholder="e.g. 0700123456">
                                 </div>
                                 <div>
                                     <label>Temporary Password</label>
-                                    <input type="text">
+                                    <input type="text" name="password" placeholder="e.g. Temp@1234">
                                 </div>
                             </div>
                         </div>
@@ -154,31 +155,31 @@
                             <div class="form-grid">
                                 <div>
                                     <label>Investment Package</label>
-                                    <input type="text">
+                                    <input type="text" name="investment_package" placeholder="e.g. Bronze, Silver, Gold">
                                 </div>
                                 <div>
                                     <label>Number of Birds</label>
-                                    <input type="number">
+                                    <input type="number" name="number_of_birds" placeholder="e.g. 5000">
                                 </div>
                                 <div>
                                     <label>Feeds (Bags)</label>
-                                    <input type="number">
+                                    <input type="number" name="feeds_bags" placeholder="e.g. 100">
                                 </div>
                                 <div>
                                     <label>Cost of Feeds (KSH)</label>
-                                    <input type="number">
+                                    <input type="number" name="cost_of_feeds" placeholder="e.g. 65000">
                                 </div>
                                 <div>
                                     <label>Insurance (KES)</label>
-                                    <input type="number">
+                                    <input type="number" name="insurance" placeholder="e.g. 90000">
                                 </div>
                                 <div>
                                     <label>Total Investment (KES)</label>
-                                    <input type="number">
+                                    <input type="number" name="total_investment" placeholder="e.g. 155000">
                                 </div>
                                 <div>
                                     <label>Total Package Cost (KES)</label>
-                                    <input type="number">
+                                    <input type="number" name="total_package_cost" placeholder="e.g. 255000">
                                 </div>
                             </div>
 
@@ -229,27 +230,27 @@
                             <div class="form-grid">
                                 <div>
                                     <label>Bank Name</label>
-                                    <input type="text">
+                                    <input type="text" name="bank_name" placeholder="e.g. Equity Bank">
                                 </div>
                                 <div>
                                     <label>Bank Address</label>
-                                    <input type="text">
+                                    <input type="text" name="bank_address" placeholder="e.g. Nairobi">
                                 </div>
                                 <div>
                                     <label>Account Name</label>
-                                    <input type="text">
+                                    <input type="text" name="account_name" placeholder="e.g. John Mwangi">
                                 </div>
                                 <div>
                                     <label>Account Number</label>
-                                    <input type="text">
+                                    <input type="text" name="account_number" placeholder="e.g. 123456789">
                                 </div>
                                 <div>
                                     <label>Swift Code</label>
-                                    <input type="text">
+                                    <input type="text" name="swift_code" placeholder="e.g. EQTYKENX">
                                 </div>
                                 <div>
                                     <label>Branch Name</label>
-                                    <input type="text">
+                                    <input type="text" name="branch_name" placeholder="e.g. Thika Branch">
                                 </div>
                             </div>
                         </div>
@@ -259,7 +260,7 @@
                             <h3>Upload Signed Contract</h3>
 
                             <div class="upload-box">
-                                <input type="file" accept="application/pdf">
+                                <input type="file" name="contract_file" accept="application/pdf">
                                 <p>Upload signed PDF contract</p>
                             </div>
                         </div>
@@ -382,8 +383,7 @@ function showStep(n){
 function nextPrev(n){
     currentStep += n;
     if(currentStep > 4){
-        alert("Onboarding Complete (Frontend Only)");
-        currentStep = 4;
+        document.getElementById("nextBtn").submit();
         return;
     }
     if(currentStep < 1) currentStep = 1;
@@ -396,7 +396,7 @@ function addPaymentRow(){
     row.innerHTML = `
         <td><input type="date"></td>
         <td><input type="date"></td>
-        <td><input type="text" value="KES 35/Bird"></td>
+        <td><input type="text" value="35"></td>
         <td><input type="number"></td>
         <td>
             <select>
