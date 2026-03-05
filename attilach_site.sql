@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Feb 18, 2026 at 12:36 PM
--- Server version: 10.11.14-MariaDB-cll-lve
--- PHP Version: 8.4.17
+-- Host: 127.0.0.1
+-- Generation Time: Mar 05, 2026 at 10:46 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -471,7 +471,40 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (27, '2025_12_19_091000_add_signature_path_to_withdrawal_requests_table', 17),
 (28, '2025_12_19_091425_add_signature_path_to_withdrawal_requests_table', 18),
 (29, '2025_12_31_070318_create_guest_carts_table', 19),
-(31, '2026_01_08_094018_add_pickup_location_to_orders_table', 20);
+(31, '2026_01_08_094018_add_pickup_location_to_orders_table', 20),
+(32, '2026_03_04_113336_create_onboarding_investors_table', 21);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `onboarding_investors`
+--
+
+CREATE TABLE `onboarding_investors` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `investor_code` varchar(255) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `investment_package` varchar(255) DEFAULT NULL,
+  `number_of_birds` int(11) DEFAULT NULL,
+  `feeds_bags` int(11) DEFAULT NULL,
+  `cost_of_feeds` decimal(15,2) DEFAULT NULL,
+  `insurance` decimal(15,2) DEFAULT NULL,
+  `total_investment` decimal(15,2) DEFAULT NULL,
+  `total_package_cost` decimal(15,2) DEFAULT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `bank_address` varchar(255) DEFAULT NULL,
+  `account_name` varchar(255) DEFAULT NULL,
+  `account_number` varchar(255) DEFAULT NULL,
+  `swift_code` varchar(255) DEFAULT NULL,
+  `branch_name` varchar(255) DEFAULT NULL,
+  `contract_file` varchar(255) DEFAULT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'Active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -540,7 +573,9 @@ INSERT INTO `orders` (`id`, `customer_name`, `customer_phone`, `payment_phone`, 
 (346, 'lizy', '0700009988', '0700009988', 'lizy@gmail.com', NULL, 'c5Wsg5SyhpQr2GLs51Tqvzm3MlnK3A9gHoVj84Iu', NULL, NULL, NULL, NULL, 'delivery', 'full', 3668.00, 3668.00, 0.00, 0.00, 'pending', 'ws_CO_05022026154803154700009988', 0, 'mpesa', 'mpesa', '2026-02-05 15:48:01', '2026-02-05 15:48:06'),
 (347, 'testing', '0712345678', '0712345678', 'testing@gmail.com', NULL, '6MlUBGBSx89vv0JhHUFKAfjzjQ0r3iT6YhrtlB9k', NULL, NULL, NULL, NULL, 'delivery', 'full', 3216.00, 3216.00, 0.00, 0.00, 'failed', 'ws_CO_10022026082940855712345678', 0, 'mpesa', 'mpesa', '2026-02-10 08:29:39', '2026-02-10 08:29:42'),
 (348, 'mary', '0722950719', '0722950719', 'mary@gmail.com', NULL, 'wnsxGIfLEAcWcjpzfqBFiD5TM5UsQuLFx69WV4fV', NULL, NULL, NULL, NULL, 'delivery', 'full', 5040.00, 5040.00, 0.00, 0.00, 'pending', 'ws_CO_10022026130515001722950719', 0, 'mpesa', 'mpesa', '2026-02-10 13:05:13', '2026-02-10 13:05:43'),
-(349, 'james testing', '0748754849', '0748754849', 'james@gmail.com', NULL, 'ZZ8luYU79jLe8eshQpg77tHYCIWZVutloCLfIRZu', NULL, NULL, NULL, NULL, 'delivery', 'full', 5040.00, 5040.00, 0.00, 0.00, 'pending', 'ws_CO_10022026130558188748754849', 0, 'mpesa', 'mpesa', '2026-02-10 13:05:57', '2026-02-10 13:06:01');
+(349, 'james testing', '0748754849', '0748754849', 'james@gmail.com', NULL, 'ZZ8luYU79jLe8eshQpg77tHYCIWZVutloCLfIRZu', NULL, NULL, NULL, NULL, 'delivery', 'full', 5040.00, 5040.00, 0.00, 0.00, 'pending', 'ws_CO_10022026130558188748754849', 0, 'mpesa', 'mpesa', '2026-02-10 13:05:57', '2026-02-10 13:06:01'),
+(350, 'Chicken', '0722253539', '0722253539', 'it.attilachicken@gmail.com', NULL, '7NRpkAIjN9amhOMwPKHuzQLfmeHjurp1RdTMofho', NULL, NULL, NULL, NULL, 'delivery', 'full', 576.00, 576.00, 0.00, 0.00, 'processing', 'ws_CO_18022026144650290722253539', 0, 'mpesa', 'mpesa', '2026-02-18 14:46:45', '2026-02-18 14:46:50'),
+(351, 'Chicken', '0701443181', '0701443181', 'it.attilachicken@gmail.com', NULL, 'NIUUshAjeuu7LzEp5TrJl1EdqO0RyI3fODBFoIpI', NULL, NULL, NULL, NULL, 'delivery', 'full', 576.00, 576.00, 0.00, 0.00, 'processing', 'ws_CO_18022026144727811701443181', 0, 'mpesa', 'mpesa', '2026-02-18 14:47:23', '2026-02-18 14:47:28');
 
 -- --------------------------------------------------------
 
@@ -635,7 +670,9 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_variant_id`,
 (625, 349, 1, NULL, 1, 720.00, 720.00, '2026-02-10 13:05:57', '2026-02-10 13:05:57'),
 (626, 349, 1, NULL, 1, 768.00, 768.00, '2026-02-10 13:05:57', '2026-02-10 13:05:57'),
 (627, 349, 1, NULL, 1, 816.00, 816.00, '2026-02-10 13:05:57', '2026-02-10 13:05:57'),
-(628, 349, 1, NULL, 1, 864.00, 864.00, '2026-02-10 13:05:57', '2026-02-10 13:05:57');
+(628, 349, 1, NULL, 1, 864.00, 864.00, '2026-02-10 13:05:57', '2026-02-10 13:05:57'),
+(629, 350, 1, NULL, 1, 576.00, 576.00, '2026-02-18 14:46:45', '2026-02-18 14:46:45'),
+(630, 351, 1, NULL, 1, 576.00, 576.00, '2026-02-18 14:47:23', '2026-02-18 14:47:23');
 
 -- --------------------------------------------------------
 
@@ -707,7 +744,27 @@ INSERT INTO `products` (`id`, `name`, `slug`, `description`, `price_per_kg`, `im
 (67, 'Smoked Chicken Sausages', 'smoked-chicken-sausages', 'Experience the bold, smoky taste of our Smoked Chicken Sausages! Made from high-quality chicken and carefully smoked for a rich, savory flavor, these sausages are perfect for grilling, frying, or adding to your favorite recipes. Convenient and ready to cook, they bring a delicious, protein-packed option to any meal.\r\n\r\nWhy You’ll Love Our Smoked Chicken Sausages:\r\n\r\nMade from farm-fresh, premium chicken\r\n\r\nRich, smoky, and full of flavor\r\n\r\nPerfect for grilling, frying, or cooking in recipes\r\n\r\nReady to cook and enjoy in minutes\r\n\r\nAdd our Smoked Chicken Sausages to your meals and enjoy a convenient, tasty, and protein-rich option anytime!', 550.00, 'product-images/smoked_sausages.jpg', NULL, NULL, NULL),
 (69, 'Spring Chicken', 'spring-kitchen', 'Enjoy the natural taste and tenderness of our farm-fresh Spring Chicken! Perfect for roasting, grilling, or braising, this young chicken delivers juicy, flavorful meat that’s ideal for family meals, special occasions, or everyday cooking. Carefully selected for quality, it ensures a wholesome and satisfying dining experience.\r\n\r\nWhy You’ll Love Our Spring Chicken:\r\n\r\nFarm-fresh, high-quality chicken\r\n\r\nTender, juicy, and naturally flavorful\r\n\r\nPerfect for roasting, grilling, or braising\r\n\r\nIdeal for family meals, gatherings, or everyday cooking\r\n\r\nBring home our Spring Chicken and enjoy a versatile, premium-quality option for all your delicious meals!', 700.00, 'product-images/spring_chicken.jpg', NULL, NULL, NULL),
 (70, 'Lemon & Herb Marinated Chicken', 'lemon-herb-marinated-chicken', 'Elevate your meals with our Lemon & Herb Marinated Chicken! Carefully marinated with fresh herbs and zesty lemon, this tender chicken is bursting with flavor and ready to grill, bake, or roast. Perfect for quick, delicious meals, it brings a refreshing twist to any dish.\r\n\r\nWhy You’ll Love Our Lemon & Herb Marinated Chicken:\r\n\r\nFarm-fresh, premium-quality chicken\r\n\r\nTender, juicy, and perfectly marinated\r\n\r\nBursting with zesty lemon and aromatic herbs\r\n\r\nReady to cook and enjoy\r\n\r\nBring home our Lemon & Herb Marinated Chicken and enjoy a convenient, flavorful, and succulent option for any meal!', 750.00, 'product-images/herblemonmarinated.jpg', NULL, NULL, NULL),
-(71, 'Barbeque Marinated Chicken', 'barbeque-marinated-chicken', 'Bring the taste of the grill to your kitchen with our Barbeque Marinated Chicken! Carefully marinated in a rich, smoky BBQ sauce, this tender chicken is bursting with flavor and perfect for grilling, baking, or roasting. Ideal for quick meals, family dinners, or weekend feasts, it’s a convenient way to enjoy mouthwatering BBQ at home.\r\n\r\nWhy You’ll Love Our Barbeque Marinated Chicken:\r\n\r\nFarm-fresh, premium-quality chicken\r\n\r\nTender, juicy, and perfectly marinated\r\n\r\nRich, smoky BBQ flavor in every bite\r\n\r\nReady to cook and enjoy\r\n\r\nElevate your meals with our Barbeque Marinated Chicken – a delicious, hassle-free way to enjoy BBQ anytime!', 600.00, 'product-images/marinatedbbqchicken.jpg', NULL, NULL, NULL);
+(71, 'Barbeque Marinated Chicken', 'barbeque-marinated-chicken', 'Bring the taste of the grill to your kitchen with our Barbeque Marinated Chicken! Carefully marinated in a rich, smoky BBQ sauce, this tender chicken is bursting with flavor and perfect for grilling, baking, or roasting. Ideal for quick meals, family dinners, or weekend feasts, it’s a convenient way to enjoy mouthwatering BBQ at home.\r\n\r\nWhy You’ll Love Our Barbeque Marinated Chicken:\r\n\r\nFarm-fresh, premium-quality chicken\r\n\r\nTender, juicy, and perfectly marinated\r\n\r\nRich, smoky BBQ flavor in every bite\r\n\r\nReady to cook and enjoy\r\n\r\nElevate your meals with our Barbeque Marinated Chicken – a delicious, hassle-free way to enjoy BBQ anytime!', 600.00, 'product-images/marinatedbbqchicken.jpg', NULL, NULL, NULL),
+(74, 'Whole Chicken', 'whole-chicken-1', 'Fresh farm-raised whole chicken.', 480.00, 'https://via.placeholder.com/300x200.png?text=Whole+Chicken', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(75, 'Chicken Thighs', 'chicken-thighs-1', 'Tender chicken thighs, perfect for grilling.', 520.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Thighs', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(76, 'Chicken Drumsticks', 'chicken-drumsticks-1', 'Juicy chicken drumsticks, great for frying.', 500.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Drumsticks', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(77, 'Chicken Wings', 'chicken-wings-1', 'Crispy chicken wings, ideal for parties.', 550.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Wings', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(78, 'Chicken Breast Fillet', 'chicken-breast-fillet-1', 'Lean and healthy chicken breast fillet.', 600.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Breast', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(79, 'Chicken Gizzards', 'chicken-gizzards-1', 'Delicious and nutritious chicken gizzards.', 350.00, 'https://via.placeholder.com/300x200.png?text=Gizzards', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(80, 'Chicken Liver', 'chicken-liver-1', 'Rich chicken liver, full of nutrients.', 300.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Liver', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(81, 'Chicken Sausages', 'chicken-sausages-1', 'Value-added chicken sausages, ready to cook.', 650.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Sausages', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(82, 'Chicken Mince', 'chicken-mince', 'Ground chicken for meatballs and burgers.', 580.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Mince', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(83, 'Eggs (Tray of 30)', 'eggs-tray-of-30', 'Farm fresh eggs, tray of 30 pieces.', 420.00, 'https://via.placeholder.com/300x200.png?text=Eggs', '2026-02-18 12:38:40', '2026-02-18 12:38:40', NULL),
+(84, 'Whole Chicken', 'whole-chicken-2', 'Fresh farm-raised whole chicken.', 480.00, 'https://via.placeholder.com/300x200.png?text=Whole+Chicken', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL),
+(85, 'Chicken Thighs', 'chicken-thighs-2', 'Tender chicken thighs, perfect for grilling.', 520.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Thighs', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL),
+(86, 'Chicken Drumsticks', 'chicken-drumsticks-2', 'Juicy chicken drumsticks, great for frying.', 500.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Drumsticks', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL),
+(87, 'Chicken Wings', 'chicken-wings-2', 'Crispy chicken wings, ideal for parties.', 550.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Wings', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL),
+(88, 'Chicken Breast Fillet', 'chicken-breast-fillet-2', 'Lean and healthy chicken breast fillet.', 600.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Breast', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL),
+(89, 'Chicken Gizzards', 'chicken-gizzards-2', 'Delicious and nutritious chicken gizzards.', 350.00, 'https://via.placeholder.com/300x200.png?text=Gizzards', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL),
+(90, 'Chicken Liver', 'chicken-liver-2', 'Rich chicken liver, full of nutrients.', 300.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Liver', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL),
+(91, 'Chicken Sausages', 'chicken-sausages-2', 'Value-added chicken sausages, ready to cook.', 650.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Sausages', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL),
+(92, 'Chicken Mince', 'chicken-mince-1', 'Ground chicken for meatballs and burgers.', 580.00, 'https://via.placeholder.com/300x200.png?text=Chicken+Mince', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL),
+(93, 'Eggs (Tray of 30)', 'eggs-tray-of-30-1', 'Farm fresh eggs, tray of 30 pieces.', 420.00, 'https://via.placeholder.com/300x200.png?text=Eggs', '2026-02-18 15:05:15', '2026-02-18 15:05:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -735,7 +792,21 @@ INSERT INTO `product_variants` (`id`, `product_id`, `weight`, `price`, `created_
 (4, 1, 1.50, 720.00, '2025-09-29 03:51:27', '2025-09-29 03:51:27'),
 (5, 1, 1.60, 768.00, '2025-09-29 03:51:27', '2025-09-29 03:51:27'),
 (6, 1, 1.70, 816.00, '2025-09-29 03:51:27', '2025-09-29 03:51:27'),
-(7, 1, 1.80, 864.00, '2025-09-29 03:51:27', '2025-09-29 03:51:27');
+(7, 1, 1.80, 864.00, '2025-09-29 03:51:27', '2025-09-29 03:51:27'),
+(8, 74, 1.20, 576.00, '2026-02-18 12:38:40', '2026-02-18 12:38:40'),
+(9, 74, 1.30, 624.00, '2026-02-18 12:38:40', '2026-02-18 12:38:40'),
+(10, 74, 1.40, 672.00, '2026-02-18 12:38:40', '2026-02-18 12:38:40'),
+(11, 74, 1.50, 720.00, '2026-02-18 12:38:40', '2026-02-18 12:38:40'),
+(12, 74, 1.60, 768.00, '2026-02-18 12:38:40', '2026-02-18 12:38:40'),
+(13, 74, 1.70, 816.00, '2026-02-18 12:38:40', '2026-02-18 12:38:40'),
+(14, 74, 1.80, 864.00, '2026-02-18 12:38:40', '2026-02-18 12:38:40'),
+(15, 74, 1.20, 576.00, '2026-02-18 15:05:15', '2026-02-18 15:05:15'),
+(16, 74, 1.30, 624.00, '2026-02-18 15:05:15', '2026-02-18 15:05:15'),
+(17, 74, 1.40, 672.00, '2026-02-18 15:05:15', '2026-02-18 15:05:15'),
+(18, 74, 1.50, 720.00, '2026-02-18 15:05:15', '2026-02-18 15:05:15'),
+(19, 74, 1.60, 768.00, '2026-02-18 15:05:15', '2026-02-18 15:05:15'),
+(20, 74, 1.70, 816.00, '2026-02-18 15:05:15', '2026-02-18 15:05:15'),
+(21, 74, 1.80, 864.00, '2026-02-18 15:05:15', '2026-02-18 15:05:15');
 
 -- --------------------------------------------------------
 
@@ -837,7 +908,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Test User', 'test@example.com', '2025-09-15 03:22:45', '$2y$12$IncsXCENcaspIDWfMJ1Q7OLWRSMNzaJM/B/Yjg2e2Io1RJHKbQLG2', 'customer', 'DzsBS1mOFB', '2025-09-15 03:22:46', '2025-09-15 03:22:46'),
-(3, 'Admin', 'admin@ecommerce.test', NULL, '$2y$12$7irlet7.IdOPpF4N32RP1eJVQh2dKDBiP7hr8CzY9c/Np6zK8/Ama', 'admin', NULL, '2025-09-17 06:31:30', '2025-09-17 06:31:30');
+(3, 'Admin', 'admin@ecommerce.test', NULL, '$2y$12$2cOiw.a.fkZtBNAM.qONE.2aCjPZaAiIpiQhbSuokexZTcNO62r1e', 'admin', NULL, '2025-09-17 06:31:30', '2026-02-18 15:05:15');
 
 -- --------------------------------------------------------
 
@@ -966,6 +1037,14 @@ ALTER TABLE `job_batches`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `onboarding_investors`
+--
+ALTER TABLE `onboarding_investors`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `onboarding_investors_investor_code_unique` (`investor_code`),
+  ADD UNIQUE KEY `onboarding_investors_email_unique` (`email`);
 
 --
 -- Indexes for table `orders`
@@ -1102,13 +1181,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `onboarding_investors`
+--
+ALTER TABLE `onboarding_investors`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=350;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
 
 --
 -- AUTO_INCREMENT for table `order_audits`
@@ -1120,19 +1205,19 @@ ALTER TABLE `order_audits`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=629;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=631;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `routes`
