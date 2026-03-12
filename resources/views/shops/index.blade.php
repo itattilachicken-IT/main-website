@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    
     @include('partials.routes') 
 
     <h1 class="mb-4 fw-bold text-danger">Our Chicken Products - Attila Chicken</h1>

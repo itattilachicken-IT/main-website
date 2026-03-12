@@ -200,12 +200,12 @@
                                     </thead>
                                     <tbody id="paymentRows">
                                         <tr>
-                                            <td><input type="date"></td>
-                                            <td><input type="date"></td>
-                                            <td><input type="text" value="35"></td>
-                                            <td><input type="number"></td>
+                                            <td><input type="date" name="placement_date[]"></td>
+                                            <td><input type="date" name="payment_date[]"></td>
+                                            <td><input type="text" value="35" name="rate[]"></td>
+                                            <td><input type="number" name="amount[]"></td>
                                             <td>
-                                                <select>
+                                                <select name="status[]">
                                                     <option>Scheduled</option>
                                                     <option>In Progress</option>
                                                     <option>Paid</option>
@@ -383,7 +383,8 @@ function showStep(n){
 function nextPrev(n){
     currentStep += n;
     if(currentStep > 4){
-        document.getElementById("nextBtn").submit();
+        
+        document.getElementById("onboardingForm").submit();
         return;
     }
     if(currentStep < 1) currentStep = 1;

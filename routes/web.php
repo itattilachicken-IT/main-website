@@ -68,6 +68,8 @@ Route::middleware(['web'])->group(function () {
 
    
     Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
+     Route::post('/investors/store', [InvestorController::class, 'store'])->name('investors.store');
+     
     Route::prefix('investors/views')->group(function () {
 
          Route::post('/login', function (Request $request) {
@@ -88,7 +90,7 @@ Route::middleware(['web'])->group(function () {
         });
 
         
-
+        
 
         Route::get('/home', [InvestorsViewsController::class, 'home'])
             ->name('investors.home');
