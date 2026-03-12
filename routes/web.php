@@ -63,12 +63,11 @@ Route::middleware(['web'])->group(function () {
 
     Route::get('/shops', [ShopController::class, 'index'])->name('shop.index');
     
-    Route::post('/admin/investors/store', [OnboardingInvestorController::class, 'store']
-        )->name('investors.store');
+    
 
    
     Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
-    
+     Route::post('/investors/store', [InvestorController::class, 'store'])->name('investors.store');
      
     Route::prefix('investors/views')->group(function () {
 

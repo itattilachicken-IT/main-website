@@ -146,7 +146,29 @@ class InvestorController extends Controller
     }
 
 
-  
+    private function uploadContract($request)
+        {
+
+            if($request->hasFile('contract_file')){
+
+                $file = $request->file('contract_file');
+
+                $filename = time().'_'.$file->getClientOriginalName();
+
+                $path = public_path('contracts');
+
+                // Create folder if it doesn't exist
+                if(!File::exists($path)){
+                    File::makeDirectory($path, 0755, true);
+                }
+
+                $file->move($path, $filename);
+
+                return $filename;
+            }
+
+            return null;
+        }
     
 
     
