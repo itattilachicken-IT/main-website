@@ -395,19 +395,21 @@ function addPaymentRow(){
     let table = document.getElementById("paymentRows");
     let row = table.insertRow();
     row.innerHTML = `
-        <td><input type="date"></td>
-        <td><input type="date"></td>
-        <td><input type="text" value="35"></td>
-        <td><input type="number"></td>
+        <td><input type="date" name="placement_date[]"></td>
+        <td><input type="date" name="payment_date[]"></td>
+        <td><input type="text" name="rate[]" value="35"></td>
+        <td><input type="number" name="amount[]"></td>
         <td>
-            <select>
+            <select name="status[]">
                 <option>Scheduled</option>
                 <option>In Progress</option>
                 <option>Paid</option>
                 <option>Not Paid</option>
             </select>
         </td>
-        <td><button type="button" onclick="removeRow(this)" class="btn-primary">X</button></td>
+        <td>
+            <button type="button" onclick="removeRow(this)" class="btn-primary">X</button>
+        </td>
     `;
 }
 

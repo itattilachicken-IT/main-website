@@ -68,7 +68,7 @@ Route::middleware(['web'])->group(function () {
 
    
     Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
-     Route::post('/investors/store', [InvestorController::class, 'store'])->name('investors.store');
+    
      
     Route::prefix('investors/views')->group(function () {
 
