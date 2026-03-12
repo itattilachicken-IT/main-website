@@ -16,6 +16,7 @@ class InvestorController extends Controller
           return view('investors.login');
     }
 
+
     public function store(Request $request)
     {
         $request->validate([

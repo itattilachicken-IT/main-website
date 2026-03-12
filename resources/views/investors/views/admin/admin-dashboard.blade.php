@@ -274,56 +274,99 @@
                     </form>
 
                 </div>
-                {{-- CURRENT INVESTORS --}}
-                <div class="card" style="margin-top:30px;">
-                    <h3 style="margin-bottom:15px;">Current Onboarded Investors</h3>
+                
+              {{-- CURRENT INVESTORS --}}
+            <div class="card" style="margin-top:30px;">
+                <h3 style="margin-bottom:15px;">Current Onboarded Investors</h3>
 
-                    <div class="table-wrapper">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Investor Code</th>
-                                    <th>Full Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Total Investment</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ATP-001</td>
-                                    <td>John Mwangi</td>
-                                    <td>john@email.com</td>
-                                    <td>0712345678</td>
-                                    <td>KES 1,200,000</td>
-                                    <td><span class="status-badge status-active">Active</span></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <a href="#" class="btn-edit">Edit</a>
-                                            <a href="#" class="btn-delete">Delete</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>ATP-002</td>
-                                    <td>Mary Wanjiru</td>
-                                    <td>mary@email.com</td>
-                                    <td>0723456789</td>
-                                    <td>KES 850,000</td>
-                                    <td><span class="status-badge status-pending">Pending</span></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <a href="#" class="btn-edit">Edit</a>
-                                            <a href="#" class="btn-delete">Delete</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Investor Code</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Total Investment</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        @if(isset($investors) && $investors->count() > 0)
+
+                            @foreach($investors as $investor)
+
+                            <tr>
+                                <td>{{ $investor->investor_code ?? '-' }}</td>
+
+                                <td>{{ $investor->full_name ?? '-' }}</td>
+
+                                <td>{{ $investor->email ?? '-' }}</td>
+
+                                <td>{{ $investor->phone ?? '-' }}</td>
+
+                                <td>
+                                    KES {{ number_format($investor->total_investment ?? 0) }}
+                                </td>
+
+                                <td>
+                                    <span class="status-badge 
+                                        {{ ($investor->status ?? 'Active') == 'Active' ? 'status-active' : 'status-pending' }}">
+                                        
+                                        {{ $investor->status ?? 'Active' }}
+
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="action-buttons">
+
+                                        {{-- Edit --}}
+                                        <a href="{{ url('investors/edit/'.$investor->id) }}" 
+                                        class="btn-edit">
+                                            Edit
+                                        </a>
+
+                                        {{-- Delete --}}
+                                        <form action="{{ url('investors/delete/'.$investor->id) }}" 
+                                            method="POST" 
+                                            style="display:inline-block;"
+                                            onsubmit="return confirm('Delete this investor?')">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="btn-delete">
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                            @endforeach
+
+                        @else
+
+                            <tr>
+                                <td colspan="7" style="text-align:center;padding:20px;">
+                                    No investors onboarded yet
+                                </td>
+                            </tr>
+
+                        @endif
+
+                        </tbody>
+
+                    </table>
                 </div>
+            </div>
 
             </div>
         </section>

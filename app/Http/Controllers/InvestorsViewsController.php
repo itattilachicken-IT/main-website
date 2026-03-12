@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class InvestorsViewsController extends Controller
@@ -11,9 +11,14 @@ class InvestorsViewsController extends Controller
     {
           return view('investors.views.home');
     }
-      public function admin()
+    
+    public function admin()
     {
-          return view('investors.views.admin.admin-dashboard');
+        $investors = DB::table('onboarding_investors')
+        ->orderBy('created_at', 'desc')
+        ->get();
+           
+        return view('investors.views.admin.admin-dashboard', compact('investors'));
     }
   
      public function events()
