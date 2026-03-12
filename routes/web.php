@@ -69,6 +69,15 @@ Route::middleware(['web'])->group(function () {
     Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
     Route::post('/investors/store', [InvestorController::class, 'store'])->name('investors.store');
 
+    Route::get('/investors/edit/{id}', [InvestorsViewsController::class,'edit'])
+    ->name('investors.edit');
+
+    Route::put('/investors/update/{id}', [InvestorsViewsController::class,'update'])
+        ->name('investors.update');
+
+    Route::delete('/investors/delete/{id}', [InvestorsViewsController::class,'destroy'])
+        ->name('investors.delete');
+
     Route::prefix('investors/views')->group(function () {
 
          Route::post('/login', function (Request $request) {

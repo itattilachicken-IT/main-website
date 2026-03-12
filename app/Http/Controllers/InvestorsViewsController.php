@@ -20,7 +20,47 @@ class InvestorsViewsController extends Controller
            
         return view('investors.views.admin.admin-dashboard', compact('investors'));
     }
-  
+
+        public function edit($id)
+    {
+        $investor = DB::table('onboarding_investors')
+            ->where('id',$id)
+            ->first();
+
+        return view('investors.views.admin.edit-investor',compact('investor'));
+    }
+    public function update(Request $request,$id)
+    {
+        DB::table('onboarding_investors')
+            ->where('id',$id)
+            ->update([
+
+                'investor_code' => $request->investor_code,
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'investment_package' => $request->investment_package,
+                'number_of_birds' => $request->number_of_birds,
+                'total_investment' => $request->total_investment,
+                'updated_at' => now()
+
+            ]);
+
+          return redirect()
+            ->route('investors.admin.admin-dashboard')
+            ->with('success', 'Investor updated successfully');
+    }
+    public function destroy($id)
+    {
+        DB::table('onboarding_investors')
+            ->where('id',$id)
+            ->delete();
+
+        return redirect()
+            ->back()
+            ->with('success','Investor deleted successfully');
+    }
+    
      public function events()
     {
           return view('investors.views.admin.events');
