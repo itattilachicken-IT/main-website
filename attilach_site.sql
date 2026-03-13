@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2026 at 10:46 AM
+-- Generation Time: Mar 13, 2026 at 11:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Database: `attilach_site`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `first_name`, `last_name`, `email`, `phone`, `password`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'Admin', 'it@attilachicken.com', '0712345678', '$2y$12$U2gxwci4Vxg5F2tNXdrwBeihoMeI0gPlRsd5.e1atC.tAmLXlAMQe', '2026-03-13 09:42:49', '2026-03-13 10:02:39');
 
 -- --------------------------------------------------------
 
@@ -202,6 +226,36 @@ INSERT INTO `investors` (`id`, `full_name`, `id_number`, `kra_pin`, `phone`, `em
 (8, 'PAUL WAWERU MBURU', '22217681', NULL, '0721794281', 'paul.mburu1@gmail.com', '', NULL, NULL),
 (9, 'SAMPLE INVESTOR', '12345678', 'A0000000B', '1234567890', 'anne@attilachicken.com', '12345-10001', NULL, NULL),
 (10, 'BERNICE WANGUI NG\'INJA', '10905633', 'A001706790H', '0722523446', 'bmnginja@gmail.com', '876-00606', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `investor_payments`
+--
+
+CREATE TABLE `investor_payments` (
+  `id` int(11) NOT NULL,
+  `investor_code` varchar(50) NOT NULL,
+  `placement_date` date DEFAULT NULL,
+  `payment_date` date DEFAULT NULL,
+  `rate` decimal(10,2) DEFAULT NULL,
+  `amount` decimal(12,2) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `investor_payments`
+--
+
+INSERT INTO `investor_payments` (`id`, `investor_code`, `placement_date`, `payment_date`, `rate`, `amount`, `status`, `created_at`, `updated_at`) VALUES
+(3, 'ATP-009', '2025-12-04', '2026-01-18', 30.00, 150000.00, 'Paid', '2026-03-13 07:03:18', '2026-03-13 09:34:28'),
+(4, 'ATP-009', '2026-02-02', '2026-03-19', 30.00, 150000.00, 'Upcoming', '2026-03-13 07:03:18', '2026-03-13 09:35:50'),
+(5, 'ATP-009', '2026-04-03', '2026-05-18', 30.00, 150000.00, 'Upcoming', '2026-03-13 07:03:18', '2026-03-13 09:35:52'),
+(6, 'ATP-009', '2026-06-02', '2026-07-17', 30.00, 150000.00, 'Upcoming', '2026-03-13 07:03:18', '2026-03-13 09:35:54'),
+(7, 'ATP-009', '2026-08-01', '2026-09-15', 30.00, 150000.00, 'Upcoming', '2026-03-13 07:03:18', '2026-03-13 09:35:56'),
+(8, 'ATP-009', '2026-09-30', '2026-11-14', 30.00, 150000.00, 'Upcoming', '2026-03-13 07:03:18', '2026-03-13 09:35:59');
 
 -- --------------------------------------------------------
 
@@ -481,30 +535,36 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `onboarding_investors` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `investor_code` varchar(255) NOT NULL,
-  `full_name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `investment_package` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `investor_code` varchar(50) DEFAULT NULL,
+  `full_name` varchar(200) DEFAULT NULL,
+  `email` varchar(200) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `investment_package` varchar(100) DEFAULT NULL,
   `number_of_birds` int(11) DEFAULT NULL,
   `feeds_bags` int(11) DEFAULT NULL,
-  `cost_of_feeds` decimal(15,2) DEFAULT NULL,
-  `insurance` decimal(15,2) DEFAULT NULL,
-  `total_investment` decimal(15,2) DEFAULT NULL,
-  `total_package_cost` decimal(15,2) DEFAULT NULL,
-  `bank_name` varchar(255) DEFAULT NULL,
-  `bank_address` varchar(255) DEFAULT NULL,
-  `account_name` varchar(255) DEFAULT NULL,
-  `account_number` varchar(255) DEFAULT NULL,
-  `swift_code` varchar(255) DEFAULT NULL,
-  `branch_name` varchar(255) DEFAULT NULL,
+  `cost_of_feeds` decimal(12,2) DEFAULT NULL,
+  `insurance` decimal(12,2) DEFAULT NULL,
+  `total_investment` decimal(12,2) DEFAULT NULL,
+  `total_package_cost` decimal(12,2) DEFAULT NULL,
+  `bank_name` varchar(150) DEFAULT NULL,
+  `bank_address` varchar(200) DEFAULT NULL,
+  `account_name` varchar(200) DEFAULT NULL,
+  `account_number` varchar(100) DEFAULT NULL,
+  `swift_code` varchar(50) DEFAULT NULL,
+  `branch_name` varchar(150) DEFAULT NULL,
   `contract_file` varchar(255) DEFAULT NULL,
-  `status` varchar(255) NOT NULL DEFAULT 'Active',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `onboarding_investors`
+--
+
+INSERT INTO `onboarding_investors` (`id`, `investor_code`, `full_name`, `email`, `phone`, `password`, `investment_package`, `number_of_birds`, `feeds_bags`, `cost_of_feeds`, `insurance`, `total_investment`, `total_package_cost`, `bank_name`, `bank_address`, `account_name`, `account_number`, `swift_code`, `branch_name`, `contract_file`, `created_at`, `updated_at`) VALUES
+(3, 'ATP-009', 'Paul Waweru Mburu', 'paul.mburu1@gmail.com', '0721794281', '$2y$12$L6sDBU2loLN.I4InDedV3eJ4ny1B1WeclvPRffiTf9NwJdtSEBXqu', 'Silver', 5000, 350, 1432500.00, 79144.00, 1957500.00, 2036644.00, 'KINGDOM BANK', 'NAIROBI, KENYA', 'PAUL WAWERU MBURU', '3081901367004', 'CIFIKENA', 'KIAMBU', '1773385398_REF- ATP 009 Paul Waweru Mburu Partnership Agreement.pdf', '2026-03-13 07:03:18', '2026-03-13 07:03:18');
 
 -- --------------------------------------------------------
 
@@ -575,7 +635,8 @@ INSERT INTO `orders` (`id`, `customer_name`, `customer_phone`, `payment_phone`, 
 (348, 'mary', '0722950719', '0722950719', 'mary@gmail.com', NULL, 'wnsxGIfLEAcWcjpzfqBFiD5TM5UsQuLFx69WV4fV', NULL, NULL, NULL, NULL, 'delivery', 'full', 5040.00, 5040.00, 0.00, 0.00, 'pending', 'ws_CO_10022026130515001722950719', 0, 'mpesa', 'mpesa', '2026-02-10 13:05:13', '2026-02-10 13:05:43'),
 (349, 'james testing', '0748754849', '0748754849', 'james@gmail.com', NULL, 'ZZ8luYU79jLe8eshQpg77tHYCIWZVutloCLfIRZu', NULL, NULL, NULL, NULL, 'delivery', 'full', 5040.00, 5040.00, 0.00, 0.00, 'pending', 'ws_CO_10022026130558188748754849', 0, 'mpesa', 'mpesa', '2026-02-10 13:05:57', '2026-02-10 13:06:01'),
 (350, 'Chicken', '0722253539', '0722253539', 'it.attilachicken@gmail.com', NULL, '7NRpkAIjN9amhOMwPKHuzQLfmeHjurp1RdTMofho', NULL, NULL, NULL, NULL, 'delivery', 'full', 576.00, 576.00, 0.00, 0.00, 'processing', 'ws_CO_18022026144650290722253539', 0, 'mpesa', 'mpesa', '2026-02-18 14:46:45', '2026-02-18 14:46:50'),
-(351, 'Chicken', '0701443181', '0701443181', 'it.attilachicken@gmail.com', NULL, 'NIUUshAjeuu7LzEp5TrJl1EdqO0RyI3fODBFoIpI', NULL, NULL, NULL, NULL, 'delivery', 'full', 576.00, 576.00, 0.00, 0.00, 'processing', 'ws_CO_18022026144727811701443181', 0, 'mpesa', 'mpesa', '2026-02-18 14:47:23', '2026-02-18 14:47:28');
+(351, 'Chicken', '0701443181', '0701443181', 'it.attilachicken@gmail.com', NULL, 'NIUUshAjeuu7LzEp5TrJl1EdqO0RyI3fODBFoIpI', NULL, NULL, NULL, NULL, 'delivery', 'full', 576.00, 576.00, 0.00, 0.00, 'processing', 'ws_CO_18022026144727811701443181', 0, 'mpesa', 'mpesa', '2026-02-18 14:47:23', '2026-02-18 14:47:28'),
+(352, 'Chicken', '0701443181', '0701443181', 'it.attilachicken@gmail.com', NULL, 'LSlJ1qP3vxVWTzkFVKXqAn59b6dPw1DQWzA1GDKe', NULL, NULL, NULL, NULL, 'delivery', 'full', 576.00, 576.00, 0.00, 0.00, 'processing', 'ws_CO_13032026131431925701443181', 0, 'mpesa', 'mpesa', '2026-03-13 13:14:29', '2026-03-13 13:14:32');
 
 -- --------------------------------------------------------
 
@@ -672,7 +733,8 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_variant_id`,
 (627, 349, 1, NULL, 1, 816.00, 816.00, '2026-02-10 13:05:57', '2026-02-10 13:05:57'),
 (628, 349, 1, NULL, 1, 864.00, 864.00, '2026-02-10 13:05:57', '2026-02-10 13:05:57'),
 (629, 350, 1, NULL, 1, 576.00, 576.00, '2026-02-18 14:46:45', '2026-02-18 14:46:45'),
-(630, 351, 1, NULL, 1, 576.00, 576.00, '2026-02-18 14:47:23', '2026-02-18 14:47:23');
+(630, 351, 1, NULL, 1, 576.00, 576.00, '2026-02-18 14:47:23', '2026-02-18 14:47:23'),
+(631, 352, 1, NULL, 1, 576.00, 576.00, '2026-03-13 13:14:29', '2026-03-13 13:14:29');
 
 -- --------------------------------------------------------
 
@@ -957,6 +1019,13 @@ INSERT INTO `withdrawal_requests` (`id`, `investor_id`, `type_of_withdrawal`, `a
 --
 
 --
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- Indexes for table `bank_accounts`
 --
 ALTER TABLE `bank_accounts`
@@ -1012,6 +1081,12 @@ ALTER TABLE `investors`
   ADD UNIQUE KEY `investors_email_unique` (`email`);
 
 --
+-- Indexes for table `investor_payments`
+--
+ALTER TABLE `investor_payments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `invitations`
 --
 ALTER TABLE `invitations`
@@ -1042,9 +1117,7 @@ ALTER TABLE `migrations`
 -- Indexes for table `onboarding_investors`
 --
 ALTER TABLE `onboarding_investors`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `onboarding_investors_investor_code_unique` (`investor_code`),
-  ADD UNIQUE KEY `onboarding_investors_email_unique` (`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `orders`
@@ -1130,6 +1203,12 @@ ALTER TABLE `withdrawal_requests`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `bank_accounts`
 --
 ALTER TABLE `bank_accounts`
@@ -1166,6 +1245,12 @@ ALTER TABLE `investors`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `investor_payments`
+--
+ALTER TABLE `investor_payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `invitations`
 --
 ALTER TABLE `invitations`
@@ -1187,13 +1272,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `onboarding_investors`
 --
 ALTER TABLE `onboarding_investors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=353;
 
 --
 -- AUTO_INCREMENT for table `order_audits`
@@ -1205,7 +1290,7 @@ ALTER TABLE `order_audits`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=631;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=632;
 
 --
 -- AUTO_INCREMENT for table `products`
