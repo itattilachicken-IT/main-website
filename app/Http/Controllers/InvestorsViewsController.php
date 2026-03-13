@@ -9,9 +9,27 @@ class InvestorsViewsController extends Controller
     //
     public function home()
     {
-          return view('investors.views.home');
+          if (!session()->has('investor_id')) {
+            return redirect()->route('investor.login.form');
+        }
+        $code = session('investor_code');
+
+        // Investor info
+        $investor = DB::table('onboarding_investors')
+            ->where('investor_code', $code)
+            ->first();
+
+        // Payment schedule
+        $payments = DB::table('investor_payments')
+            ->where('investor_code', $code)
+            ->orderBy('placement_date')
+            ->get();
+
+        return view('investors.views.home', compact('investor', 'payments'));
+         
     }
     
+
     public function admin()
     {
         $investors = DB::table('onboarding_investors')
@@ -52,13 +70,27 @@ class InvestorsViewsController extends Controller
     }
     public function destroy($id)
     {
-        DB::table('onboarding_investors')
-            ->where('id',$id)
-            ->delete();
+        // Get investor first
+        $investor = DB::table('onboarding_investors')
+                        ->where('id', $id)
+                        ->first();
+
+        if ($investor) {
+
+            // Delete related investor payments
+            DB::table('investor_payments')
+                ->where('investor_code', $investor->investor_code)
+                ->delete();
+
+            // Delete investor
+            DB::table('onboarding_investors')
+                ->where('id', $id)
+                ->delete();
+        }
 
         return redirect()
             ->back()
-            ->with('success','Investor deleted successfully');
+            ->with('success', 'Investor and payment records deleted successfully');
     }
     
      public function events()
@@ -79,7 +111,24 @@ class InvestorsViewsController extends Controller
     }
     public function myInvestments()
     {
-          return view('investors.views.my-investments');
+        // Check if investor is logged in
+        if (!session()->has('investor_code')) {
+            return redirect()->route('investors.login.form');
+        }
+
+        $code = session('investor_code');
+
+        // Fetch investor info
+        $investor = DB::table('onboarding_investors')
+            ->where('investor_code', $code)
+            ->first();
+        // Fetch all payments grouped by investment package
+        $payments = DB::table('investor_payments')
+            ->where('investor_code', $code)
+            ->orderBy('placement_date')
+            ->get();
+
+        return view('investors.views.my-investments', compact('investor', 'payments'));
     }
      public function handbook()
     {
@@ -205,8 +254,13 @@ class InvestorsViewsController extends Controller
     {
           return view('investors.views.settings');
     }
-     public function logout()
+
+    public function logout()
     {
-          return redirect()->route('home');
+        session()->flush();              // Clear session data
+        session()->invalidate();         // Invalidate session
+        session()->regenerateToken();    // New CSRF token
+
+        return redirect()->route('home');
     }
 }

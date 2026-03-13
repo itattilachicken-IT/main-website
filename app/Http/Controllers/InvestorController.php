@@ -17,7 +17,54 @@ class InvestorController extends Controller
     }
 
 
+public function authenticate(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
+    // Try to find as investor first
+    $investor = DB::table('onboarding_investors')
+        ->where('email', $request->email)
+        ->first();
+
+    if ($investor && Hash::check($request->password, $investor->password)) {
+        // Save investor info in session
+        session([
+            'user_type' => 'investor',
+            'investor_id' => $investor->id,
+            'investor_name' => $investor->full_name,
+            'investor_code' => $investor->investor_code
+        ]);
+
+        // Redirect to investor dashboard
+        return redirect()->route('investors.dashboard');
+    }
+
+    // If not investor, try admin
+    $admin = DB::table('admin')
+        ->where('email', $request->email)
+        ->first();
+
+    if ($admin && Hash::check($request->password, $admin->password)) {
+        // Save admin info in session
+        session([
+            'user_type' => 'admin',
+            'admin_id' => $admin->id,
+            'admin_name' => $admin->first_name . ' ' . $admin->last_name,
+            'admin_email' => $admin->email
+        ]);
+
+        // Redirect to admin dashboard
+        return redirect()->route('investors.admin-dashboard');
+    }
+
+    // Invalid credentials for both
+    return back()->withErrors([
+        'email' => 'Invalid email or password'
+    ])->withInput();
+}
 
     public function store(Request $request)
     {
@@ -172,6 +219,19 @@ class InvestorController extends Controller
 
             return null;
         }
+
+        public function updatePaymentStatus(Request $request, $id)
+{
+    $request->validate([
+        'status' => 'required|in:Paid,Upcoming',
+    ]);
+
+    DB::table('investor_payments')
+        ->where('id', $id)
+        ->update(['status' => $request->status]);
+
+    return response()->json(['success' => true]);
+}
     
 
     

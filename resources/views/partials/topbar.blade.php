@@ -12,11 +12,18 @@
 
            
             <div class="user-profile">
-                <img src="https://i.pravatar.cc/40" alt="User" class="avatar">
+                <div class="avatar-initial">
+                    {{ strtoupper(substr(session('investor_name', 'I'), 0, 1)) }}
+                </div>
 
                 <div class="user-meta">
-                    <div class="user-name">John Investor</div>
-                    <h3 class="id-badge">ATP-001</h3>
+                    <div class="user-name">
+                        {{ session('investor_name', 'Investor') }}
+                    </div>
+
+                    <h3 class="id-badge">
+                        {{ session('investor_code', '---') }}
+                    </h3>
             
                 </div>
             </div>

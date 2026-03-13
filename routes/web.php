@@ -63,10 +63,22 @@ Route::middleware(['web'])->group(function () {
 
     Route::get('/shops', [ShopController::class, 'index'])->name('shop.index');
     
-    
+    Route::get('/investors/login', [InvestorController::class, 'login'])->name('investors.login.form');
+    Route::post('/investors/login', [InvestorController::class, 'authenticate'])
+        ->name('investors.login');
+    Route::get('/investors/dashboard', [InvestorsViewsController::class, 'home'])
+        ->name('investors.dashboard');
+            Route::get('/investors/admin-dashboard', [InvestorsViewsController::class, 'admin'])
+        ->name('investors.admin-dashboard');
+
+
+        
+
+        Route::post('/admin/update-payment-status/{id}', [InvestorController::class, 'updatePaymentStatus'])
+    ->name('admin.update-payment-status');
 
    
-    Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
+    //Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
     Route::post('/investors/store', [InvestorController::class, 'store'])->name('investors.store');
 
     Route::get('/investors/edit/{id}', [InvestorsViewsController::class,'edit'])
@@ -80,31 +92,14 @@ Route::middleware(['web'])->group(function () {
 
     Route::prefix('investors/views')->group(function () {
 
-         Route::post('/login', function (Request $request) {
-            $email = $request->input('email');
-            $password = $request->input('password');
-
-            // Admin static check
-            if ($email === 'admin@attilachicken.com' && $password === 'admin') {
-                return redirect(url('investors/views/admin-dashboard'));
-            }
-
-            // Investor static password (all other emails with this password go to investor home)
-            if ($password === 'investor') {
-                return redirect(url('investors/views/home'));
-            }
-
-            return back()->withErrors(['credentials' => 'Invalid credentials'])->withInput();
-        });
-
-        
+               
         
 
         Route::get('/home', [InvestorsViewsController::class, 'home'])
             ->name('investors.home');
 
-        Route::get('/admin-dashboard', [InvestorsViewsController::class, 'admin'])
-            ->name('investors.admin.admin-dashboard');
+        // Route::get('/admin-dashboard', [InvestorsViewsController::class, 'admin'])
+        //     ->name('investors.admin.admin-dashboard');
        
         Route::get('/events', [InvestorsViewsController::class, 'events'])
             ->name('investors.admin.events');

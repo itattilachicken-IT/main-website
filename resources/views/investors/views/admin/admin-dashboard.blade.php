@@ -85,9 +85,11 @@
         </div> <div class="topbar-right"> 
             
             <div class="user-profile"> 
-                <img src="https://i.pravatar.cc/40" alt="User" class="avatar"> 
+                <div class="avatar-initial">
+                    {{ strtoupper(substr(session('investor_name', 'A'), 0, 1)) }}
+                </div> 
                 <div class="user-meta"> 
-                    <div class="user-name">Admin</div> 
+                    <div class="user-name"> {{ session('investor_name', 'Admin') }}</div> 
                 </div> 
             </div> 
          
@@ -324,6 +326,8 @@
                                 <td>
                                     <div class="action-buttons">
 
+                                     
+
                                         {{-- Edit --}}
                                         <a href="{{ url('investors/edit/'.$investor->id) }}" 
                                         class="btn-edit">
@@ -344,10 +348,52 @@
                                             </button>
 
                                         </form>
+                                        <a class="btn-edit" onclick="togglePayments('payments-{{ $investor->id }}')">
+                                        View
+                                    </a>
 
                                     </div>
                                 </td>
 
+                            </tr>
+                            <tr id="payments-{{ $investor->id }}" class="payments-row" style="display:none;">
+                                <td colspan="7">
+                                    <div class="payments-dropdown">
+                                        <table class="admin-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Placement Date</th>
+                                                    <th>Payment Date</th>
+                                                    <th>Rate (KES/Bird)</th>
+                                                    <th>Amount</th>
+                                                    <th>Status</th>
+                                                    <th>Update</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach(DB::table('investor_payments')->where('investor_code', $investor->investor_code)->orderBy('placement_date')->get() as $payment)
+                                                <tr>
+                                                    <td>{{ \Carbon\Carbon::parse($payment->placement_date)->format('jS F Y') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('jS F Y') }}</td>
+                                                    <td>{{ number_format($payment->rate) }}</td>
+                                                    <td>{{ number_format($payment->amount) }}</td>
+                                                    <td>
+                                                        <select class="payment-status" data-id="{{ $payment->id }}">
+                                                            <option value="Paid" {{ $payment->status === 'Paid' ? 'selected' : '' }}>Paid</option>
+                                                            <option value="Upcoming" {{ $payment->status === 'Upcoming' ? 'selected' : '' }}>Upcoming</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn-edit" onclick="updatePaymentStatus({{ $payment->id }})">
+                                                            Update
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
                             </tr>
 
                             @endforeach
@@ -480,6 +526,34 @@ window.addEventListener("click", function(e){
     }
 });
 
+
+function togglePayments(id) {
+    const row = document.getElementById(id);
+    row.style.display = row.style.display === "none" ? "table-row" : "none";
+}
+
+function updatePaymentStatus(paymentId) {
+    const select = document.querySelector(`.payment-status[data-id='${paymentId}']`);
+    const status = select.value;
+
+    fetch(`/admin/update-payment-status/${paymentId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ status: status })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            alert('Payment status updated successfully.');
+        } else {
+            alert('Failed to update status.');
+        }
+    })
+    .catch(err => console.error(err));
+}
 </script>
 
 </body>

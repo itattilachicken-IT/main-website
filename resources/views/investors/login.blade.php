@@ -128,25 +128,25 @@ label{
     </div>
     @endif
 
-    <form method="POST" action="{{ url('investors.login') }}">
+    <form method="POST" action="{{ route('investors.login') }}">
     @csrf
 
-    <div class="field">
-        <label>Email</label>
-        <input class="input" name="email" type="email" required autofocus>
-    </div>
+        <div class="field">
+            <label>Email</label>
+            <input class="input" name="email" type="email" required autofocus>
+        </div>
 
-    <div class="field">
-        <label>Password</label>
-        <input class="input" name="password" type="password" required>
-    </div>
+        <div class="field">
+            <label>Password</label>
+            <input class="input" name="password" type="password" required>
+        </div>
 
-    <button type="submit" class="submit-btn">
-        Sign In
-    </button>
+        <button type="submit" class="submit-btn">
+            Sign In
+        </button>
 
-    <a type="submit" class="submit-btn" href="{{ url('investors/views/home') }}">Sign in</a> <a type="submit" class="submit-btn" href="{{ url('investors/views/admin-dashboard') }}">Admin</a>
-    
+       
+        
 
     </form>
 

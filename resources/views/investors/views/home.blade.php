@@ -27,18 +27,36 @@
             <div class="container">
 
                 @php
-                    $totalInvestment = 1343500;
-                    $payoutAmount = 1050000;
-                    $totalPayouts = 6;
-                    $receivedPayouts = 1;
+                    $totalInvestment = $investor->total_investment ?? 0;
 
-                    $totalReturn = $payoutAmount * $totalPayouts;
-                    $receivedAmount = $payoutAmount * $receivedPayouts;
-                    $remainingAmount = $totalReturn - $receivedAmount;
+                    $totalPayouts = $payments->count();
+                    $payoutAmount = $payments->first()->amount ?? 0;
 
-                    $progressPercent = ($receivedPayouts / $totalPayouts) * 100;
-                    $roiToDate = ($receivedAmount / $totalInvestment) * 100;
-                @endphp
+                    $totalReturn = $payments->sum('amount');
+
+                    $receivedAmount = 0;
+                    $remainingAmount = 0;
+                    $receivedPayouts = 0;
+
+                    $today = now();
+
+                    foreach ($payments as $p) {
+                        if ($p->payment_date && $p->payment_date <= $today) {
+                            $receivedAmount += $p->amount;
+                            $receivedPayouts++;
+                        } else {
+                            $remainingAmount += $p->amount;
+                        }
+                    }
+
+                    $progressPercent = $totalPayouts > 0
+                        ? ($receivedPayouts / $totalPayouts) * 100
+                        : 0;
+
+                    $roiToDate = $totalInvestment > 0
+                        ? ($receivedAmount / $totalInvestment) * 100
+                        : 0;
+                    @endphp
 
                 <!-- Overview Cards -->
                 <div class="dashboard-overview">
@@ -91,10 +109,7 @@
                 </div>
                 <br>
 
-                <div class="cashflow-container">
-                    <h3>Cashflow Timeline</h3>
-                    <canvas id="cashflowOverviewChart"></canvas>
-                </div>
+            
 
             </div>
         </section>
@@ -111,48 +126,52 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
+    const payments = @json($payments); // Payments passed from controller
     const totalInvestment = {{ $totalInvestment }};
-    const payoutAmount = {{ $payoutAmount }};
-    const totalPayouts = {{ $totalPayouts }};
-    const receivedPayouts = {{ $receivedPayouts }};
+    const today = new Date().getTime();
 
-    const totalReturn = payoutAmount * totalPayouts;
-    const receivedAmount = payoutAmount * receivedPayouts;
-    const remainingAmount = totalReturn - receivedAmount;
+    // ===============================
+    // 1. Prepare Data
+    // ===============================
+    let receivedAmount = 0;
+    let remainingAmount = 0;
+    let cumulative = 0;
+    let labels = ['Start'];
+    let cumulativeData = [0];
+    let receivedCount = 0;
 
-  /* ===============================
-   1. INVESTMENT PROGRESSION
-================================ */
+    payments.forEach((p, index) => {
+        const payDate = new Date(p.payment_date).getTime();
+        const amount = parseFloat(p.amount);
 
-const ctxLine = document.getElementById('investmentGrowthChart').getContext('2d');
+        if (payDate <= today) {
+            cumulative += amount;
+            receivedAmount += amount;
+            receivedCount++;
+            labels.push(`Payout ${index + 1}`);
+            cumulativeData.push(cumulative);
+        } else {
+            remainingAmount += amount;
+        }
+    });
 
-const gradient = ctxLine.createLinearGradient(0, 0, 0, 400);
-gradient.addColorStop(0, 'rgba(132, 255, 0, 0.4)');
-gradient.addColorStop(1, 'rgba(132, 255, 0, 0.02)');
+    const totalReturn = cumulative + remainingAmount; // expected total return
+    const progressPercent = payments.length > 0 ? (receivedCount / payments.length) * 100 : 0;
+    const roiToDate = totalInvestment > 0 ? (receivedAmount / totalInvestment) * 100 : 0;
 
-new Chart(ctxLine, {
-    type: 'line',
-    data: {
-        labels: [
-            'Start',
-            'Payout 1',
-            'Payout 2',
-            'Payout 3',
-            'Payout 4',
-            'Payout 5',
-            'Payout 6'
-        ],
-        datasets: [{
+    // ===============================
+    // 2. INVESTMENT PROGRESSION (Line Chart)
+    // ===============================
+    const ctxLine = document.getElementById('investmentGrowthChart').getContext('2d');
+    const gradient = ctxLine.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(132, 255, 0, 0.4)');
+    gradient.addColorStop(1, 'rgba(132, 255, 0, 0.02)');
+
+    new Chart(ctxLine, {
+        type: 'line',
+        data: { labels: labels, datasets: [{
             label: 'Cumulative Return (KES)',
-            data: [
-                0,
-                payoutAmount,
-                payoutAmount * 2,
-                payoutAmount * 3,
-                payoutAmount * 4,
-                payoutAmount * 5,
-                payoutAmount * 6
-            ],
+            data: cumulativeData,
             borderColor: '#84ff00',
             backgroundColor: gradient,
             pointBackgroundColor: '#84ff00',
@@ -161,111 +180,69 @@ new Chart(ctxLine, {
             borderWidth: 3,
             tension: 0.45,
             fill: true
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        layout: {
-            padding: {
-                top: 20,
-                right: 20,
-                bottom: 30,   // 👈 adds space for rotated labels
-                left: 10
-            }
-        },
-        plugins: {
-            legend: {
-                labels: { color: '#ccc' }
-            },
-            tooltip: {
-                backgroundColor: '#111',
-                titleColor: '#84ff00',
-                bodyColor: '#fff'
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: '#aaa',
-                    padding: 10   // 👈 extra spacing from axis
-                },
-                grid: { color: 'rgba(255,255,255,0.05)' }
-            },
-            y: {
-                ticks: {
-                    color: '#aaa',
-                    padding: 10
-                },
-                grid: { color: 'rgba(255,255,255,0.05)' }
-            }
-        }
-    }
-
-});
-/* ===============================
-   2. RETURN BREAKDOWN
-================================ */
-
-new Chart(document.getElementById('yieldBreakdownChart'), {
-    type: 'doughnut',
-    data: {
-        labels: ['Received', 'Remaining'],
-        datasets: [{
-            data: [receivedAmount, remainingAmount],
-            backgroundColor: ['#22c55e', '#ef4444'],
-            borderWidth: 0,
-            cutout: '65%'
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    color: '#555',
-                    padding: 20
+        }]},
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: { top: 20, right: 20, bottom: 30, left: 10 } },
+            plugins: {
+                legend: { labels: { color: '#ccc' } },
+                tooltip: {
+                    backgroundColor: '#111',
+                    titleColor: '#84ff00',
+                    bodyColor: '#fff',
+                    callbacks: {
+                        label: function(context) {
+                            return 'KES ' + context.raw.toLocaleString();
+                        }
+                    }
                 }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa', padding: 10 }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: '#aaa', padding: 10 }, grid: { color: 'rgba(255,255,255,0.05)' } }
             }
         }
-    }
-});
-    /* ===============================
-       3. CASHFLOW TIMELINE
-    =============================== */
+    });
 
-    new Chart(document.getElementById('cashflowOverviewChart'), {
-        type: 'bar',
+    // ===============================
+    // 3. RETURN BREAKDOWN (Doughnut)
+    // ===============================
+    const ctxDoughnut = document.getElementById('yieldBreakdownChart').getContext('2d');
+    new Chart(ctxDoughnut, {
+        type: 'doughnut',
         data: {
-            labels: [
-                'Apr 2026',
-                'Jun 2026',
-                'Aug 2026',
-                'Oct 2026',
-                'Dec 2026',
-                'Feb 2027'
-            ],
+            labels: ['Received', 'Remaining'],
             datasets: [{
-                label: 'Scheduled Payout (KES)',
-                data: [
-                    payoutAmount,
-                    payoutAmount,
-                    payoutAmount,
-                    payoutAmount,
-                    payoutAmount,
-                    payoutAmount
-                ]
+                data: [receivedAmount, remainingAmount],
+                backgroundColor: ['#22c55e', '#ef4444'],
+                borderWidth: 0,
+                cutout: '65%'
             }]
         },
         options: {
             responsive: true,
             plugins: {
-                legend: { display: true }
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': KES ' + context.raw.toLocaleString();
+                        }
+                    }
+                },
+                legend: { position: 'bottom' }
             }
         }
     });
+
+
+    // ===============================
+    // 5. Update Overview Cards
+    // ===============================
+    document.querySelector('.overview-card:nth-child(3) .amount').textContent = 'KES ' + receivedAmount.toLocaleString();
+    document.querySelector('.overview-card:nth-child(4) .amount').textContent = 'KES ' + remainingAmount.toLocaleString();
+    document.querySelector('.overview-card:nth-child(5) .amount').textContent = progressPercent.toFixed(2) + '%';
+    document.querySelector('.overview-card:nth-child(6) .amount').textContent = roiToDate.toFixed(2) + '%';
 
 });
 </script>
