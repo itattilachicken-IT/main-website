@@ -329,10 +329,14 @@
                                      
 
                                         {{-- Edit --}}
-                                        <a href="{{ url('investors/edit/'.$investor->id) }}" 
+                                        <!-- <a href="{{ url('investors/edit/'.$investor->id) }}" 
                                         class="btn-edit">
                                             Edit
-                                        </a>
+                                        </a> -->
+
+                                        <a class="btn-edit" onclick="togglePayments('payments-{{ $investor->id }}')">
+                                        View
+                                    </a>
 
                                         {{-- Delete --}}
                                         <form action="{{ url('investors/delete/'.$investor->id) }}" 
@@ -348,9 +352,7 @@
                                             </button>
 
                                         </form>
-                                        <a class="btn-edit" onclick="togglePayments('payments-{{ $investor->id }}')">
-                                        View
-                                    </a>
+                                        
 
                                     </div>
                                 </td>
