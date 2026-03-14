@@ -33,43 +33,46 @@
                     <div>
                         <h2>Events</h2>
 
-                        @foreach ($events as $event)
+                        @forelse ($events as $event)
                             <div class="event-item">
                                 <div class="event-title">{{ $event['title'] }}</div>
                                 <div class="event-date">{{ $event['date'] }}</div>
                                 <div class="event-time">{{ $event['time'] }}</div>
                                 <div class="event-description">{{ $event['description'] }}</div>
-                                <a class="event-link" href="{{ $event['link'] }}">
-                                    {{ $event['link_text'] }}
-                                </a>
+                                @if($event['link'])
+                                    <a class="event-link" href="{{ $event['link'] }}" target="_blank">
+                                        {{ $event['link_text'] }}
+                                    </a>
+                                @endif
                             </div>
-                        @endforeach
+                        @empty
+                            <p>No events available at the moment.</p>
+                        @endforelse
                     </div>
 
                     {{-- Presentations --}}
                     <div>
                         <h2>Presentations</h2>
 
-                        @foreach ($presentations as $presentation)
+                        @forelse ($presentations as $presentation)
                             <div class="presentation-item">
                                 <img class="presentation-image"
-                                     src="{{ $presentation['image'] }}"
-                                     alt="{{ $presentation['title'] }}">
+                                    src="{{ asset('/'.$presentation['image']) }}"
+                                    alt="{{ $presentation['title'] }}">
 
-                                <div class="presentation-title">
-                                    {{ $presentation['title'] }}
-                                </div>
+                                <div class="presentation-title">{{ $presentation['title'] }}</div>
+                                <div class="presentation-date">{{ $presentation['date'] }}</div>
 
-                                <div class="presentation-date">
-                                    {{ $presentation['date'] }}
-                                </div>
-
-                                <a class="download-btn"
-                                   href="{{ $presentation['download_link'] }}">
-                                   DOWNLOAD PRESENTATION
+                                <a class="download-btn" 
+                                    href="{{ asset('../'.$presentation['download_link']) }}" 
+                                    download="{{ $presentation['download_link'] }}" 
+                                    target="_blank">
+                                    DOWNLOAD PRESENTATION
                                 </a>
                             </div>
-                        @endforeach
+                        @empty
+                            <p>No presentations available at the moment.</p>
+                        @endforelse
                     </div>
 
                 </div>

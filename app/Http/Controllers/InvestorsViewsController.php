@@ -182,53 +182,36 @@ class InvestorsViewsController extends Controller
     }
     public function eventsAndPresentations()
     {
-        $events = [
-            [
-                'title' => 'Investor Conference 2026',
-                'date' => '2026-03-15',
-                'time' => '9:00 AM - 5:00 PM',
-                'description' => 'Join us for our annual investor conference featuring presentations from our leadership team and Q&A sessions.',
-                'link' => '#',
-                'link_text' => 'Register Now'
-            ],
-            [
-                'title' => 'Q1 Earnings Call',
-                'date' => '2026-02-28',
-                'time' => '2:00 PM GMT',
-                'description' => 'Listen to our Q1 earnings presentation and participate in the Q&A session with our CFO.',
-                'link' => '#',
-                'link_text' => 'Join Call'
-            ],
-            [
-                'title' => 'Annual Shareholder Meeting',
-                'date' => '2026-04-10',
-                'time' => '10:00 AM - 12:00 PM',
-                'description' => 'Annual shareholder meeting to review company performance and vote on key matters.',
-                'link' => '#',
-                'link_text' => 'View Details'
-            ],
-        ];
 
-        $presentations = [
-            [
-                'title' => 'Company Overview Presentation',
-                'date' => '2025-12-01',
-                'image' => asset('images/presentation1.jpg'),
-                'download_link' => '#'
-            ],
-            [
-                'title' => '2025 Corporate Strategy',
-                'date' => '2025-11-15',
-                'image' => asset('images/presentation2.jpg'),
-                'download_link' => '#'
-            ],
-            [
-                'title' => 'Investor Relations Overview',
-                'date' => '2025-10-20',
-                'image' => asset('images/presentation3.jpg'),
-                'download_link' => '#'
-            ],
-        ];
+    // Pull events from database (table: fieldevents)
+    $events = DB::table('fieldevents')
+        ->orderBy('event_date', 'desc')
+        ->get()
+        ->map(function($event) {
+            return [
+                'id' => $event->id,
+                'title' => $event->title,
+                'date' => \Carbon\Carbon::parse($event->event_date)->format('jS F Y'),
+                'time' => $event->event_time,
+                'description' => $event->description,
+                'link' => $event->link,
+                'link_text' => $event->link_text ?? 'View Event'
+            ];
+        });
+
+    // Pull presentations from database (table: presentations)
+    $presentations = DB::table('presentations')
+        ->orderBy('presentation_date', 'desc')
+        ->get()
+        ->map(function($presentation) {
+            return [
+                'id' => $presentation->id,
+                'title' => $presentation->title,
+                'date' => \Carbon\Carbon::parse($presentation->presentation_date)->format('jS F Y'),
+                'image' => asset('storage/'.$presentation->image),
+                'download_link' => asset('storage/'.$presentation->pdf_file)
+            ];
+        });
 
         return view('investors.views.events-and-presentations', compact('events', 'presentations'));
     }
