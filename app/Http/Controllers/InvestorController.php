@@ -221,18 +221,90 @@ public function authenticate(Request $request)
         }
 
         public function updatePaymentStatus(Request $request, $id)
-{
-    $request->validate([
-        'status' => 'required|in:Paid,Upcoming',
-    ]);
+        {
+            $request->validate([
+                'status' => 'required|in:Paid,Upcoming',
+            ]);
 
-    DB::table('investor_payments')
-        ->where('id', $id)
-        ->update(['status' => $request->status]);
+            DB::table('investor_payments')
+                ->where('id', $id)
+                ->update(['status' => $request->status]);
 
-    return response()->json(['success' => true]);
-}
-    
+            return response()->json(['success' => true]);
+        }
+
+        private function ensurePresentationFolder()
+        {
+            $path = public_path('contracts/presentations');
+
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
+
+            return $path;
+        }
+        public function storeEvent(Request $request)
+        {
+            $request->validate([
+                'title' => 'required',
+                'date' => 'required|date'
+            ]);
+
+            DB::table('fieldevents')->insert([
+                'title' => $request->title,
+                'event_date' => $request->date,
+                'event_time' => $request->time,
+                'link' => $request->link,
+                'description' => $request->description,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            return back()->with('success', 'Event saved successfully');
+        }
+
+        public function storePresentation(Request $request)
+        {
+            $request->validate([
+                'title' => 'required',
+                'date' => 'required|date',
+                'image' => 'nullable|image',
+                'download_link' => 'required|mimes:pdf'
+            ]);
+
+            // Ensure folder exists
+            $path = $this->ensurePresentationFolder();
+
+            // 📷 Save Image
+            $imageName = null;
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time().'_'.$image->getClientOriginalName();
+                $image->move(public_path('contracts/presentations'), $imageName);
+            }
+
+            // 📄 Save PDF
+            $pdfName = null;
+            if ($request->hasFile('download_link')) {
+                $pdf = $request->file('download_link');
+                $pdfName = time().'_'.$pdf->getClientOriginalName();
+                $pdf->move($path, $pdfName);
+            }
+
+            DB::table('presentations')->insert([
+                'title' => $request->title,
+                'presentation_date' => $request->date,
+                'image' => $imageName,
+                'pdf_file' => $pdfName,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            return back()->with('success', 'Presentation saved successfully');
+        }
+
+
+            
 
     
 }

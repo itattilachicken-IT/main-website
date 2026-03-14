@@ -71,11 +71,17 @@ Route::middleware(['web'])->group(function () {
             Route::get('/investors/admin-dashboard', [InvestorsViewsController::class, 'admin'])
         ->name('investors.admin-dashboard');
 
+        Route::post('/admin/events/store', [InvestorController::class, 'storeEvent'])
+        ->name('admin.events.store');
 
-        
+    Route::post('/admin/presentations/store', [InvestorController::class, 'storePresentation'])
+        ->name('admin.presentations.store');
+            
 
-        Route::post('/admin/update-payment-status/{id}', [InvestorController::class, 'updatePaymentStatus'])
+    Route::post('/admin/update-payment-status/{id}', [InvestorController::class, 'updatePaymentStatus'])
     ->name('admin.update-payment-status');
+
+
 
    
     //Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
@@ -98,8 +104,8 @@ Route::middleware(['web'])->group(function () {
         Route::get('/home', [InvestorsViewsController::class, 'home'])
             ->name('investors.home');
 
-        // Route::get('/admin-dashboard', [InvestorsViewsController::class, 'admin'])
-        //     ->name('investors.admin.admin-dashboard');
+        Route::get('/admin-dashboard', [InvestorsViewsController::class, 'dashboard'])
+            ->name('investors.admin.admin-dashboard');
        
         Route::get('/events', [InvestorsViewsController::class, 'events'])
             ->name('investors.admin.events');

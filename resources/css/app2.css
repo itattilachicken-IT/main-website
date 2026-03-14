@@ -1095,7 +1095,22 @@ select {
 }
 /* Specific style for Cashflow Overview chart */
 
+.spinner::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+}
 
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
 
 /* handbook */
 /* =========================

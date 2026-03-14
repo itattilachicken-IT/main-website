@@ -99,7 +99,7 @@
                     <div class="admin-card">
                         <h3>Add New Event</h3>
 
-                        <form method="POST" action="#">
+                        <form method="POST" action="{{ route('admin.events.store') }}">
                             @csrf
 
                             <div class="form-grid">
@@ -131,8 +131,12 @@
                                 <textarea name="description"></textarea>
                             </div>
 
-                            <button class="btn-primary" type="submit">
-                                Save Event
+                            <button class="btn-primary" id="eventSubmitBtn" type="submit">
+                                <span class="btn-text">Save Event</span>
+
+                                <span class="spinner" style="display:none;">
+                                    ⏳ Uploading...
+                                </span>
                             </button>
                         </form>
 
@@ -161,7 +165,7 @@
                     <div class="admin-card">
                         <h3>Add New Presentation</h3>
 
-                        <form method="POST" action="#" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('admin.presentations.store') }}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="form-grid">
@@ -188,8 +192,12 @@
 
                             </div>
 
-                            <button class="btn-primary" type="submit">
-                                Save Presentation
+                            <button class="btn-primary" id="presentationSubmitBtn" type="submit">
+                                <span class="btn-text">Save Presentation</span>
+
+                                <span class="spinner" style="display:none;">
+                                    ⏳ Uploading...
+                                </span>
                             </button>
                         </form>
 
@@ -268,5 +276,31 @@ window.addEventListener("click", function(e){
             .classList.remove("show");
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    function attachLoader(formSelector, buttonId) {
+
+        const form = document.querySelector(formSelector);
+        const btn = document.getElementById(buttonId);
+
+        if (!form || !btn) return;
+
+        form.addEventListener('submit', function () {
+
+            btn.disabled = true;
+
+            btn.querySelector('.btn-text').style.display = 'none';
+            btn.querySelector('.spinner').style.display = 'inline-block';
+        });
+    }
+
+    // Attach to both forms
+    attachLoader('form[action*="events"]', 'eventSubmitBtn');
+    attachLoader('form[action*="presentations"]', 'presentationSubmitBtn');
+
+});
+
 
 </script>

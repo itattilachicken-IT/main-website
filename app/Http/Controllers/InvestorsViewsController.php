@@ -39,6 +39,15 @@ class InvestorsViewsController extends Controller
         return view('investors.views.admin.admin-dashboard', compact('investors'));
     }
 
+     public function dashboard()
+    {
+        $investors = DB::table('onboarding_investors')
+        ->orderBy('created_at', 'desc')
+        ->get();
+           
+        return view('investors.views.admin.admin-dashboard', compact('investors'));
+    }
+
         public function edit($id)
     {
         $investor = DB::table('onboarding_investors')
