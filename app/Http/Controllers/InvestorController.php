@@ -303,6 +303,147 @@ public function authenticate(Request $request)
             return back()->with('success', 'Presentation saved successfully');
         }
 
+      
+
+        public function deleteEvent($id)
+        {
+            DB::table('fieldevents')->where('id', $id)->delete();
+
+            return back()->with('success', 'Event deleted');
+        }
+
+        public function deletePresentation($id)
+    {
+        $p = DB::table('presentations')->where('id', $id)->first();
+
+        if ($p) {
+
+            // Delete files
+            $pdfPath = public_path('contracts/presentations/' . $p->pdf_file);
+            $imgPath = public_path('contracts/presentations/' . $p->image);
+
+            if ($p->pdf_file && file_exists($pdfPath)) unlink($pdfPath);
+            if ($p->image && file_exists($imgPath)) unlink($imgPath);
+
+            DB::table('presentations')->where('id', $id)->delete();
+        }
+
+        return back()->with('success', 'Presentation deleted');
+    }
+
+    public function editEvent($id)
+    {
+        // Fetch the event
+        $event = DB::table('fieldevents')->where('id', $id)->first();
+
+        if (!$event) {
+            return redirect()->route('admin.events.page')
+                            ->with('error', 'Event not found');
+        }
+
+        return view('investors.views.admin.edit-event', compact('event'));
+    }
+
+    public function updateEvent(Request $request, $id)
+    {
+        DB::table('fieldevents')
+            ->where('id', $id)
+            ->update([
+                'title' => $request->title,
+                'event_date' => $request->date,
+                'event_time' => $request->time,
+                'link' => $request->link,
+                'description' => $request->description,
+                'updated_at' => now()
+            ]);
+
+        return redirect()->route('investors.admin.events')
+            ->with('success', 'Event updated');
+    }
+
+    public function updatePresentation(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'date' => 'required|date',
+            'image' => 'nullable|image',
+            'download_link' => 'nullable|mimes:pdf'
+        ]);
+
+        $presentation = DB::table('presentations')
+            ->where('id', $id)
+            ->first();
+
+        if (!$presentation) {
+            return back()->with('error', 'Presentation not found');
+        }
+
+        $path = public_path('contracts/presentations');
+
+        // ===== IMAGE REPLACEMENT =====
+        $imageName = $presentation->image;
+
+        if ($request->hasFile('image')) {
+
+            // Delete old image
+            if ($presentation->image &&
+                file_exists($path . '/' . $presentation->image)) {
+                unlink($path . '/' . $presentation->image);
+            }
+
+            $image = $request->file('image');
+            $imageName = time().'_'.$image->getClientOriginalName();
+            $image->move($path, $imageName);
+        }
+
+        // ===== PDF REPLACEMENT =====
+        $pdfName = $presentation->pdf_file;
+
+        if ($request->hasFile('download_link')) {
+
+            // Delete old PDF
+            if ($presentation->pdf_file &&
+                file_exists($path . '/' . $presentation->pdf_file)) {
+                unlink($path . '/' . $presentation->pdf_file);
+            }
+
+            $pdf = $request->file('download_link');
+            $pdfName = time().'_'.$pdf->getClientOriginalName();
+            $pdf->move($path, $pdfName);
+        }
+
+        // ===== UPDATE DATABASE =====
+        DB::table('presentations')
+            ->where('id', $id)
+            ->update([
+                'title' => $request->title,
+                'presentation_date' => $request->date,
+                'image' => $imageName,
+                'pdf_file' => $pdfName,
+                'updated_at' => now()
+            ]);
+
+        return redirect()
+            ->route('investors.admin.events')
+            ->with('success', 'Presentation updated successfully');
+    }
+
+    public function editPresentation($id)
+    {
+        $presentation = DB::table('presentations')
+            ->where('id', $id)
+            ->first();
+
+        if (!$presentation) {
+            return redirect()
+                ->route('admin.events.page')
+                ->with('error', 'Presentation not found');
+        }
+
+        return view('investors.views.admin.edit-presentation', compact('presentation'));
+    }
+
+
 
             
 

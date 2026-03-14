@@ -71,11 +71,48 @@ Route::middleware(['web'])->group(function () {
             Route::get('/investors/admin-dashboard', [InvestorsViewsController::class, 'admin'])
         ->name('investors.admin-dashboard');
 
-        Route::post('/admin/events/store', [InvestorController::class, 'storeEvent'])
-        ->name('admin.events.store');
 
+        // DELETE
+    Route::delete('/admin/events/{id}', 
+        [InvestorController::class, 'deleteEvent'])
+        ->name('admin.events.delete');
+
+    Route::delete('/admin/presentations/{id}', 
+        [InvestorController::class, 'deletePresentation'])
+        ->name('admin.presentations.delete');
+
+
+    // EDIT PAGES
+    Route::get('/admin/events/edit/{id}', 
+        [InvestorController::class, 'editEvent'])
+        ->name('admin.events.edit');
+
+    Route::get('/admin/presentations/edit/{id}', 
+        [InvestorController::class, 'editPresentation'])
+        ->name('admin.presentations.edit');
+
+
+    // UPDATE
+    Route::put('/admin/events/update/{id}', 
+        [InvestorController::class, 'updateEvent'])
+        ->name('admin.events.update');
+
+    Route::put('/admin/presentations/update/{id}', 
+        [InvestorController::class, 'updatePresentation'])
+        ->name('admin.presentations.update');
+
+    Route::get('/admin/presentations/edit/{id}',[InvestorController::class, 'editPresentation'])
+    ->name('admin.presentations.edit');
+
+
+
+    Route::post('/admin/events/store', [InvestorController::class, 'storeEvent'])
+        ->name('admin.events.store');
     Route::post('/admin/presentations/store', [InvestorController::class, 'storePresentation'])
         ->name('admin.presentations.store');
+   
+
+     
             
 
     Route::post('/admin/update-payment-status/{id}', [InvestorController::class, 'updatePaymentStatus'])

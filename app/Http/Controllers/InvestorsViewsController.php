@@ -104,7 +104,15 @@ class InvestorsViewsController extends Controller
     
      public function events()
     {
-          return view('investors.views.admin.events');
+         $events = DB::table('fieldevents')
+                ->orderBy('event_date', 'desc')
+                ->get();
+
+            $presentations = DB::table('presentations')
+                ->orderBy('presentation_date', 'desc')
+                ->get();
+
+          return view('investors.views.admin.events', compact('events', 'presentations'));
     }
     public function files()
     {

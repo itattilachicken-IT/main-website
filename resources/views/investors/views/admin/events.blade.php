@@ -141,24 +141,46 @@
                         </form>
 
                         <!-- Existing Events -->
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Annual Investor Meeting</td>
-                                    <td>March 2026</td>
-                                    <td>
-                                        <button class="btn-edit">Edit</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                      <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        @forelse($events as $event)
+                            <tr>
+                                <td>{{ $event->title }}</td>
+                                <td>{{ date('d M Y', strtotime($event->event_date)) }}</td>
+                                <td>
+
+                                    <a href="{{ route('admin.events.edit', $event->id) }}"
+                                    class="btn-edit">Edit</a>
+
+                                    <form action="{{ route('admin.events.delete', $event->id) }}"
+                                        method="POST"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="btn-delete"
+                                                onclick="return confirm('Delete this event?')">
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3">No events found</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
                     </div>
 
                     <!-- ================= PRESENTATIONS ================= -->
@@ -203,22 +225,81 @@
 
                         <!-- Existing Presentations -->
                         <table class="admin-table">
+
                             <thead>
                                 <tr>
                                     <th>Title</th>
                                     <th>Date</th>
+                                    <th>Preview</th>
+                                    <th>PDF</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
+
                             <tbody>
+                                @forelse($presentations as $p)
                                 <tr>
-                                    <td>Q1 Performance Report</td>
-                                    <td>Jan 2026</td>
+                                    <td>{{ $p->title }}</td>
+
+                                    <td>{{ date('d M Y', strtotime($p->presentation_date)) }}</td>
+
+                                    <!-- IMAGE PREVIEW -->
                                     <td>
-                                        <button class="btn-edit">Edit</button>
+                                        @if($p->image)
+                                            <img src="{{ asset('contracts/presentations/'.$p->image) }}"
+                                                width="70"
+                                                style="border-radius:6px;">
+                                        @else
+                                            —
+                                        @endif
+                                    </td>
+
+                                    <!-- PDF LINK -->
+                                    <td>
+                                        @if($p->pdf_file)
+                                            <a href="{{ asset('contracts/presentations/'.$p->pdf_file) }}"
+                                            target="_blank"
+                                            class="btn-view">
+                                                View PDF
+                                            </a>
+                                        @else
+                                            —
+                                        @endif
+                                    </td>
+
+                                    <!-- ACTIONS -->
+                                    <td>
+
+                                        <!-- EDIT -->
+                                        <a href="{{ route('admin.presentations.edit', $p->id) }}"
+                                        class="btn-edit">
+                                        Edit
+                                        </a>
+                                        <br><br>
+
+                                        <!-- DELETE -->
+                                        <form action="{{ route('admin.presentations.delete', $p->id) }}"
+                                            method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button class="btn-delete"
+                                                    onclick="return confirm('Delete this presentation?')">
+                                                Delete
+                                            </button>
+                                        </form>
+
                                     </td>
                                 </tr>
+
+                                @empty
+                                <tr>
+                                    <td colspan="5">No presentations found</td>
+                                </tr>
+                                @endforelse
                             </tbody>
+
                         </table>
 
                     </div>

@@ -75,7 +75,7 @@
     <main class="main-content">
 
            {{-- Topbar --}} 
-      <div class="dashboard-topbar"> 
+    <div class="dashboard-topbar"> 
         
         <div class="topbar-left"> 
             <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">
@@ -94,7 +94,7 @@
             </div> 
          
             </div> 
-        </div>
+    </div>
 
         <section class="section">
             <div class="container">
