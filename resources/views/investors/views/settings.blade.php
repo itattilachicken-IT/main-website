@@ -1,3 +1,16 @@
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+        </ul>
+    </div>
+@endif
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,64 +40,68 @@
 
 
 
-            {{-- Profile Information --}}
-            <div class="settings-card">
-                <h2>Profile Information</h2>
+        {{-- Profile Information --}}
+        <div class="settings-card p-6 bg-white rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Profile Information</h2>
 
-                <form method="POST" action="#">
-                    @csrf
+            <form method="POST" action="{{ route('account.updateProfile') }}">
+                @csrf
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" name="first_name" value="John">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" name="last_name" value="Investor">
-                        </div>
+                <div class="form-row grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label class="block font-medium mb-1">Full Name</label>
+                        <input type="text" name="full_name"
+                            value="{{ old('full_name', $user->full_name) }}"
+                            class="w-full border border-gray-300 rounded px-3 py-2">
                     </div>
 
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" value="john@email.com">
+                        <label class="block font-medium mb-1">Email</label>
+                        <input type="email" name="email"
+                            value="{{ old('email', $user->email) }}"
+                            class="w-full border border-gray-300 rounded px-3 py-2">
                     </div>
 
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input type="text" name="phone" value="+254712345678">
+                    <div class="form-group md:col-span-2">
+                        <label class="block font-medium mb-1">Phone</label>
+                        <input type="text" name="phone"
+                            value="{{ old('phone', $user->phone) }}"
+                            class="w-full border border-gray-300 rounded px-3 py-2">
                     </div>
+                </div>
 
-                    <button type="submit" class="btn-primary">Save Changes</button>
-                </form>
-            </div>
+                <button type="submit" class="btn-primary px-4 py-2 mt-4 inline-block">Save Changes</button>
+            </form>
+        </div>
 
-            {{-- Security Section --}}
-            <div class="settings-card">
-                <h2>Security</h2>
+        {{-- Security Section --}}
+        <div class="settings-card p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Security</h2>
 
-                <form method="POST" action="#">
-                    @csrf
+            <form method="POST" action="{{ route('account.updatePassword') }}">
+                @csrf
 
-                    <div class="form-group">
-                        <label>Current Password</label>
-                        <input type="password" name="current_password">
-                    </div>
+                <div class="form-group mb-4">
+                    <label class="block font-medium mb-1">Current Password</label>
+                    <input type="password" name="current_password"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
 
-                    <div class="form-group">
-                        <label>New Password</label>
-                        <input type="password" name="new_password">
-                    </div>
+                <div class="form-group mb-4">
+                    <label class="block font-medium mb-1">New Password</label>
+                    <input type="password" name="new_password"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
 
-                    <div class="form-group">
-                        <label>Confirm New Password</label>
-                        <input type="password" name="confirm_password">
-                    </div>
+                <div class="form-group mb-4">
+                    <label class="block font-medium mb-1">Confirm New Password</label>
+                    <input type="password" name="new_password_confirmation"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
 
-                    <button type="submit" class="btn-primary">Update Password</button>
-                </form>
-            </div>
+                <button type="submit" class="btn-primary px-4 py-2 mt-2 inline-block">Update Password</button>
+            </form>
+        </div>
 
             {{-- Notifications Section --}}
             <!-- <div class="settings-card">

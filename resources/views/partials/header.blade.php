@@ -61,7 +61,7 @@
 
         <div class="dropdown-menu" id="settingsDropdown">
 
-            <a href="{{ url('investors/views/settings') }}" class="dropdown-item">
+            <a href="{{ url('investors/views/settings') }}" class="dropdown-item" data-title="Account Settings">
                 Account Settings
             </a>
 

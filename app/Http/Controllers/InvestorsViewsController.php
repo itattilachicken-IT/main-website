@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class InvestorsViewsController extends Controller
@@ -10,7 +11,7 @@ class InvestorsViewsController extends Controller
     public function home()
     {
           if (!session()->has('investor_id')) {
-            return redirect()->route('investor.login.form');
+            return redirect()->route('investors.login');
         }
         $code = session('investor_code');
 
@@ -279,9 +280,23 @@ class InvestorsViewsController extends Controller
    
         return view('investors.views.annual-reports', compact('annualreports'));
     }
-       public function settings()
+
+    public function settings(Request $request)
     {
-          return view('investors.views.settings');
+        // Get the user identifier from session
+        $investorCode = $request->session()->get('investor_code'); // adjust key name based on your session
+
+        if (!$investorCode) {
+            // Redirect to login if session expired or not set
+            return redirect()->route('investor.login')->with('error', 'Please login first.');
+        }
+
+        // Query the onboarding_investors table using the session value
+        $user = DB::table('onboarding_investors')
+            ->where('investor_code', $investorCode) // use the session key stored at login
+            ->first();
+
+        return view('investors.views.settings', compact('user'));
     }
 
     public function logout()

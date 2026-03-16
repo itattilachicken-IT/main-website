@@ -3,9 +3,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use App\Models\Investor;
 
 class InvestorController extends Controller
@@ -582,6 +584,129 @@ public function download($id)
     $filePath = public_path('contracts/annual-reports/pdfs/'.$report->pdf_file);
     return response()->download($filePath, $report->pdf_file);
 }
+
+    public function updateProfile(Request $request)
+    {
+        // Get the investor code from session
+        $investorCode = $request->session()->get('investor_code');
+
+        if (!$investorCode) {
+            return redirect()->route('investors.login')
+                            ->with('error', 'Please login first.');
+        }
+
+        // Fetch the user record to check for unique email validation
+        $user = DB::table('onboarding_investors')
+                ->where('investor_code', $investorCode)
+                ->first();
+
+        if (!$user) {
+            return back()->with('error', 'Investor not found.');
+        }
+
+        // Validate input
+        $request->validate([
+            'full_name' => 'required|string|max:50',
+            'email'     => ['required','email', Rule::unique('onboarding_investors')->ignore($user->id, 'id')],
+            'phone'     => 'nullable|string|max:20',
+        ]);
+
+        // Update the record using Query Builder
+        DB::table('onboarding_investors')
+        ->where('investor_code', $investorCode)
+        ->update([
+            'full_name'  => $request->full_name,
+            'email'      => $request->email,
+            'phone'      => $request->phone,
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', 'Profile updated successfully.');
+    }
+    // Update password
+    public function updatePassword(Request $request)
+    {
+        $investorCode = $request->session()->get('investor_code');
+
+        if (!$investorCode) {
+            return redirect()->route('investors.login')->with('error', 'Please login first.');
+        }
+
+        $user = DB::table('onboarding_investors')
+                ->where('investor_code', $investorCode)
+                ->first();
+
+        if (!$user) {
+            return back()->with('error', 'Investor not found.');
+        }
+
+        $request->validate([
+            'current_password' => 'required',
+            'new_password'     => 'required|string|min:6|confirmed',
+        ]);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->with('error', 'Current password is incorrect');
+        }
+
+        DB::table('onboarding_investors')
+        ->where('investor_code', $investorCode)
+        ->update([
+            'password'   => Hash::make($request->new_password),
+            'updated_at' => now(),
+        ]);
+
+        // Instead of flash session, return alert directly
+        return back()->with('alert', [
+            'type' => 'success',
+            'message' => 'Password updated successfully.'
+        ]);
+    }
+
+public function adminupdatePassword(Request $request)
+{
+    $adminId = $request->session()->get('admin_id');
+
+    if (!$adminId) {
+        return redirect()->route('investors.login')->with('error', 'Please login first.');
+    }
+
+    // Validate input
+    $validated = $request->validate([
+        'current_password' => 'required',
+        'new_password'     => 'required|string|min:6|confirmed',
+    ], [
+        'current_password.required' => 'Current password is required.',
+        'new_password.required'     => 'New password is required.',
+        'new_password.min'          => 'New password must be at least 6 characters.',
+        'new_password.confirmed'    => 'New password confirmation does not match.',
+    ]);
+
+    // Retrieve admin
+    $admin = DB::table('admin')->where('id', $adminId)->first();
+
+    if (!$admin) {
+        return back()->with('error', 'Admin account not found. Please check details carefully.');
+    }
+
+    // Check current password
+    if (!Hash::check($request->current_password, $admin->password)) {
+        return back()->with('error', 'Current password is incorrect. Please check details carefully.');
+    }
+
+    // Attempt to update password
+    $updated = DB::table('admin')->where('id', $adminId)->update([
+        'password'   => Hash::make($request->new_password),
+        'updated_at' => now(),
+    ]);
+
+    if (!$updated) {
+        return back()->with('error', 'Failed to update password. Please check details carefully.');
+    }
+
+    return back()->with('success', 'Password updated successfully.');
+}
+
 
 
     

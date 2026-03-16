@@ -123,11 +123,18 @@ Route::middleware(['web'])->group(function () {
     // Download filing
     Route::get('/admin/sec-filings/download/{id}', [InvestorController::class, 'downloadFiling'])
         ->name('admin.sec.download');
-            
+
+    // account settings update
+    Route::post('/investors/views/accountsettings/profile', [InvestorController::class, 'updateProfile'])->name('account.updateProfile');
+    Route::post('/investors/views/accountsettings/password', [InvestorController::class, 'updatePassword'])->name('account.updatePassword');
 
     Route::post('/admin/update-payment-status/{id}', [InvestorController::class, 'updatePaymentStatus'])
     ->name('admin.update-payment-status');
 
+ 
+    // admin Update password
+    Route::post('/admin/update-password', [InvestorController::class, 'adminupdatePassword'])
+    ->name('admin.adminupdatePassword');
     
     Route::post('investors/views/reports/store', [InvestorController::class, 'reportsstore'])->name('annual-reports.store');
     // Delete a report

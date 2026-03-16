@@ -1116,7 +1116,33 @@ select {
 /* =========================
    HANDBOOK LAYOUT
 ========================= */
+/* Success message */
+.alert-success {
+    background-color: #d4edda; /* light green */
+    border-left: 4px solid #28a745; /* dark green bar */
+    color: #155724; /* dark green text */
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
 
+/* Error message */
+.alert-danger {
+    background-color: #f8d7da; /* light red */
+    border-left: 4px solid #dc3545; /* dark red bar */
+    color: #721c24; /* dark red text */
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* Optional: list items inside error alert */
+.alert-danger ul {
+    margin: 0;
+    padding-left: 20px;
+}
 .handbook-layout {
     display: inline-flex;
     width: 100%;

@@ -99,25 +99,49 @@
             <div class="settings-card">
                 <h2>Change Password</h2>
 
-                <form method="POST" action="#">
+                    {{-- Display success message --}}
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                <form method="POST" action="{{ route('admin.adminupdatePassword') }}">
                     @csrf
 
                     <div class="form-group">
                         <label>Current Password</label>
-                        <input type="password" name="current_password">
+                        <input type="password" name="current_password" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label>New Password</label>
-                        <input type="password" name="new_password">
+                        <input type="password" name="new_password" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label>Confirm New Password</label>
-                        <input type="password" name="confirm_password">
+                        <input type="password" name="new_password_confirmation" class="form-control">
                     </div>
 
-                    <button type="submit" class="btn-primary">Update Password</button>
+                    <button type="submit" class="btn-primary btn-small" style="float:left;">Update Password</button>
+                    <br><br>
                 </form>
             </div>
 
