@@ -112,15 +112,29 @@ Route::middleware(['web'])->group(function () {
         ->name('admin.presentations.store');
    
 
-     
+        // Save filing
+    Route::post('/admin/sec-filings/store', [InvestorController::class, 'storeFiling'])
+        ->name('admin.sec.store');
+    // View page (load filings)
+
+    // Delete filing
+    Route::delete('/admin/sec-filings/delete/{id}', [InvestorController::class, 'deleteFiling'])
+        ->name('admin.sec.delete');
+    // Download filing
+    Route::get('/admin/sec-filings/download/{id}', [InvestorController::class, 'downloadFiling'])
+        ->name('admin.sec.download');
             
 
     Route::post('/admin/update-payment-status/{id}', [InvestorController::class, 'updatePaymentStatus'])
     ->name('admin.update-payment-status');
 
-
-
-   
+    
+    Route::post('investors/views/reports/store', [InvestorController::class, 'reportsstore'])->name('annual-reports.store');
+    // Delete a report
+    Route::delete('investors/views/reports/{id}', [InvestorController::class, 'destroy'])->name('annual-reports.destroy');
+    // Download a report
+    Route::get('investors/views/reports/download/{id}', [InvestorController::class, 'download'])->name('annual-reports.download');
+    
     //Route::get('/investors', [InvestorController::class, 'login'])->name('investors.login');
     Route::post('/investors/store', [InvestorController::class, 'store'])->name('investors.store');
 

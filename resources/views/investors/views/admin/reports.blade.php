@@ -103,24 +103,21 @@
                     <div class="card admin-form-card">
                         <h3 style="margin-bottom:15px;">Add New Report</h3>
 
-                        <form class="admin-form" action="#" method="POST" enctype="multipart/form-data">
+                        <form class="admin-form" action="{{ route('annual-reports.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-
                             <label>Report Title</label>
-                            <input type="text" name="title" placeholder="e.g. Annual Report 2025">
+                            <input type="text" name="title" placeholder="e.g. Annual Report 2025" required>
 
                             <label>Report Date</label>
-                            <input type="date" name="date">
+                            <input type="date" name="date" required>
 
                             <label>Cover Image</label>
                             <input type="file" name="image" accept="image/*">
 
                             <label>Upload PDF Report</label>
-                            <input type="file" name="file" accept="application/pdf">
+                            <input type="file" name="file" accept="application/pdf" required>
 
-                            <button type="submit" class="admin-btn">
-                                + Save Report
-                            </button>
+                            <button type="submit" class="admin-btn">+ Save Report</button>
                         </form>
                     </div>
 
@@ -135,41 +132,43 @@
                                         <th style="width:80px;">Cover</th>
                                         <th>Title</th>
                                         <th style="width:120px;">Date</th>
+                                        <th style="width:120px;">Format</th>
                                         <th style="width:140px;">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-
-                                    {{-- Example Static Rows --}}
+                               <tbody>
+                                    @forelse ($reports as $report)
                                     <tr>
                                         <td>
-                                            <img src="/images/sample-report.jpg" alt="Report Cover">
+                                            @if($report->cover_image)
+                                                <img src="{{ asset('contracts/annual-reports/images/'.$report->cover_image) }}" alt="Report Cover" width="60">
+                                            @else
+                                                —
+                                            @endif
                                         </td>
-                                        <td>Annual Report 2025</td>
-                                        <td>Dec 31, 2025</td>
+                                        <td>{{ $report->title }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($report->report_date)->format('M d, Y') }}</td>
+                                        <td>
+                                            <a href="{{ asset('contracts/annual-reports/pdfs/'.$report->pdf_file) }}" download="{{ $report->pdf_file }}" class="btn-download">PDF</a>
+                                        </td>
                                         <td>
                                             <div class="action-buttons">
-                                                <a href="#" class="btn-edit">Edit</a>
-                                                <a href="#" class="btn-delete">Delete</a>
+                                                <a href="{{ route('annual-reports.download', $report->id) }}" class="btn-edit">Download</a>
+
+                                                <form action="{{ route('annual-reports.destroy', $report->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-danger" onclick="return confirm('Are you sure you want to delete this report?')">Delete</button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
-
+                                    @empty
                                     <tr>
-                                        <td>
-                                            <img src="/images/sample-report.jpg" alt="Report Cover">
-                                        </td>
-                                        <td>Annual Report 2024</td>
-                                        <td>Dec 31, 2024</td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <a href="#" class="btn-edit">Edit</a>
-                                                <a href="#" class="btn-delete">Delete</a>
-                                            </div>
-                                        </td>
+                                        <td colspan="4" style="text-align:center;">No reports available</td>
                                     </tr>
-
-                                </tbody>
+                                    @endforelse
+                                    </tbody>
                             </table>
                         </div>
 
@@ -177,6 +176,9 @@
 
                 </div>
 
+            </div>
+            <div class="pagination" style="margin-top:20px;">
+                {{ $reports->links() }}
             </div>
         </section>
 

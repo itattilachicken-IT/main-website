@@ -97,7 +97,7 @@
                 <div class="admin-card">
                     <h2>Add New SEC Filing</h2>
 
-                    <form method="POST" action="#" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.sec.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="admin-form-grid">
@@ -158,34 +158,40 @@
 
                             <tbody>
 
-                                {{-- Static sample rows --}}
+                                @foreach ($filings as $f)
                                 <tr>
-                                    <td>Onboarding Contracts</td>
-                                    <td>Quarterly investor onboarding documentation</td>
-                                    <td>Feb 5, 2026</td>
+                                    <td>{{ $f->type }}</td>
+                                    <td>{{ $f->description }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($f->filing_date)->format('M d, Y') }}</td>
                                     <td>PDF</td>
                                     <td>
                                         <div class="admin-controls">
-                                            <button class="btn-edit">Edit</button>
-                                            <button class="btn-danger">Delete</button>
+
+                                            <!-- Download -->
+                                            <a href="{{ route('admin.sec.download', $f->id) }}" 
+                                            class="btn-edit">
+                                            Download
+                                            </a>
+
+                                            <!-- Delete -->
+                                            <form action="{{ route('admin.sec.delete', $f->id) }}" 
+                                                method="POST" 
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button class="btn-danger"
+                                                        onclick="return confirm('Delete this filing?')">
+                                                    Delete
+                                                </button>
+                                            </form>
+
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
 
-                                <tr>
-                                    <td>Payment Reports</td>
-                                    <td>Annual financial distribution report</td>
-                                    <td>Dec 11, 2025</td>
-                                    <td>PDF</td>
-                                    <td>
-                                        <div class="admin-controls">
-                                            <button class="btn-edit">Edit</button>
-                                            <button class="btn-danger">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>
 

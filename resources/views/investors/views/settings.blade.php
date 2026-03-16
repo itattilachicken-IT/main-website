@@ -87,7 +87,7 @@
             </div>
 
             {{-- Notifications Section --}}
-            <div class="settings-card">
+            <!-- <div class="settings-card">
                 <h2>Notifications</h2>
 
                 <div class="notification-item">
@@ -114,7 +114,7 @@
                     </label>
                 </div>
 
-            </div>
+            </div> -->
 
         </div>
 </div>

@@ -116,11 +116,20 @@ class InvestorsViewsController extends Controller
     }
     public function files()
     {
-          return view('investors.views.admin.files');
+            $filings = DB::table('sec_filings')
+        ->orderBy('filing_date', 'desc')
+        ->get();
+
+          return view('investors.views.admin.files', compact('filings'));
     }
     public function reports()
     {
-          return view('investors.views.admin.reports');
+        $reports = DB::table('annual_reports')
+            ->orderBy('report_date', 'desc')
+            ->paginate(10); // Pagination
+
+  
+          return view('investors.views.admin.reports', compact('reports'));
     }
      public function accountsettings()
     {
@@ -218,39 +227,56 @@ class InvestorsViewsController extends Controller
 
         return view('investors.views.events-and-presentations', compact('events', 'presentations'));
     }
-    public function secFilings()
+
+
+    public function secFilings(Request $request)
     {
-          return view('investors.views.sec-filings');
+        $query = DB::table('sec_filings');
+
+        // 🔎 Filter by Type
+        if ($request->filled('type') && $request->type !== 'All Filings') {
+            $query->where('type', $request->type);
+        }
+
+        // 📅 Filter by Year
+        if ($request->filled('year') && $request->year !== 'Trailing 12-Months') {
+            $query->whereYear('filing_date', $request->year);
+        }
+
+        // 📄 Pagination (10 per page)
+        $filings = $query
+            ->orderBy('filing_date', 'desc')
+            ->paginate(10)
+            ->withQueryString(); // keeps filters when changing pages
+
+        return view('investors.views.sec-filings', compact('filings'));
     }
+    // public function secFilings()
+    // {
+  
+    //     $filings = DB::table('sec_filings')
+    //         ->orderBy('filing_date', 'desc')
+    //         ->get();
+
+    //       return view('investors.views.sec-filings',compact('filings'));
+    // }
         public function annualReports()
     {
-        $annualreports = [
-            [
-                'title' => '2025 Annual Report',
-                'date' => 'Published: 2026-01-31',
-                'image' => asset('images/annual-report-2025.jpg'),
-                'download_link' => '#'
-            ],
-            [
-                'title' => '2024 Annual Report',
-                'date' => 'Published: 2025-02-15',
-                'image' => asset('images/annual-report-2024.jpg'),
-                'download_link' => '#'
-            ],
-            [
-                'title' => '2023 Annual Report',
-                'date' => 'Published: 2024-02-20',
-                'image' => asset('images/annual-report-2023.jpg'),
-                'download_link' => '#'
-            ],
-            [
-                'title' => '2022 Annual Report',
-                'date' => 'Published: 2023-03-10',
-                'image' => asset('images/annual-report-2022.jpg'),
-                'download_link' => '#'
-            ],
-        ];
+           // Pull all reports from the database
+    $annualreports = DB::table('annual_reports')
+        ->orderBy('report_date', 'desc')
+        ->get()
+        ->map(function($report) {
+            return [
+                'id' => $report->id,
+                'title' => $report->title,
+                'date' => \Carbon\Carbon::parse($report->report_date)->format('M d, Y'),
+                'cover_image' => $report->cover_image ? asset('contracts/annual-reports/images/'.$report->cover_image) : asset('images/default-report.png'),
+                'download_link' => $report->pdf_file ? asset('contracts/annual-reports/pdfs/'.$report->pdf_file) : '#',
+            ];
+        });
 
+   
         return view('investors.views.annual-reports', compact('annualreports'));
     }
        public function settings()

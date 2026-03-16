@@ -24,15 +24,15 @@
         <section class="section">
             <div class="container">
 
-                <h1 class="page-title">Annual Reports</h1>
+      
 
-                <div class="reports-grid">
+             <div class="reports-grid">
 
-                    @foreach ($annualreports as $report)
+                    @forelse ($annualreports as $report)
                         <div class="presentation-item">
                             <img class="presentation-image"
-                                 src="{{ $report['image'] }}"
-                                 alt="{{ $report['title'] }}">
+                                src="{{ $report['cover_image'] }}"
+                                alt="{{ $report['title'] }}">
 
                             <div class="presentation-title">
                                 {{ $report['title'] }}
@@ -43,11 +43,14 @@
                             </div>
 
                             <a class="download-btn"
-                               href="{{ $report['download_link'] }}">
-                               DOWNLOAD REPORT
+                            href="{{ $report['download_link'] }}"
+                            download>
+                            DOWNLOAD REPORT
                             </a>
                         </div>
-                    @endforeach
+                    @empty
+                        <p>No annual reports available.</p>
+                    @endforelse
 
                 </div>
 

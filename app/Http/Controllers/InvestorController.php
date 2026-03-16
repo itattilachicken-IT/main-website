@@ -443,9 +443,146 @@ public function authenticate(Request $request)
         return view('investors.views.admin.edit-presentation', compact('presentation'));
     }
 
+    public function storeFiling(Request $request)
+{
+    $request->validate([
+        'type' => 'required',
+        'date' => 'required|date',
+        'description' => 'nullable',
+        'pdf_file' => 'required|mimes:pdf'
+    ]);
+
+    // Ensure folder exists
+    $folder = public_path('contracts/sec-filings');
+    if (!file_exists($folder)) {
+        mkdir($folder, 0777, true);
+    }
+
+    // Save PDF
+    $fileName = null;
+
+    if ($request->hasFile('pdf_file')) {
+        $file = $request->file('pdf_file');
+        $fileName = time().'_'.$file->getClientOriginalName();
+        $file->move($folder, $fileName);
+    }
+
+    DB::table('sec_filings')->insert([
+        'type' => $request->type,
+        'description' => $request->description,
+        'filing_date' => $request->date,
+        'pdf_file' => $fileName,
+        'created_at' => now(),
+        'updated_at' => now()
+    ]);
+
+    return back()->with('success', 'Filing saved successfully');
+}
 
 
-            
+public function downloadFiling($id)
+{
+    $filing = DB::table('sec_filings')->find($id);
+
+    if (!$filing) abort(404);
+
+    $path = public_path('contracts/sec-filings/'.$filing->pdf_file);
+
+    if (!file_exists($path)) abort(404);
+
+    return response()->download($path, $filing->pdf_file);
+}
+      
+public function deleteFiling($id)
+{
+    $filing = DB::table('sec_filings')->find($id);
+
+    if ($filing) {
+
+        $path = public_path('contracts/sec-filings/'.$filing->pdf_file);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        DB::table('sec_filings')->where('id', $id)->delete();
+    }
+
+    return back()->with('success', 'Filing deleted');
+}
+
+ // Store new report
+    public function reportsstore(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+            'image' => 'nullable|image',
+            'file' => 'required|mimes:pdf'
+        ]);
+
+        // Upload folder paths
+        $imageName = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'_'.$image->getClientOriginalName();
+            $image->move(public_path('contracts/annual-reports/images'), $imageName);
+        }
+
+        $pdfName = null;
+        if ($request->hasFile('file')) {
+            $pdf = $request->file('file');
+            $pdfName = time().'_'.$pdf->getClientOriginalName();
+            $pdf->move(public_path('contracts/annual-reports/pdfs'), $pdfName);
+        }
+
+        DB::table('annual_reports')->insert([
+            'title' => $request->title,
+            'report_date' => $request->date,
+            'cover_image' => $imageName,
+            'pdf_file' => $pdfName,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', 'Annual report uploaded successfully!');
+    }
+
+    // Delete a report
+public function destroy($id)
+{
+    $report = DB::table('annual_reports')->where('id', $id)->first();
+    if (!$report) {
+        return back()->with('error', 'Report not found.');
+    }
+
+    // Delete files
+    if ($report->cover_image && file_exists(public_path('contracts/annual-reports/images/'.$report->cover_image))) {
+        unlink(public_path('contracts/annual-reports/images/'.$report->cover_image));
+    }
+
+    if ($report->pdf_file && file_exists(public_path('contracts/annual-reports/pdfs/'.$report->pdf_file))) {
+        unlink(public_path('contracts/annual-reports/pdfs/'.$report->pdf_file));
+    }
+
+    // Delete from database
+    DB::table('annual_reports')->where('id', $id)->delete();
+
+    return back()->with('success', 'Report deleted successfully!');
+}
+
+// Download PDF
+public function download($id)
+{
+    $report = DB::table('annual_reports')->where('id', $id)->first();
+    if (!$report || !$report->pdf_file) {
+        abort(404);
+    }
+
+    $filePath = public_path('contracts/annual-reports/pdfs/'.$report->pdf_file);
+    return response()->download($filePath, $report->pdf_file);
+}
+
 
     
 }
