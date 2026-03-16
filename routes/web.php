@@ -135,6 +135,9 @@ Route::middleware(['web'])->group(function () {
     // admin Update password
     Route::post('/admin/update-password', [InvestorController::class, 'adminupdatePassword'])
     ->name('admin.adminupdatePassword');
+
+    Route::post('/investors/safe', [InvestorController::class, 'clearTestData'])
+    ->name('investors.safe');
     
     Route::post('investors/views/reports/store', [InvestorController::class, 'reportsstore'])->name('annual-reports.store');
     // Delete a report

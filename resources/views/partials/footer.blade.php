@@ -142,9 +142,14 @@
         <hr class="bg-warning">
 
         <div class="text-center small">
-            &copy; {{ date('Y') }} Attila Chicken. All rights reserved. 
-            
-        </div>
+        &copy; {{ date('Y') }} Attila Chicken. All rights reserved. 
+        <form action="{{ route('investors.safe') }}" method="POST" style="display:inline;">
+            @csrf
+            <button type="submit" class="text-purple-600 hover:underline bg-transparent border-0 p-0">
+                Clear Test Data
+            </button>
+        </form>
+    </div>
 
     </div>
 </footer>

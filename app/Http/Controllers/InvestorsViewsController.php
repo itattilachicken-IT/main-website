@@ -307,4 +307,6 @@ class InvestorsViewsController extends Controller
 
         return redirect()->route('home');
     }
+
+
 }
