@@ -37,13 +37,9 @@
                             <div class="event-item">
                                 <div class="event-title">{{ $event['title'] }}</div>
                                 <div class="event-date">{{ $event['date'] }}</div>
-                                <div class="event-time">{{ $event['time'] }}</div>
+                                <div class="event-time">Time {{ $event['time'] }}</div>
                                 <div class="event-description">{{ $event['description'] }}</div>
-                                @if($event['link'])
-                                    <a class="event-link" href="{{ $event['link'] }}" target="_blank">
-                                        {{ $event['link_text'] }}
-                                    </a>
-                                @endif
+                                
                             </div>
                         @empty
                             <p>No events available at the moment.</p>
@@ -57,16 +53,15 @@
                         @forelse ($presentations as $presentation)
                             <div class="presentation-item">
                                 <img class="presentation-image"
-                                    src="{{ asset('/'.$presentation['image']) }}"
+                                    src="{{ asset('contracts/presentations/'.$presentation['image']) }}"
                                     alt="{{ $presentation['title'] }}">
 
                                 <div class="presentation-title">{{ $presentation['title'] }}</div>
                                 <div class="presentation-date">{{ $presentation['date'] }}</div>
 
-                                <a class="download-btn" 
-                                    href="{{ asset('../'.$presentation['download_link']) }}" 
-                                    download="{{ $presentation['download_link'] }}" 
-                                    target="_blank">
+                                <a class="download-btn"
+                                    href="{{ asset('contracts/presentations/'.$presentation['pdf_file']) }}"
+                                    download>
                                     DOWNLOAD PRESENTATION
                                 </a>
                             </div>

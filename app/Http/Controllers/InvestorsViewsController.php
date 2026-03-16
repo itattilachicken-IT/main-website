@@ -200,18 +200,21 @@ class InvestorsViewsController extends Controller
         });
 
     // Pull presentations from database (table: presentations)
-    $presentations = DB::table('presentations')
-        ->orderBy('presentation_date', 'desc')
-        ->get()
-        ->map(function($presentation) {
-            return [
-                'id' => $presentation->id,
-                'title' => $presentation->title,
-                'date' => \Carbon\Carbon::parse($presentation->presentation_date)->format('jS F Y'),
-                'image' => asset('storage/'.$presentation->image),
-                'download_link' => asset('storage/'.$presentation->pdf_file)
-            ];
-        });
+        $presentations = DB::table('presentations')
+            ->orderBy('presentation_date', 'desc')
+            ->get()
+            ->map(function ($p) {
+                return [
+                    'id' => $p->id,
+                    'title' => $p->title,
+                    'presentation_date' => $p->presentation_date,
+                    'date' => \Carbon\Carbon::parse($p->presentation_date)->format('jS F Y'),
+
+                    // SEND FILENAMES ONLY
+                    'image' => $p->image,
+                    'pdf_file' => $p->pdf_file
+                ];
+            });
 
         return view('investors.views.events-and-presentations', compact('events', 'presentations'));
     }
