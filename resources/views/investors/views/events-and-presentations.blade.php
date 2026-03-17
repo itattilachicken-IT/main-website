@@ -41,10 +41,10 @@
 
                         @forelse ($events as $event)
                             <div class="event-item">
-                                <div class="event-title">{{ $event['title'] }}</div>
+                                <div class="event-title" style="color:#FF6D19;font-weight:600;">{{ $event['title'] }}</div>
                                 <div class="event-date">{{ $event['date'] }}</div>
                                 <div class="event-time">Time {{ $event['time'] }}</div>
-                                <div class="event-description">{{ $event['description'] }}</div>
+                                <div class="event-description" style="font-size:13px;">{{ $event['description'] }}</div>
                                 
                             </div>
                         @empty

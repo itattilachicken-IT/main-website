@@ -22,7 +22,7 @@
             <span>💼</span>
             <span class="link-text">My Investments</span>
         </a>
-        <a href="{{ url('investors/views/handbook') }}" class="nav-link" data-title="Investor's Handbook">
+        <a href="{{ url('investors/views/handbook') }}" class="nav-link" data-title="Handbook">
             <span>📘</span>
             <span class="link-text">Investor Handbook</span>
         </a>
@@ -37,7 +37,7 @@
             <span class="link-text">Company Updates</span>
         </a>
 
-        <a href="{{ url('investors/views/events-and-presentations') }}" class="nav-link" data-title="Events & Presentations">
+        <a href="{{ url('investors/views/events-and-presentations') }}" class="nav-link" data-title="Events">
             <span>📅</span>
             <span class="link-text">Events</span>
         </a>

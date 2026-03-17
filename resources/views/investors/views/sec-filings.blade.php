@@ -76,8 +76,8 @@
 
                             </div>
 
-                            <div class="ticker">
-                                ATTILA: OFFICIAL
+                            <div class="ticker" style="color:#FF6D19;font-weight:600;">
+                                ATTILA: Official Filings
                             </div>
 
                         </div>
