@@ -83,7 +83,7 @@
                 
            
     </ul>
-    <a href="{{ route('investors.login') }}" class="text-decoration-none fw-bold" style="color: white; background-color: #fe0000; padding: 5px 10px; border-radius: 5px;">
+    <a href="{{ route('investors.login') }}" class="text-decoration-none fw-bold" style="color: #fff; background-color: #dc3545; padding: 5px 10px; border-radius: 5px;">
                     Investors
                 </a>
 </div>
