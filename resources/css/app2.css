@@ -126,8 +126,8 @@ body {
     font-size: 20px;
     cursor: pointer;
     position: absolute;
-    right: 10px;
-    top: 50%;
+    right: 5px;
+    top: 35%;
     transform: translateY(-50%);
     z-index: 1100;
     padding: 6px 8px;
@@ -2473,4 +2473,29 @@ select {
     height: 4px;
     background: linear-gradient(90deg, #f97316, #ea580c);
     border-radius: 2px;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 10px;
+    color: #fff;
+}
+
+/* PAID — Green */
+.status.paid {
+    background-color: #2E7D32;
+}
+
+/* UPCOMING — Yellow */
+.status.upcoming {
+    background-color: #FCCC32;
+    color: #333; /* better contrast on yellow */
+}
+
+/* DECLINED — Red */
+.status.declined {
+    background-color: #C62828;
 }

@@ -7,6 +7,7 @@
             <h2 class="logo-text">ATTILA</h2>
             <span>Investor Portal</span>
         </div>
+      
         <button class="collapse-btn" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
     </div>
 
