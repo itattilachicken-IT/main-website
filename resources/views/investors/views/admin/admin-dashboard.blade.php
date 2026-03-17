@@ -98,6 +98,17 @@
 
         <section class="section">
             <div class="container">
+                @php
+            $hour = now()->hour;
+            $greeting = $hour < 12 ? 'Good morning' : ($hour < 18 ? 'Good afternoon' : 'Good evening');
+        @endphp
+
+        <div class="card" style="margin-bottom: 24px;">
+            <p class="lead">
+                {{ $greeting }}, 
+                welcome back to your Admin dashboard.
+            </p>
+        </div>
 
             {{-- CREATE INVESTOR TOGGLE --}}
                 <div class="card" style="margin-bottom:20px;">
@@ -209,9 +220,7 @@
                                             <td>
                                                 <select name="status[]">
                                                     <option>Scheduled</option>
-                                                    <option>In Progress</option>
-                                                    <option>Paid</option>
-                                                    <option>Not Paid</option>
+                                                    
                                                 </select>
                                             </td>
                                             <td>
@@ -281,6 +290,24 @@
             <div class="card" style="margin-top:30px;">
                 <h3 style="margin-bottom:15px;">Current Onboarded Investors</h3>
 
+
+                <div class="card" style="margin-bottom:15px;">
+            <div style="display:flex; gap:10px; align-items:center;">
+
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search investor..."
+                    class="form-control"
+                    
+                >
+
+                <button class="btn-secondary" onclick="clearFilter()">Clear</button>
+
+                </div>
+            </div>
+
+
                 <div class="table-wrapper">
                     <table class="data-table">
                         <thead>
@@ -301,7 +328,14 @@
 
                             @foreach($investors as $investor)
 
-                            <tr>
+                            <tr class="investor-row"
+                                data-id="{{ $investor->id }}"
+                                data-code="{{ strtolower($investor->investor_code) }}"
+                                data-name="{{ strtolower($investor->full_name) }}"
+                                data-email="{{ strtolower($investor->email) }}"
+                                data-phone="{{ strtolower($investor->phone) }}"
+                                data-package="{{ strtolower($investor->investment_package ?? '') }}">
+                                
                                 <td>{{ $investor->investor_code ?? '-' }}</td>
 
                                 <td>{{ $investor->full_name ?? '-' }}</td>
@@ -555,6 +589,42 @@ function updatePaymentStatus(paymentId) {
         }
     })
     .catch(err => console.error(err));
+}
+
+
+document.getElementById("searchInput").addEventListener("keyup", filterInvestors);
+
+function filterInvestors() {
+
+    const search = document.getElementById("searchInput").value.toLowerCase();
+
+    const rows = document.querySelectorAll(".investor-row");
+
+    rows.forEach(row => {
+
+        const show =
+            (row.dataset.id || "").includes(search) ||
+            (row.dataset.code || "").includes(search) ||
+            (row.dataset.name || "").includes(search) ||
+            (row.dataset.email || "").includes(search) ||
+            (row.dataset.phone || "").includes(search) ||
+            (row.dataset.package || "").includes(search);
+
+        row.style.display = show ? "" : "none";
+
+        // Hide payments row if main row hidden
+        const paymentsRow = document.getElementById("payments-" + row.dataset.id);
+        if (paymentsRow) {
+            paymentsRow.style.display = show ? paymentsRow.style.display : "none";
+        }
+
+    });
+}
+
+// 🔄 Clear Filter
+function clearFilter() {
+    document.getElementById("searchInput").value = "";
+    filterInvestors();
 }
 </script>
 

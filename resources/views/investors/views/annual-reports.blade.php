@@ -24,7 +24,14 @@
         <section class="section">
             <div class="container">
 
-      
+      {{-- Notice --}}
+                <div class="card" style="margin-bottom: 24px;">
+                    <p class="lead">
+                        View our annula reports to gain insights into our financial performance, strategic 
+                        initiatives, and future outlook. 
+                       
+                    </p>
+                </div>
 
              <div class="reports-grid">
 

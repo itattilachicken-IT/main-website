@@ -24,11 +24,11 @@
             <div class="container">
 
                 <a class="back-link" href="{{ url('/press-releases') }}">
-                    ← Back to Press Releases
+                    ← Back to Company Updates
                 </a>
 
                 <h1 class="page-title">
-                    {{ $release['title'] ?? 'Press Release' }}
+                    {{ $release['title'] ?? 'Company Update' }}
                 </h1>
 
                 <div class="meta">
@@ -40,7 +40,7 @@
                 </div>
 
                 <a class="back-link" href="{{ url('/press-releases') }}">
-                    ← Back to Press Releases
+                    ← Back to Company Updates
                 </a>
 
             </div>

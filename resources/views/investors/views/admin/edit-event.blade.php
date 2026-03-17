@@ -61,6 +61,8 @@
         <section class="section">
             <div class="container">
 
+
+
                 <div class="admin-card">
 
                     <h3>Edit Event Details</h3>

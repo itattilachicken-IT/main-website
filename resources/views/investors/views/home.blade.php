@@ -26,6 +26,19 @@
         <section class="section">
             <div class="container">
 
+            {{-- Notice --}}
+                @php
+                    $hour = now()->hour;
+                    $greeting = $hour < 12 ? 'Good morning' : ($hour < 18 ? 'Good afternoon' : 'Good evening');
+                @endphp
+
+                <div class="card" style="margin-bottom: 24px;">
+                    <p class="lead">
+                        {{ $greeting }} {{ session('investor_name', 'Investor') }}, 
+                        welcome back to your dashboard.
+                    </p>
+                </div>
+
                 @php
                     $totalInvestment = $investor->total_investment ?? 0;
 

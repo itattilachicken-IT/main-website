@@ -92,7 +92,12 @@
 
         <section class="section">
             <div class="container">
-
+                            {{-- Notice --}}
+                <div class="card" style="margin-bottom: 24px;">
+                    <p class="lead">
+                        Add or Edit details for an upcoming event, such as industry conferences. Keep investors informed about our latest activities and strategic initiatives.
+                    </p>
+                </div>
                 <div class="two-column-admin">
 
                     <!-- ================= EVENTS ================= -->

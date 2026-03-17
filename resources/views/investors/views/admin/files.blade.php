@@ -93,9 +93,16 @@
         <section class="section">
             <div class="container">
 
+                                        {{-- Notice --}}
+                <div class="card" style="margin-bottom: 24px;">
+                    <p class="lead">
+                        Add or Edit details of SEC filings, such as onboarding contracts, offboarding contracts, payment reports, or other important documents. Keep investors informed about our latest activities and strategic initiatives.
+                    </p>
+                </div>
+
                 {{-- Add Filing Form --}}
                 <div class="admin-card">
-                    <h2>Add New SEC Filing</h2>
+                 
 
                     <form method="POST" action="{{ route('admin.sec.store') }}" enctype="multipart/form-data">
                         @csrf
@@ -169,7 +176,7 @@
 
                                             <!-- Download -->
                                             <a href="{{ route('admin.sec.download', $f->id) }}" 
-                                            class="btn-edit">
+                                            class="download-btn">
                                             Download
                                             </a>
 

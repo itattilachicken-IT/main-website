@@ -23,7 +23,7 @@
         <section class="section">
             <div class="container">
 
-                <h2>Press Releases</h2>
+              
 
                 {{-- Disclaimer --}}
                 <div class="card" style="margin-bottom:20px;">

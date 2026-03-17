@@ -23,7 +23,13 @@
         <section class="section">
             <div class="container">
 
-                
+               {{-- Notice --}}
+                <div class="card" style="margin-bottom: 24px;">
+                    <p class="lead">
+                        View your current investments, payment schedules, and package details. Stay informed about your investment performance and upcoming payments.
+                       
+                    </p>
+                </div> 
            
             {{-- Investor Investment Table --}}
             <div class="card table-wrapper">

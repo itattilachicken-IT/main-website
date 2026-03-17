@@ -25,7 +25,13 @@
         <section class="section">
             <div class="container">
 
-                
+                {{-- Notice --}}
+                <div class="card" style="margin-bottom: 24px;">
+                    <p class="lead">
+                        View our latest events and presentations to stay informed about our recent activities, strategic initiatives, and industry insights.
+                       
+                    </p>
+                </div>
 
                 <div class="two-column">
 

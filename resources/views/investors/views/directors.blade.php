@@ -27,9 +27,13 @@
             <div class="container">
 
                
-                <p class="page-subtitle">
-                    Meet the leadership and governance team guiding Attila.
-                </p>
+                {{-- Notice --}}
+                <div class="card" style="margin-bottom: 24px;">
+                    <p class="lead">
+                        Meet the board of directors who guide our strategic vision and oversee our operations. Our directors bring a wealth of experience and expertise to ensure the long-term success of Attila Chicken.
+                       
+                    </p>
+                </div>
 
                 <div class="cards board-grid">
 

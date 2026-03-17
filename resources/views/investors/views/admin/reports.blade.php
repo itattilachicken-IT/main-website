@@ -92,9 +92,11 @@
         <section class="section">
             <div class="container">
 
-                <div class="admin-header">
-                    <h1>Annual Reports Management</h1>
-                    <p>Upload and manage official company annual reports.</p>
+                                            {{-- Notice --}}
+                <div class="card" style="margin-bottom: 24px;">
+                    <p class="lead">
+                       Add or Edit details of annual reports, such as financial performance, strategic initiatives, and future outlook. Keep investors informed about our latest activities and strategic initiatives.
+                    </p>
                 </div>
 
                 <div class="admin-layout">
@@ -117,7 +119,7 @@
                             <label>Upload PDF Report</label>
                             <input type="file" name="file" accept="application/pdf" required>
 
-                            <button type="submit" class="admin-btn">+ Save Report</button>
+                            <button type="submit" class="btn-primary">+ Save Report</button>
                         </form>
                     </div>
 

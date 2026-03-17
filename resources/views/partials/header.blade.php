@@ -31,9 +31,9 @@
             <span class="link-text">Board of Directors</span>
         </a>
 
-        <a href="{{ url('investors/views/press-releases') }}" class="nav-link" data-title="Press Releases">
+        <a href="{{ url('investors/views/press-releases') }}" class="nav-link" data-title="Company Updates">
             <span>🗞️</span>
-            <span class="link-text">Press Releases</span>
+            <span class="link-text">Company Updates</span>
         </a>
 
         <a href="{{ url('investors/views/events-and-presentations') }}" class="nav-link" data-title="Events & Presentations">

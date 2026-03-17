@@ -23,7 +23,13 @@
         <section class="section">
             <div class="container">
 
-               
+               {{-- Notice --}}
+                <div class="card" style="margin-bottom: 24px;">
+                    <p class="lead">
+                        See our investor handbook for a comprehensive guide to investing with Attila Chicken, including eligibility, how investments work, returns, risks, legal information, and FAQs.
+                       
+                    </p>
+                </div>
 
                 <div class="handbook-layout">
                   
