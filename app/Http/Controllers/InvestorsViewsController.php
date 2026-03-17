@@ -33,6 +33,9 @@ class InvestorsViewsController extends Controller
 
     public function admin()
     {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('investors.login');
+        }
         $investors = DB::table('onboarding_investors')
         ->orderBy('created_at', 'desc')
         ->get();
@@ -42,6 +45,9 @@ class InvestorsViewsController extends Controller
 
      public function dashboard()
     {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('investors.login');
+        }
         $investors = DB::table('onboarding_investors')
         ->orderBy('created_at', 'desc')
         ->get();
@@ -105,6 +111,9 @@ class InvestorsViewsController extends Controller
     
      public function events()
     {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('investors.login');
+        }
          $events = DB::table('fieldevents')
                 ->orderBy('event_date', 'desc')
                 ->get();
@@ -117,6 +126,9 @@ class InvestorsViewsController extends Controller
     }
     public function files()
     {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('investors.login');
+        }
             $filings = DB::table('sec_filings')
         ->orderBy('filing_date', 'desc')
         ->get();
@@ -125,6 +137,9 @@ class InvestorsViewsController extends Controller
     }
     public function reports()
     {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('investors.login');
+        }
         $reports = DB::table('annual_reports')
             ->orderBy('report_date', 'desc')
             ->paginate(10); // Pagination
@@ -134,6 +149,9 @@ class InvestorsViewsController extends Controller
     }
      public function accountsettings()
     {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('investors.login');
+        }
           return view('investors.views.admin.accountsettings');
     }
     public function myInvestments()
@@ -159,14 +177,23 @@ class InvestorsViewsController extends Controller
     }
      public function handbook()
     {
+        if (!session()->has('investor_id')) {
+            return redirect()->route('investors.login');
+        }
           return view('investors.views.handbook');
     }
      public function directors()
     {
+        if (!session()->has('investor_id')) {
+            return redirect()->route('investors.login');
+        }
           return view('investors.views.directors');
     }
     public function pressReleases()
     {
+        if (!session()->has('investor_id')) {
+            return redirect()->route('investors.login');
+        }
         $releases = [
             [
                 'date' => '2026-02-15',
@@ -192,6 +219,9 @@ class InvestorsViewsController extends Controller
     }
     public function eventsAndPresentations()
     {
+        if (!session()->has('investor_id')) {
+            return redirect()->route('investors.login');
+        }
 
     // Pull events from database (table: fieldevents)
     $events = DB::table('fieldevents')
@@ -232,6 +262,9 @@ class InvestorsViewsController extends Controller
 
     public function secFilings(Request $request)
     {
+        if (!session()->has('investor_id')) {
+            return redirect()->route('investors.login');
+        }
         $query = DB::table('sec_filings');
 
         // 🔎 Filter by Type
@@ -263,6 +296,9 @@ class InvestorsViewsController extends Controller
     // }
         public function annualReports()
     {
+        if (!session()->has('investor_id')) {
+            return redirect()->route('investors.login');
+        }
            // Pull all reports from the database
     $annualreports = DB::table('annual_reports')
         ->orderBy('report_date', 'desc')
@@ -283,6 +319,9 @@ class InvestorsViewsController extends Controller
 
     public function settings(Request $request)
     {
+        if (!session()->has('investor_id')) {
+            return redirect()->route('investors.login');
+        }
         // Get the user identifier from session
         $investorCode = $request->session()->get('investor_code'); // adjust key name based on your session
 

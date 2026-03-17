@@ -306,8 +306,6 @@ public function authenticate(Request $request)
             return back()->with('success', 'Presentation saved successfully');
         }
 
-      
-
         public function deleteEvent($id)
         {
             DB::table('fieldevents')->where('id', $id)->delete();
