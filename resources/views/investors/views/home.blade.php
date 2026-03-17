@@ -25,8 +25,7 @@
 
         <section class="section">
             <div class="container">
-
-            {{-- Notice --}}
+                {{-- Notice --}}
                 @php
                     $hour = now()->hour;
                     $greeting = $hour < 12 ? 'Good morning' : ($hour < 18 ? 'Good afternoon' : 'Good evening');
@@ -38,6 +37,68 @@
                         welcome back to your dashboard.
                     </p>
                 </div>
+
+{{-- CONTRACT LIFESPAN BAR --}}
+@php
+    use Carbon\Carbon;
+
+    // Get logged-in investor's code from session
+    $investorCode = session('investor_code');
+
+    // Get only payments for this investor
+    $payments = DB::table('investor_payments')
+        ->where('investor_code', $investorCode)
+        ->orderBy('payment_date')
+        ->get();
+
+    if ($payments->count() > 0) {
+
+        // Round start and end dates to whole day
+        $startDate = Carbon::parse($payments->min('placement_date'))->startOfDay();
+        $endDate = Carbon::parse($payments->max('payment_date'))->startOfDay();
+
+        // Today's date at start of day
+        $today = Carbon::today();
+
+        // Total duration in whole days
+        $totalDays = max(1, $startDate->diffInDays($endDate));
+
+        // Days passed since start
+        $daysPassed = $startDate->diffInDays($today, false);
+        $daysPassed = max(0, min($daysPassed, $totalDays));
+
+        // Days left (whole days)
+        $daysLeft = max(0, $today->diffInDays($endDate, false));
+
+        // Progress percentage
+        $percent = ($daysPassed / $totalDays) * 100;
+    }
+@endphp
+
+@if(isset($percent))
+<div class="card lifespan-card">
+    
+    <div class="lifespan-header">
+        <strong>Contract Lifespan</strong>
+        <span>{{ $daysLeft }} days remaining</span>
+    </div>
+
+    <div class="lifespan-bar">
+        <div 
+            class="lifespan-progress {{ $daysLeft < 30 ? 'danger' : '' }}"
+            style="width: {{ $percent }}%">
+        </div>
+    </div>
+
+    <div class="lifespan-dates">
+        <span>{{ $startDate->format('j M Y') }}</span>
+        <span>{{ $endDate->format('j M Y') }}</span>
+    </div>
+
+</div>
+@endif
+
+            
 
                 @php
                     $totalInvestment = $investor->total_investment ?? 0;
