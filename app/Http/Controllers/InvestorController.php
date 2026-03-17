@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Investor;
 
@@ -774,6 +775,35 @@ private function deleteDirectory($dir)
     }
 
     rmdir($dir);
+}
+
+
+
+public function newsstore(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+        'date' => 'required|date',
+    ]);
+
+    DB::table('news')->insert([
+        'title' => $request->title,
+        'content' => $request->content,
+        'date' => $request->date,
+        'slug' => Str::slug($request->title) . '-' . time(),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    return back()->with('success', 'News article published.');
+}
+
+public function newsdestroy($id)
+{
+    DB::table('news')->where('id', $id)->delete();
+
+    return back()->with('success', 'News deleted successfully.');
 }
 
     

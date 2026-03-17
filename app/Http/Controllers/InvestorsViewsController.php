@@ -29,6 +29,16 @@ class InvestorsViewsController extends Controller
         return view('investors.views.home', compact('investor', 'payments'));
          
     }
+
+     public function news()
+    {
+    
+        $news = DB::table('news')
+        ->orderBy('date', 'desc')
+        ->get();
+           
+        return view('investors.views.admin.news', compact('news'));
+    }
     
 
     public function admin()
@@ -189,32 +199,33 @@ class InvestorsViewsController extends Controller
         }
           return view('investors.views.directors');
     }
-    public function pressReleases()
+    public function pressReleases(Request $request)
     {
         if (!session()->has('investor_id')) {
             return redirect()->route('investors.login');
         }
-        $releases = [
-            [
-                'date' => '2026-02-15',
-                'title' => 'Attila Chicken Expands Production Capacity',
-                'slug' => 'expansion-announcement',
-                'content' => 'Attila Chicken has announced a major expansion of its production facilities to meet growing market demand. The new facility will create 500 new jobs and increase production capacity by 40%.'
-            ],
-            [
-                'date' => '2026-01-20',
-                'title' => 'Record Q4 Results Announced',
-                'slug' => 'q4-results',
-                'content' => 'Record sales and profitability achieved in Q4 2025. Revenue increased by 35% year-over-year with improved margins across all product categories.'
-            ],
-            [
-                'date' => '2025-12-10',
-                'title' => 'Sustainability Initiative Launched',
-                'slug' => 'sustainability-initiative',
-                'content' => 'Attila Chicken launches comprehensive sustainability program focusing on reducing carbon emissions and supporting local farming communities.'
-            ],
-        ];
-        
+
+    $query = DB::table('news')->orderBy('date', 'desc');
+
+    // 🔹 Filter by year
+    if ($request->filled('year')) {
+        $query->whereYear('date', $request->year);
+    }
+
+    // 🔹 Search
+    if ($request->filled('search')) {
+        $query->where(function ($q) use ($request) {
+            $q->where('title', 'like', '%'.$request->search.'%')
+              ->orWhere('content', 'like', '%'.$request->search.'%');
+        });
+    }
+
+    // 🔹 Items per page
+    $perPage = $request->get('per_page', 5);
+
+    // 🔹 Paginate + preserve filters
+    $releases = $query->paginate($perPage)->withQueryString();
+
         return view('investors.views.press-releases', compact('releases'));
     }
     public function eventsAndPresentations()

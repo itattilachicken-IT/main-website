@@ -43,6 +43,9 @@
             <a href="{{ url('investors/views/reports') }}" class="nav-link"> 
                 <span>📊</span> <span class="link-text">Annual Reports</span> 
             </a> 
+            <a href="{{ url('investors/views/news') }}" class="nav-link"> 
+                <span>🗞️</span> <span class="link-text">Company Updates</span> 
+            </a> 
                <div class="nav-dropdown">
 
         <button class="nav-link dropdown-toggle" onclick="toggleDropdown()" type="button">

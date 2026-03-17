@@ -115,7 +115,7 @@ label{
 
 <div class="login-card">
 
-    <div class="logo">ATTILA</div>
+    <div class="logo">ATTILA CHICKEN</div>
     <div class="title">Sign in to Dashboard</div>
 
     @if ($errors->any())

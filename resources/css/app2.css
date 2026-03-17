@@ -2499,3 +2499,29 @@ select {
 .status.declined {
     background-color: #C62828;
 }
+
+.handbook-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffc300;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.release-title {
+    font-weight: 700;
+    color: #ffc300;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle-icon {
+    font-size: 14px;
+    color: #ffc300;
+}
+
+.release-full-content {
+    line-height: 1.7;
+    color: #ffc300;
+}

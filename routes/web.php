@@ -71,6 +71,7 @@ Route::middleware(['web'])->group(function () {
             Route::get('/investors/admin-dashboard', [InvestorsViewsController::class, 'admin'])
         ->name('investors.admin-dashboard');
 
+        
 
         // DELETE
     Route::delete('/admin/events/{id}', 
@@ -131,13 +132,18 @@ Route::middleware(['web'])->group(function () {
     Route::post('/admin/update-payment-status/{id}', [InvestorController::class, 'updatePaymentStatus'])
     ->name('admin.update-payment-status');
 
- 
+    Route::post('/admin/news', [InvestorController::class, 'newsstore'])
+    ->name('news.store'); 
+    Route::delete('/admin/news/{id}', [InvestorController::class, 'newsdestroy'])
+    ->name('news.destroy');
     // admin Update password
     Route::post('/admin/update-password', [InvestorController::class, 'adminupdatePassword'])
     ->name('admin.adminupdatePassword');
 
     Route::post('/investors/safe', [InvestorController::class, 'clearTestData'])
     ->name('investors.safe');
+
+    
     
     Route::post('investors/views/reports/store', [InvestorController::class, 'reportsstore'])->name('annual-reports.store');
     // Delete a report
@@ -164,6 +170,9 @@ Route::middleware(['web'])->group(function () {
 
         Route::get('/home', [InvestorsViewsController::class, 'home'])
             ->name('investors.home');
+
+        Route::get('/news', [InvestorsViewsController::class, 'news'])
+        ->name('investors.admin.news');
 
         Route::get('/admin-dashboard', [InvestorsViewsController::class, 'dashboard'])
             ->name('investors.admin.admin-dashboard');
