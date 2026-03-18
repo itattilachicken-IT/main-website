@@ -399,30 +399,95 @@ new Chart(ctxGauge, {
         }
     });
 
-    // ===============================
-    // 5. DOUGHNUT BREAKDOWN
-    // ===============================
-    const ctxDoughnut = document.getElementById('yieldBreakdownChart').getContext('2d');
+// ===============================
+// 5. DOUGHNUT BREAKDOWN
+// ===============================
+const ctxDoughnut = document.getElementById('yieldBreakdownChart').getContext('2d');
 
-    new Chart(ctxDoughnut, {
-        type: 'doughnut',
-        data: {
-            labels: ['Received', 'Remaining'],
-            datasets: [{
-                data: [receivedAmount, remainingAmount],
-                backgroundColor: ['#22c55e', '#ef4444'],
-                borderWidth: 0,
-                cutout: '65%'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'bottom' }
+// ===============================
+// POINTER (RADAR LINE) PLUGIN
+// ===============================
+const pointerPlugin = {
+    id: 'pointerPlugin',
+    afterDraw: (chart) => {
+        const { ctx } = chart;
+        const meta = chart.getDatasetMeta(0);
+
+        if (!meta.data.length) return;
+
+        // Chart center
+        const x = meta.data[0].x;
+        const y = meta.data[0].y;
+
+        // 🔥 Dynamic angle based on "Received"
+        const data = chart.data.datasets[0].data;
+        const total = data.reduce((a, b) => a + b, 0);
+        const received = data[0];
+
+        const angle = (received / total) * 2 * Math.PI - Math.PI / 2;
+
+        const length = 80;
+
+        ctx.save();
+
+        // Draw line
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(
+            x + Math.cos(angle) * length,
+            y + Math.sin(angle) * length
+        );
+        ctx.strokeStyle = '#111'; // pointer color
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Center dot
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#111';
+        ctx.fill();
+
+        ctx.restore();
+    }
+};
+
+// ===============================
+// CHART CONFIG
+// ===============================
+new Chart(ctxDoughnut, {
+    type: 'doughnut',
+    data: {
+        labels: ['Received', 'Remaining'],
+        datasets: [{
+            data: [receivedAmount, remainingAmount],
+            backgroundColor: ['#22c55e', '#ef4444'],
+            borderColor: '#ffffff',   // ✅ border added
+            borderWidth: 3,
+            hoverOffset: 10
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: {
+            legend: {
+                position: 'bottom'
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        const value = context.raw;
+                        const percentage = ((value / total) * 100).toFixed(2);
+                        return `${context.label}: ${percentage}%`;
+                    }
+                }
             }
         }
-    });
+    },
+    plugins: [pointerPlugin] // ✅ activate radar line
+});
 
     // ===============================
     // 6. UPDATE CARDS (SAFE)
