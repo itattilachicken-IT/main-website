@@ -177,8 +177,9 @@
                     </div>
 
                     <div class="chart-container small-chart">
-                        <h3>Attila Trust Rate</h3>
+                        <h3>Attila Trust Rate (How satisfied are you with our service?)</h3>
                         <canvas id="trustGauge"></canvas>
+                        
                     </div>
 
                     <div class="chart-container small-chart">
@@ -333,7 +334,7 @@ new Chart(ctxGauge, {
     type: 'doughnut',
     data: {
         datasets: [{
-            data: [30, 40, 30], // segments
+            data: [20, 50, 20], // segments
             backgroundColor: ['#ef4444', '#facc15', '#22c55e'],
             borderWidth: 0,
             cutout: '72%',
@@ -346,7 +347,13 @@ new Chart(ctxGauge, {
         maintainAspectRatio: false,
         plugins: {
             tooltip: { enabled: false },
-            legend: { display: false }
+            legend: { display: false },
+             layout: {
+                padding: {
+                    top: 0,       
+                    bottom: 50    
+                }
+        },
         }
     },
     plugins: [gaugePlugin]
