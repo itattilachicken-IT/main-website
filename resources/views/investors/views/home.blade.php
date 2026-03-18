@@ -170,12 +170,18 @@
                 <!-- Charts Section -->
                 <div class="charts-section">
 
-                    <div class="chart-container">
-                        <h3>Investment Progression (6 Payout Cycle)</h3>
+                    <div class="chart-container small-chart">
+                        <h3>Investment Progression</h3>
                         <canvas id="investmentGrowthChart"></canvas>
+                      
                     </div>
 
-                    <div class="chart-container">
+                    <div class="chart-container small-chart">
+                        <h3>Attila Trust Rate</h3>
+                        <canvas id="trustGauge"></canvas>
+                    </div>
+
+                    <div class="chart-container small-chart">
                         <h3>Return Breakdown</h3>
                         <canvas id="yieldBreakdownChart"></canvas>
                     </div>
@@ -200,12 +206,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    const payments = @json($payments); // Payments passed from controller
+    const payments = @json($payments);
     const totalInvestment = {{ $totalInvestment }};
     const today = new Date().getTime();
 
     // ===============================
-    // 1. Prepare Data
+    // 1. PREPARE DATA
     // ===============================
     let receivedAmount = 0;
     let remainingAmount = 0;
@@ -229,60 +235,156 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const totalReturn = cumulative + remainingAmount; // expected total return
+    const totalReturn = cumulative + remainingAmount;
     const progressPercent = payments.length > 0 ? (receivedCount / payments.length) * 100 : 0;
     const roiToDate = totalInvestment > 0 ? (receivedAmount / totalInvestment) * 100 : 0;
 
     // ===============================
-    // 2. INVESTMENT PROGRESSION (Line Chart)
+// 2. TRUST SCORE LOGIC (IMPROVED)
+// ===============================
+let trustScore = 50; // start neutral
+
+payments.forEach(p => {
+    const payDate = new Date(p.payment_date).getTime();
+
+    if (payDate <= today) {
+        trustScore += 4;   // reward consistency
+    } else {
+        trustScore -= 6;   // penalize delay harder
+    }
+});
+
+// Clamp between 0–100
+trustScore = Math.max(0, Math.min(100, trustScore));
+
+// Update UI
+const trustEl = document.getElementById('trustScoreValue');
+if (trustEl) trustEl.textContent = Math.round(trustScore);
+
+
+// ===============================
+// 3. TRUST GAUGE (NEEDLE + LABELS)
+// ===============================
+const ctxGauge = document.getElementById('trustGauge').getContext('2d');
+
+const gaugePlugin = {
+    id: 'gaugePlugin',
+    afterDatasetDraw(chart) {
+        const { ctx } = chart;
+        const meta = chart.getDatasetMeta(0);
+
+        const centerX = meta.data[0].x;
+        const centerY = meta.data[0].y;
+
+        // ===============================
+        // NEEDLE
+        // ===============================
+        const angle = Math.PI + (trustScore / 100) * Math.PI;
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(angle);
+
+        ctx.beginPath();
+        ctx.moveTo(0, -3);
+        ctx.lineTo(85, 0);
+        ctx.lineTo(0, 3);
+        ctx.fillStyle = '#111';
+        ctx.fill();
+
+        ctx.restore();
+
+        // center circle
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#666';
+        ctx.fill();
+
+        // ===============================
+        // LABELS
+        // ===============================
+        ctx.save();
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+
+        const radius = 90;
+
+        // LOW (left)
+        ctx.fillStyle = '#ef4444';
+        ctx.fillText('LOW', centerX - radius, centerY + 12);
+
+        // NEUTRAL (top)
+        ctx.fillStyle = '#facc15';
+        ctx.fillText('NEUTRAL', centerX, centerY - radius + 25);
+
+        // HIGH (right)
+        ctx.fillStyle = '#22c55e';
+        ctx.fillText('HIGH', centerX + radius, centerY + 12);
+
+        ctx.restore();
+    }
+};
+
+
+// ===============================
+// 4. RENDER GAUGE
+// ===============================
+new Chart(ctxGauge, {
+    type: 'doughnut',
+    data: {
+        datasets: [{
+            data: [30, 40, 30], // segments
+            backgroundColor: ['#ef4444', '#facc15', '#22c55e'],
+            borderWidth: 0,
+            cutout: '72%',
+            circumference: 180,
+            rotation: 270
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            tooltip: { enabled: false },
+            legend: { display: false }
+        }
+    },
+    plugins: [gaugePlugin]
+});
+    // ===============================
+    // 4. LINE CHART
     // ===============================
     const ctxLine = document.getElementById('investmentGrowthChart').getContext('2d');
-    const gradient = ctxLine.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, 'rgba(132, 255, 0, 0.4)');
-    gradient.addColorStop(1, 'rgba(132, 255, 0, 0.02)');
+   
+    const gradient = ctxLine.createLinearGradient(0, 0, 0, 200);
+    gradient.addColorStop(0, '#ffc300');
+    gradient.addColorStop(1, '#84ff0005');
 
     new Chart(ctxLine, {
         type: 'line',
-        data: { labels: labels, datasets: [{
-            label: 'Cumulative Return (KES)',
-            data: cumulativeData,
-            borderColor: '#84ff00',
-            backgroundColor: gradient,
-            pointBackgroundColor: '#84ff00',
-            pointBorderColor: '#fff',
-            pointRadius: 5,
-            borderWidth: 3,
-            tension: 0.45,
-            fill: true
-        }]},
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Cumulative Return (KES)',
+                data: cumulativeData,
+                borderColor: '#ffc300',
+                backgroundColor: gradient,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 5
+            }]
+        },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
-            layout: { padding: { top: 20, right: 20, bottom: 30, left: 10 } },
-            plugins: {
-                legend: { labels: { color: '#ccc' } },
-                tooltip: {
-                    backgroundColor: '#111',
-                    titleColor: '#84ff00',
-                    bodyColor: '#fff',
-                    callbacks: {
-                        label: function(context) {
-                            return 'KES ' + context.raw.toLocaleString();
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: { ticks: { color: '#aaa', padding: 10 }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y: { ticks: { color: '#aaa', padding: 10 }, grid: { color: 'rgba(255,255,255,0.05)' } }
-            }
+            maintainAspectRatio: false
         }
     });
 
     // ===============================
-    // 3. RETURN BREAKDOWN (Doughnut)
+    // 5. DOUGHNUT BREAKDOWN
     // ===============================
     const ctxDoughnut = document.getElementById('yieldBreakdownChart').getContext('2d');
+
     new Chart(ctxDoughnut, {
         type: 'doughnut',
         data: {
@@ -296,30 +398,29 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.label + ': KES ' + context.raw.toLocaleString();
-                        }
-                    }
-                },
                 legend: { position: 'bottom' }
             }
         }
     });
 
+    // ===============================
+    // 6. UPDATE CARDS (SAFE)
+    // ===============================
+    const cards = document.querySelectorAll('.overview-card .amount');
 
-    // ===============================
-    // 5. Update Overview Cards
-    // ===============================
-    document.querySelector('.overview-card:nth-child(3) .amount').textContent = 'KES ' + receivedAmount.toLocaleString();
-    document.querySelector('.overview-card:nth-child(4) .amount').textContent = 'KES ' + remainingAmount.toLocaleString();
-    document.querySelector('.overview-card:nth-child(5) .amount').textContent = progressPercent.toFixed(2) + '%';
-    document.querySelector('.overview-card:nth-child(6) .amount').textContent = roiToDate.toFixed(2) + '%';
+    if (cards.length >= 6) {
+        cards[2].textContent = 'KES ' + receivedAmount.toLocaleString();
+        cards[3].textContent = 'KES ' + remainingAmount.toLocaleString();
+        cards[4].textContent = progressPercent.toFixed(2) + '%';
+        cards[5].textContent = roiToDate.toFixed(2) + '%';
+    }
 
 });
 </script>
 
 </body>
 </html>
+
+

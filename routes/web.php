@@ -195,8 +195,7 @@ Route::middleware(['web'])->group(function () {
 
         Route::get('/press-releases', [InvestorsViewsController::class, 'pressReleases'])
             ->name('investors.press-releases');
-        Route::get('/press-releases/{slug}', [InvestorsViewsController::class, 'pressReleaseDetail'])
-            ->name('investors.press-release-detail');
+       
 
         Route::get('/events-and-presentations', [InvestorsViewsController::class, 'eventsAndPresentations'])
             ->name('investors.events-and-presentations');
