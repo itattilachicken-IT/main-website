@@ -356,7 +356,7 @@ new Chart(ctxGauge, {
     // ===============================
     const ctxLine = document.getElementById('investmentGrowthChart').getContext('2d');
    
-    const gradient = ctxLine.createLinearGradient(0, 0, 0, 200);
+    const gradient = ctxLine.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, '#ffc300');
     gradient.addColorStop(1, '#84ff0005');
 
@@ -376,7 +376,26 @@ new Chart(ctxGauge, {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 20,
+                    right: 15,
+                    bottom: 35,
+                    left: 10
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grace: '10%' // adds space above the highest point
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
         }
     });
 
