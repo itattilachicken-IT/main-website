@@ -1064,23 +1064,13 @@ select {
 
 .charts-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 2fr));
     gap: 2rem;
 }
 
-.chart-container {
-    height: 50vh;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-}
 
-.chart-container h3 {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 1rem;
-}
+
+
 .cashflow-container {
     width: 100%;
     
@@ -1485,12 +1475,7 @@ select {
    CHART CONTAINERS FIX
 ================================ */
 
-.chart-container {
-    position: relative;
-    height: 420px; /* slightly taller */
-    padding: 25px 25px 35px 25px; /* extra bottom padding */
-    overflow: hidden; /* prevents spill */
-}
+
 
 /* Prevent canvas from stretching outside */
 .chart-container canvas {
@@ -2571,3 +2556,82 @@ select {
     margin-top: 8px;
     color: #888;
 }
+/* ===============================
+   SMALL CHARTS
+=============================== */
+
+
+.small-chart canvas {
+    height: 200px !important; /* force smaller height */
+}
+
+/* ===============================
+   CHARTS GRID LAYOUT
+   =============================== */
+
+.charts-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 20px;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+    .charts-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .charts-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ===============================
+   CHART CONTAINER
+   =============================== */
+
+.chart-container {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    position: relative;
+
+    /* VERY IMPORTANT for Chart.js */
+    height: 340px;
+}
+
+/* Smaller height on phones */
+@media (max-width: 700px) {
+    .chart-container {
+        height: 300px;
+        padding: 14px;
+    }
+}
+
+.chart-container h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+
+/* ===============================
+   CANVAS RESPONSIVENESS
+   =============================== */
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.chart-container:hover {
+    transform: translateY(-4px);
+    transition: 0.25s ease;
+}
+
