@@ -125,6 +125,8 @@ Route::middleware(['web'])->group(function () {
     Route::get('/admin/sec-filings/download/{id}', [InvestorController::class, 'downloadFiling'])
         ->name('admin.sec.download');
 
+    
+
     // account settings update
     Route::post('/investors/views/accountsettings/profile', [InvestorController::class, 'updateProfile'])->name('account.updateProfile');
     Route::post('/investors/views/accountsettings/password', [InvestorController::class, 'updatePassword'])->name('account.updatePassword');
