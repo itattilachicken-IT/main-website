@@ -8,7 +8,15 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
 }
-
+:root{
+    --gold:#FFC300;
+    --gold-soft:#FCCC32;
+    --red:#C1121F;
+    --green:#2E7D32;
+    --orange:#FF6D19;
+    --white:#FFFFFF;
+    --black:#000000;
+}
 /* =========================
    GLOBAL
 ========================= */
@@ -722,21 +730,22 @@ select {
     background: #2E7D32;
     border: none;
     padding: 8px 14px;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
     font-weight: 500;
     color: #fff;
     font-size:  13px;
 }
 .btn-secondary {
-    background: #C1121F;
+    background:linear-gradient(135deg, var(--gold), var(--gold-soft));
+    color:#000;
     border: none;
     padding: 5px 11px;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
     font-weight: 500;
     font-size:  13px;
-    color: white;
+
 }
 
 .btn-primary:hover {
@@ -942,12 +951,11 @@ select {
 /* Download button */
 .download-btn {
     display: inline-block;
-    background: #333;
-    color: white;
+    background:linear-gradient(135deg, var(--gold), var(--gold-soft));
+    color:#000;
     padding: 8px 14px;
-    border-radius: 6px;
+    border-radius: 5px;
     font-size: 13px;
-    font-weight: 500;
     text-decoration: none;
     transition: 0.2s ease;
 }
@@ -1168,11 +1176,11 @@ select {
 }
 
 .handbook-nav .nav-link2:hover {
-    color: #f59e0b;
+    color: #FF6D19;
 }
 
 .handbook-nav .nav-link2.actived {
-    color: #f59e0b;
+    color: #FF6D19;
     font-weight: 600;
 }
 
@@ -1367,6 +1375,7 @@ select {
 }
 
 .director-name {
+    color: #FF6D19;
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 6px;
@@ -2112,11 +2121,11 @@ select {
 }
 
 .btn-edit {
-    background: #333;
-    color: #fff;
+    background:linear-gradient(135deg, var(--gold), var(--gold-soft));
+    color:#000;
     border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
+    padding: 6px 12px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 13px;
 }
@@ -2215,20 +2224,13 @@ select {
     gap: 6px;
 }
 
-.btn-edit {
 
-    color: #fff;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    text-decoration: none;
-}
 
 .btn-delete {
     background: #C1121F;
     color: #fff;
     padding: 6px 12px;
-    border-radius: 4px;
+    border-radius: 5px;
     font-size: 12px;
     text-decoration: none;
 }
@@ -2490,27 +2492,27 @@ select {
 .handbook-section h3 {
     font-size: 18px;
     font-weight: 600;
-    color: #ffc300;
+    color: #FF6D19;
     margin-bottom: 12px;
     position: relative;
 }
 
 .release-title {
     font-weight: 700;
-    color: #ffc300;
+    color: #FF6D19;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .toggle-icon {
-    font-size: 14px;
-    color: #ffc300;
+    font-size: 11px;
+    color: #FF6D19;
 }
 
 .release-full-content {
     line-height: 1.7;
-    color: #ffc300;
+    color: #FF6D19;
 }
 
 /* ===== Contract Lifespan Bar ===== */

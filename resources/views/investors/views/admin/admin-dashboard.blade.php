@@ -301,9 +301,10 @@
                     type="text" 
                     id="searchInput" 
                     placeholder="Search investor..."
-                    class="form-control"
+                    class="search-input"
                     
                 >
+                
 
                 <button class="btn-secondary" onclick="clearFilter()">Clear</button>
 
