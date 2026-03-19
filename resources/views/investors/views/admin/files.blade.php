@@ -117,9 +117,9 @@
                             <div class="admin-form-group">
                                 <label>Filing Type</label>
                                 <select name="type">
-                                    <option>Onboarding Contracts</option>
-                                    <option>Offboarding Contracts</option>
-                                    <option>Payment Reports</option>
+                                    <option>Financial</option>
+                                    <option>Operations</option>
+                                    <option>Management</option>
                                     <option>Other</option>
                                 </select>
                             </div>

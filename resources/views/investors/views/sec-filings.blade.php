@@ -45,14 +45,14 @@
                                         <option value="" {{ request('type') == '' ? 'selected' : '' }}>
                                             All Filings
                                         </option>
-                                        <option value="Onboarding Contracts" {{ request('type') == 'Onboarding Contracts' ? 'selected' : '' }}>
-                                            Onboarding Contracts
+                                        <option value="Financial" {{ request('type') == 'Financial' ? 'selected' : '' }}>
+                                            Financial
                                         </option>
-                                        <option value="Offboarding Contracts" {{ request('type') == 'Offboarding Contracts' ? 'selected' : '' }}>
-                                            Offboarding Contracts
+                                        <option value="Operations" {{ request('type') == 'Operations' ? 'selected' : '' }}>
+                                            Operations
                                         </option>
-                                        <option value="Payment Reports" {{ request('type') == 'Payment Reports' ? 'selected' : '' }}>
-                                            Payment Reports
+                                        <option value="Management" {{ request('type') == 'Management' ? 'selected' : '' }}>
+                                            Management
                                         </option>
                                         <option value="Other" {{ request('type') == 'Other' ? 'selected' : '' }}>
                                             Other
