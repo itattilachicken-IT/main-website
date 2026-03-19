@@ -83,12 +83,14 @@
             </div>
 
             <div class="topbar-right">
-                <div class="user-profile">
-                    <img src="https://i.pravatar.cc/40" class="avatar">
-                    <div class="user-meta">
-                        <div class="user-name">Admin</div>
-                    </div>
-                </div>
+                <div class="user-profile"> 
+                <div class="avatar-initial">
+                    {{ strtoupper(substr(session('investor_name', 'A'), 0, 1)) }}
+                </div> 
+                <div class="user-meta"> 
+                    <div class="user-name"> {{ session('investor_name', 'Admin') }}</div> 
+                </div> 
+            </div> 
             </div>
         </div>
 
