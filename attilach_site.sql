@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2026 at 08:16 AM
+-- Generation Time: Mar 19, 2026 at 10:43 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -634,16 +634,17 @@ CREATE TABLE `onboarding_investors` (
   `branch_name` varchar(150) DEFAULT NULL,
   `contract_file` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `login_token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `onboarding_investors`
 --
 
-INSERT INTO `onboarding_investors` (`id`, `investor_code`, `full_name`, `email`, `phone`, `password`, `investment_package`, `number_of_birds`, `feeds_bags`, `cost_of_feeds`, `insurance`, `total_investment`, `total_package_cost`, `bank_name`, `bank_address`, `account_name`, `account_number`, `swift_code`, `branch_name`, `contract_file`, `created_at`, `updated_at`) VALUES
-(1, 'ATP-009', 'Paul Waweru Mburu', 'paul.mburu1@gmail.com', '0721794281', '$2y$12$h5Ttbx4M5eknLhyw3sieGexA5uaflXdKVHGVDyd5m/wTyk3hwGoPq', 'bronze', 5000, 350, 1432500.00, 79144.00, 1957500.00, 2036644.00, 'KINGDOM BANK', 'NAIROBI, KENYA', 'PAUL WAWERU MBURU', '3081901367004', 'CIFIKENA', 'KIAMBU', '1773732994_REF- ATP 009 Paul Waweru Mburu Partnership Agreement.pdf', '2026-03-17 07:36:34', '2026-03-17 07:36:34'),
-(2, 'ATP-006', 'SAMUEL KARUHI NJAKAI', 'snjakai@yahoo.com', '0722634392', '$2y$12$mUgADJJKTx6g0bpuSjAS7.g.Cod7XkzwTBfwNbPHpI57ru59dNOg.', 'bronze', 5000, 350, 1432500.00, 79144.00, 1957500.00, 2036644.00, 'COOPERATIVE BANK OF KENYA', 'NAIROBI, KENYA', 'SAMUEL K NJAKAI', '01100069433200', 'KCOOKENA', 'BURU BURU', '1773736130_REF-ATP 006 Samuel Njakai Partnership Agreement.pdf', '2026-03-17 08:28:51', '2026-03-17 08:28:51');
+INSERT INTO `onboarding_investors` (`id`, `investor_code`, `full_name`, `email`, `phone`, `password`, `investment_package`, `number_of_birds`, `feeds_bags`, `cost_of_feeds`, `insurance`, `total_investment`, `total_package_cost`, `bank_name`, `bank_address`, `account_name`, `account_number`, `swift_code`, `branch_name`, `contract_file`, `created_at`, `updated_at`, `login_token`) VALUES
+(1, 'ATP-009', 'Paul Waweru Mburu', 'paul.mburu1@gmail.com', '0721794281', '$2y$12$h5Ttbx4M5eknLhyw3sieGexA5uaflXdKVHGVDyd5m/wTyk3hwGoPq', 'bronze', 5000, 350, 1432500.00, 79144.00, 1957500.00, 2036644.00, 'KINGDOM BANK', 'NAIROBI, KENYA', 'PAUL WAWERU MBURU', '3081901367004', 'CIFIKENA', 'KIAMBU', '1773732994_REF- ATP 009 Paul Waweru Mburu Partnership Agreement.pdf', '2026-03-17 07:36:34', '2026-03-18 10:10:51', '2222'),
+(2, 'ATP-006', 'SAMUEL KARUHI NJAKAI', 'snjakai@yahoo.com', '0722634392', '$2y$12$mUgADJJKTx6g0bpuSjAS7.g.Cod7XkzwTBfwNbPHpI57ru59dNOg.', 'bronze', 5000, 350, 1432500.00, 79144.00, 1957500.00, 2036644.00, 'COOPERATIVE BANK OF KENYA', 'NAIROBI, KENYA', 'SAMUEL K NJAKAI', '01100069433200', 'KCOOKENA', 'BURU BURU', '1773736130_REF-ATP 006 Samuel Njakai Partnership Agreement.pdf', '2026-03-17 08:28:51', '2026-03-17 08:28:51', NULL);
 
 -- --------------------------------------------------------
 
@@ -1020,8 +1021,10 @@ CREATE TABLE `sec_filings` (
 --
 
 INSERT INTO `sec_filings` (`id`, `type`, `description`, `filing_date`, `pdf_file`, `created_at`, `updated_at`) VALUES
-(3, 'Onboarding Contracts', 'SAMUEL KARUHI NJAKAI ATTILA POULTRY FARM \r\nINVESTMENT PARTNERSHIP AGREEMENT', '2025-10-07', '1773738280_REF-ATP 006 Samuel Njakai Partnership Agreement.pdf', '2026-03-17 12:04:40', '2026-03-17 12:04:40'),
-(4, 'Onboarding Contracts', 'Paul Waweru Mburu ATTILA POULTRY FARM \r\nINVESTMENT PARTNERSHIP AGREEMENT', '2025-11-19', '1773738418_REF- ATP 009 Paul Waweru Mburu Partnership Agreement.pdf', '2026-03-17 12:06:58', '2026-03-17 12:06:58');
+(5, 'Other', 'Report of unscheduled material events or corporate event', '2026-03-02', '1773910634_Branding.pdf', '2026-03-19 11:57:14', '2026-03-19 11:57:14'),
+(6, 'Other', 'Statement of changes in beneficial ownership of securities', '2026-03-03', '1773910661_Branding.pdf', '2026-03-19 11:57:41', '2026-03-19 11:57:41'),
+(7, 'Management', 'Official notification to shareholders of matters to be brought to a vote (\"Proxy\")', '2026-03-05', '1773910805_Branding.pdf', '2026-03-19 12:00:05', '2026-03-19 12:00:05'),
+(8, 'Operations', 'Report of unscheduled material events or corporate event', '2026-03-06', '1773910838_Branding.pdf', '2026-03-19 12:00:38', '2026-03-19 12:00:38');
 
 -- --------------------------------------------------------
 
@@ -1418,7 +1421,7 @@ ALTER TABLE `investors`
 -- AUTO_INCREMENT for table `investor_payments`
 --
 ALTER TABLE `investor_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `invitations`
@@ -1448,7 +1451,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT for table `onboarding_investors`
 --
 ALTER TABLE `onboarding_investors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -1496,7 +1499,7 @@ ALTER TABLE `routes`
 -- AUTO_INCREMENT for table `sec_filings`
 --
 ALTER TABLE `sec_filings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `subscriptions`
