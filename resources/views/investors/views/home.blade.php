@@ -310,15 +310,14 @@ const gaugePlugin = {
 
         const radius = 90;
 
-        // LOW (left)
+
         ctx.fillStyle = '#ef4444';
         ctx.fillText('LOW', centerX - radius, centerY + 12);
 
-        // NEUTRAL (top)
+
         ctx.fillStyle = '#facc15';
         ctx.fillText('NEUTRAL', centerX, centerY - radius + 25);
 
-        // HIGH (right)
         ctx.fillStyle = '#22c55e';
         ctx.fillText('HIGH', centerX + radius, centerY + 12);
 
@@ -334,7 +333,7 @@ new Chart(ctxGauge, {
     type: 'doughnut',
     data: {
         datasets: [{
-            data: [20, 50, 20], // segments
+            data: [20, 50, 20], 
             backgroundColor: ['#ef4444', '#facc15', '#22c55e'],
             borderWidth: 0,
             cutout: '72%',
@@ -395,7 +394,7 @@ new Chart(ctxGauge, {
             scales: {
                 y: {
                     beginAtZero: true,
-                    grace: '10%' // adds space above the highest point
+                    grace: '10%' 
                 }
             },
             plugins: {
@@ -422,11 +421,11 @@ const pointerPlugin = {
 
         if (!meta.data.length) return;
 
-        // Chart center
+ 
         const x = meta.data[0].x;
         const y = meta.data[0].y;
 
-        // 🔥 Dynamic angle based on "Received"
+        
         const data = chart.data.datasets[0].data;
         const total = data.reduce((a, b) => a + b, 0);
         const received = data[0];
@@ -437,18 +436,17 @@ const pointerPlugin = {
 
         ctx.save();
 
-        // Draw line
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(
             x + Math.cos(angle) * length,
             y + Math.sin(angle) * length
         );
-        ctx.strokeStyle = '#111'; // pointer color
+        ctx.strokeStyle = '#111';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Center dot
+        
         ctx.beginPath();
         ctx.arc(x, y, 4, 0, Math.PI * 2);
         ctx.fillStyle = '#111';
@@ -468,7 +466,7 @@ new Chart(ctxDoughnut, {
         datasets: [{
             data: [receivedAmount, remainingAmount],
             backgroundColor: ['#22c55e', '#ef4444'],
-            borderColor: '#ffffff',   // ✅ border added
+            borderColor: '#ffffff',   
             borderWidth: 3,
             hoverOffset: 10
         }]
@@ -493,7 +491,7 @@ new Chart(ctxDoughnut, {
             }
         }
     },
-    plugins: [pointerPlugin] // ✅ activate radar line
+    plugins: [pointerPlugin] 
 });
 
     // ===============================
