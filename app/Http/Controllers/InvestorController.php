@@ -199,7 +199,7 @@ public function authenticate(Request $request)
             . "Login Details:\n"
             . "Email: {$request->email}\n"
             . "Password: {$plainPassword}\n\n"
-            . "Login here:<br><a href='{$loginUrl}'>{$loginUrl}</a><br><br>"
+            . "Login here:\n{$loginUrl}\n\n"
             . "IMPORTANT: Please reset your password in your account settings immediately after your first login.\n\n"
             . "Attila Investor Relations";
 
