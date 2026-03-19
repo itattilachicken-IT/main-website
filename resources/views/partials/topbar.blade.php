@@ -5,7 +5,7 @@
             <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">
                 <span class="hamburger-icon">☰</span>
             </button>
-            <h2 class="page-title">Account Settings</h2>
+            <h2 class="page-title">Dashboard</h2>
         </div>
 
         <div class="topbar-right">
